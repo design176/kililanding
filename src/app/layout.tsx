@@ -12,6 +12,18 @@ const workSans = Work_Sans({
 export const metadata: Metadata = {
   title: "kili",
   description: "we're figuring out who pays for ai.",
+  openGraph: {
+    title: "kili",
+    description: "we're figuring out who pays for ai.",
+    images: [{ url: "/og.png", width: 1512, height: 812 }],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "kili",
+    description: "we're figuring out who pays for ai.",
+    images: ["/og.png"],
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
