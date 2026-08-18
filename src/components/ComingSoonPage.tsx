@@ -423,7 +423,7 @@ export function ComingSoonPage() {
                       <PlatformPicker
                         value={platform}
                         onChange={setPlatform}
-                        disabled={status === "loading" || status === "success"}
+                        disabled={status === "loading"}
                       />
                     </motion.div>
                   )}
