@@ -316,6 +316,9 @@ export function ComingSoonPage() {
               <motion.div
                 className={styles.tip}
                 style={{ x: kiliX, y: kiliY }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.3 }}
                 aria-hidden="true"
               >
                 <span ref={kiliBoxRef} className={styles.tipBox}>
@@ -329,6 +332,9 @@ export function ComingSoonPage() {
               <motion.div
                 className={styles.tip}
                 style={{ x: altX, y: altY }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.3 }}
                 aria-hidden="true"
               >
                 <span ref={altBoxRef} className={`${styles.tipBox} ${styles.tipBoxAlt}`}>
