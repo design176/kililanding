@@ -1,0 +1,83 @@
+.wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  appearance: none;
+  background: var(--surface-base);
+  border: 1px solid var(--border-subtle);
+  border-radius: 9px;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 11px 10px;
+  transition: border-color 150ms ease, color 150ms ease;
+}
+
+.trigger:hover:not(:disabled) {
+  color: var(--text-body);
+  border-color: var(--border-default);
+}
+
+.trigger:focus-visible {
+  outline: 2px solid var(--accent-green);
+  outline-offset: 2px;
+}
+
+.trigger:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.caret {
+  color: var(--text-disabled);
+}
+
+/* Panel opens upward */
+.panel {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 0;
+  background: var(--surface-overlay);
+  border: 1px solid var(--border-default);
+  border-radius: 10px;
+  padding: 5px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  z-index: 50;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
+  min-width: 108px;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  appearance: none;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 7px;
+  transition: background 100ms ease, color 100ms ease;
+}
+
+.option:hover {
+  background: var(--surface-raised);
+  color: var(--text-body);
+}
+
+.optionActive {
+  color: var(--accent-green);
+  background: color-mix(in srgb, var(--accent-green) 12%, transparent);
+}
+
+.optionActive:hover {
+  background: color-mix(in srgb, var(--accent-green) 18%, transparent);
+  color: var(--accent-green);
+}

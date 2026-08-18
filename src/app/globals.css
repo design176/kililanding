@@ -1,15 +1,80 @@
+/* ── Font variables ─────────────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --font-heading: "Satoshi", sans-serif;
+  --font-body: var(--font-work-sans), "Work Sans", sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ── Light tokens ───────────────────────────────────────────── */
+:root {
+  --surface-base: #ffffff;
+  --surface-raised: #f5f5f5;
+  --surface-overlay: #fafafa;
+  --surface-sunken: #ebebeb;
+
+  --border-subtle: #e5e5e5;
+  --border-default: #d4d4d4;
+  --border-strong: #c8c8c8;
+
+  --text-primary: #0a0a0a;
+  --text-body: #171717;
+  --text-secondary: #262626;
+  --text-tertiary: #404040;
+  --text-muted: #525252;
+  --text-placeholder: #737373;
+  --text-disabled: #a3a3a3;
+
+  --accent-blue: #c1e0ff;
+  --accent-blue-bold: #0f4fb7;
+  --accent-green-subtle: #dcfce7;
+  --accent-green: #16a34a;
+  --accent-orange: #ea580c;
+  --accent-purple: #7c3aed;
+  --accent-spectrum: #8b5cf6;
+  --accent-peach: #f39d71;
+
+  --action-primary: #000000;
+  --action-primary-hover: #262626;
+  --action-foreground: #ffffff;
+
+  color-scheme: light;
 }
 
+/* ── Dark tokens ────────────────────────────────────────────── */
+[data-theme="dark"] {
+  --surface-base: #0a0a0a;
+  --surface-raised: #171717;
+  --surface-overlay: #1e1e1e;
+  --surface-sunken: #141414;
+
+  --border-subtle: #262626;
+  --border-default: #404040;
+  --border-strong: #525252;
+
+  --text-primary: #f5f5f5;
+  --text-body: #e5e5e5;
+  --text-secondary: #d4d4d4;
+  --text-tertiary: #c8c8c8;
+  --text-muted: #a3a3a3;
+  --text-placeholder: #a3a3a3;
+  --text-disabled: #737373;
+
+  --accent-blue: #0d1c35;
+  --accent-blue-bold: #2563eb;
+  --accent-green-subtle: #052e16;
+  --accent-green: #22c55e;
+  --accent-orange: #f97316;
+  --accent-purple: #8b5cf6;
+  --accent-spectrum: #a78bfa;
+  --accent-peach: #e8855a;
+
+  --action-primary: #ffffff;
+  --action-primary-hover: #d4d4d4;
+  --action-foreground: #000000;
+
+  color-scheme: dark;
+}
+
+/* ── Base styles ────────────────────────────────────────────── */
 html {
   height: 100%;
 }
@@ -24,9 +89,11 @@ body {
   min-height: 100%;
   display: flex;
   flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text-body);
+  background: var(--surface-base);
+  background-image: radial-gradient(circle at 1px 1px, var(--surface-raised) 1px, transparent 0);
+  background-size: 22px 22px;
+  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -42,8 +109,6 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
 }
