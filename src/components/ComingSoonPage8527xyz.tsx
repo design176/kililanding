@@ -17,7 +17,7 @@ const N = 90;
 const PEAK_USERS = 50_000;
 const PEAK_REVENUE = 27_000;
 
-const withoutKili = () => 0;                            // flatline — your user's cost stays at $0
+const withoutKili = (_x: number) => 0;                  // flatline — your user's cost stays at $0
 const withKili    = (x: number) => Math.pow(x, 1.55);  // climbs and keeps climbing
 const toY = (v: number) => BASE - v * SCALE;
 
