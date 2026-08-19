@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence, animate, useMotionValue, useSpring } from "motion/react";
 import { Logo } from "@/components/Logo";
 import { PlatformPicker, PlatformId } from "@/components/PlatformPicker";
-import styles from "./ComingSoonPage.module.css";
+import styles from "./ComingSoonPage8527xyz.module.css";
 
 // Simple but solid email check
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -15,9 +15,9 @@ const BASE = 200;   // zero-axis y in SVG coords
 const SCALE = 172;
 const N = 90;
 const PEAK_USERS = 50_000;
-const PEAK_REVENUE = 42_000;
+const PEAK_REVENUE = 27_000;
 
-const withoutKili = (x: number) => -0.36 * x;          // goes negative — every user costs you
+const withoutKili = () => 0;                            // flatline — your user's cost stays at $0
 const withKili    = (x: number) => Math.pow(x, 1.55);  // climbs and keeps climbing
 const toY = (v: number) => BASE - v * SCALE;
 
@@ -41,7 +41,7 @@ function toPath(pts: [number, number][]): string {
 
 // ─────────────────────────────────────────────────────────────
 
-export function ComingSoonPage() {
+export function ComingSoonPage8527xyz() {
   // ── SVG element refs ───────────────────────────────────────
   const svgRef      = useRef<SVGSVGElement>(null);
   const costPathRef = useRef<SVGPathElement>(null);
@@ -323,7 +323,7 @@ export function ComingSoonPage() {
                 aria-hidden="true"
               >
                 <span ref={kiliBoxRef} className={styles.tipBox}>
-                  <em className={styles.tipLabel}>revenue</em>
+                  <em className={styles.tipLabel}>Your cost</em>
                   <span ref={kiliRevRef}>$0</span>
                 </span>
                 <span className={styles.tipStem} />
@@ -339,7 +339,7 @@ export function ComingSoonPage() {
                 aria-hidden="true"
               >
                 <span ref={altBoxRef} className={`${styles.tipBox} ${styles.tipBoxAlt}`}>
-                  <em className={styles.tipLabel}>without kili</em>
+                  <em className={styles.tipLabel}>Your user&apos;s cost</em>
                   <span ref={altRevRef}>$0</span>
                 </span>
                 <span className={`${styles.tipStem} ${styles.tipStemAlt}`} />
@@ -351,7 +351,7 @@ export function ComingSoonPage() {
                 preserveAspectRatio="none"
                 className={styles.svgPlot}
                 role="img"
-                aria-label="without kili, revenue slides below zero as conversations grow; with kili it climbs"
+                aria-label="your cost climbs to $27,000 as conversations grow, while your user's cost stays flat at $0"
               >
                 <path ref={lossFillRef} className={styles.lossFill} d="" />
                 <path ref={gapFillRef}  className={styles.gapFill}  d="" />

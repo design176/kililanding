@@ -92,7 +92,7 @@
 .uCount {
   font-family: var(--font-heading);
   font-weight: 700;
-  font-size: clamp(2.2rem, 6vw, 3.4rem);
+  font-size: clamp(1.9rem, 5.2vw, 3rem);
   line-height: 1;
   letter-spacing: -0.04em;
   font-variant-numeric: tabular-nums;
@@ -249,7 +249,7 @@
   font-style: normal;
   font-family: var(--font-body);
   font-weight: 400;
-  font-size: 9.5px;
+  font-size: 10.5px;
   letter-spacing: 0.16em;
   color: var(--text-muted);
 }
