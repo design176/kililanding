@@ -279,8 +279,7 @@ export function ComingSoonPage() {
       <div className={styles.bar}>
         <Logo width={82} />
         <div className={styles.counter}>
-          <span className={styles.countPill}>0 / 10</span>
-          <span className={styles.countNote}>we launch at 10/10</span>
+          <span className={styles.countNote}>coming soon</span>
         </div>
       </div>
 
@@ -323,7 +322,7 @@ export function ComingSoonPage() {
                 aria-hidden="true"
               >
                 <span ref={kiliBoxRef} className={styles.tipBox}>
-                  <em className={styles.tipLabel}>revenue</em>
+                  <em className={styles.tipLabel}>revenue with Kili</em>
                   <span ref={kiliRevRef}>$0</span>
                 </span>
                 <span className={styles.tipStem} />

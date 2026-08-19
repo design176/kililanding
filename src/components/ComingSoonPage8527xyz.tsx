@@ -279,8 +279,7 @@ export function ComingSoonPage8527xyz() {
       <div className={styles.bar}>
         <Logo width={82} />
         <div className={styles.counter}>
-          <span className={styles.countPill}>0 / 10</span>
-          <span className={styles.countNote}>we launch at 10/10</span>
+          <span className={styles.countNote}>coming soon</span>
         </div>
       </div>
 

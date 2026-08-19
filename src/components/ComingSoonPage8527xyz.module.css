@@ -33,7 +33,7 @@
 }
 
 .countNote {
-  color: var(--border-default);
+  color: var(--text-muted);
   font-size: 11px;
   letter-spacing: 0.1em;
   line-height: 1;
