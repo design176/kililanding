@@ -8,22 +8,22 @@
   align-items: center;
   gap: 4px;
   appearance: none;
-  background: var(--surface-base);
-  border: 1px solid var(--border-subtle);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border-subtle);
   border-radius: 9px;
-  color: var(--text-muted);
+  color: var(--color-text-muted);
   cursor: pointer;
   padding: 11px 10px;
   transition: border-color 150ms ease, color 150ms ease;
 }
 
 .trigger:hover:not(:disabled) {
-  color: var(--text-body);
-  border-color: var(--border-default);
+  color: var(--color-text-primary);
+  border-color: var(--color-border);
 }
 
 .trigger:focus-visible {
-  outline: 2px solid var(--accent-green);
+  outline: 2px solid var(--color-brand);
   outline-offset: 2px;
 }
 
@@ -33,7 +33,7 @@
 }
 
 .caret {
-  color: var(--text-disabled);
+  color: var(--color-text-disabled);
 }
 
 /* Panel opens upward */
@@ -41,15 +41,15 @@
   position: absolute;
   bottom: calc(100% + 6px);
   left: 0;
-  background: var(--surface-overlay);
-  border: 1px solid var(--border-default);
+  background: var(--color-surface-overlay);
+  border: 1px solid var(--color-border);
   border-radius: 10px;
   padding: 5px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2px;
   z-index: 50;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
+  box-shadow: var(--shadow-md);
   min-width: 108px;
 }
 
@@ -61,23 +61,23 @@
   background: none;
   border: none;
   border-radius: 6px;
-  color: var(--text-muted);
+  color: var(--color-text-muted);
   cursor: pointer;
   padding: 7px;
   transition: background 100ms ease, color 100ms ease;
 }
 
 .option:hover {
-  background: var(--surface-raised);
-  color: var(--text-body);
+  background: var(--color-surface-raised);
+  color: var(--color-text-primary);
 }
 
 .optionActive {
-  color: var(--accent-green);
-  background: color-mix(in srgb, var(--accent-green) 12%, transparent);
+  color: var(--color-brand);
+  background: color-mix(in srgb, var(--color-brand) 12%, transparent);
 }
 
 .optionActive:hover {
-  background: color-mix(in srgb, var(--accent-green) 18%, transparent);
-  color: var(--accent-green);
+  background: color-mix(in srgb, var(--color-brand) 18%, transparent);
+  color: var(--color-brand);
 }

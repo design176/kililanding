@@ -1,0 +1,133 @@
+.capture {
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 14px;
+  padding: 18px;
+  max-width: 520px;
+  width: 100%;
+  text-align: left;
+}
+
+.lede {
+  margin: 0 0 14px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--color-text-primary);
+}
+
+.ledeSpan {
+  display: inline-block;
+  margin-top: 2px;
+  color: var(--color-text-muted);
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.field {
+  display: flex;
+  gap: 10px;
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  appearance: none;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 9px;
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  font-size: 14.5px;
+  padding: 11px 13px;
+  transition: border-color 150ms ease;
+}
+
+.input::placeholder {
+  color: var(--color-text-disabled);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-brand);
+}
+
+.input:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+.input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.inputError {
+  border-color: var(--color-danger) !important;
+}
+
+.button {
+  appearance: none;
+  background: var(--color-brand);
+  color: var(--color-on-brand);
+  border: 0;
+  border-radius: 9px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 14.5px;
+  padding: 11px 18px;
+  white-space: nowrap;
+  transition: filter 150ms ease;
+}
+
+.button:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.buttonSuccess {
+  background: var(--color-border);
+  color: var(--color-text-muted);
+}
+
+.note {
+  margin: 11px 0 0;
+  font-size: 12.5px;
+  color: var(--color-text-muted);
+  min-height: 1.3em;
+}
+
+.noteSuccess {
+  color: var(--color-brand);
+}
+
+.noteError {
+  color: var(--color-danger);
+}
+
+.srOnly {
+  position: absolute;
+  left: -9999px;
+}
+
+@media (max-width: 430px) {
+  .field {
+    flex-direction: column;
+  }
+  .button {
+    width: 100%;
+  }
+}

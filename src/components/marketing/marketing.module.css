@@ -1,0 +1,396 @@
+/*
+ * Shared content styling for /advertiser and /publisher — reskinned to
+ * match the home page's design system (kili-app-demo tokens/fonts) so
+ * the whole marketing site reads as one consistent product. Nav, footer
+ * and the closing CTA are shared components (src/components/site/); this
+ * module only covers the page-body sections that are unique to these
+ * two pages (hero, three-reasons grid, split panels, FAQ, etc).
+ */
+
+.skin {
+  background: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  min-height: 100vh;
+}
+
+.wrap {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-subtle);
+}
+
+.skin h2 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: clamp(28px, 3.5vw, 42px);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  margin: 14px 0 0;
+  color: var(--color-text-primary);
+}
+
+/* ── Hero ────────────────────────────────────────────────── */
+.hero {
+  padding: 76px 0 64px;
+}
+
+.heroGrid {
+  display: grid;
+  grid-template-columns: 1.02fr 0.98fr;
+  gap: 56px;
+  align-items: center;
+}
+
+.skin h1 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: clamp(40px, 5vw, 56px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 14px 0 22px;
+  color: var(--color-text-primary);
+}
+
+.lede {
+  font-size: 19px;
+  color: var(--color-text-secondary);
+  margin: 0 0 30px;
+  max-width: 44ch;
+}
+
+.note {
+  font-size: 13.5px;
+  color: var(--color-text-subtle);
+  margin-top: 14px;
+}
+
+.doors {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* ── Bands / sections ────────────────────────────────────── */
+.band {
+  border-top: 1px solid var(--color-border);
+  padding: 74px 0;
+}
+
+.head {
+  max-width: 62ch;
+}
+
+.head p {
+  color: var(--color-text-muted);
+  margin: 16px 0 0;
+}
+
+/* ── Three reasons ───────────────────────────────────────── */
+.tri {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--color-border);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 38px;
+}
+
+.tCell {
+  background: var(--color-bg);
+  padding: 28px 26px;
+}
+
+.tCell .k {
+  font-family: var(--font-body);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--color-brand);
+}
+
+.tCell h3 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: -0.02em;
+  margin: 13px 0 8px;
+  color: var(--color-text-primary);
+}
+
+.tCell p {
+  color: var(--color-text-muted);
+  font-size: 15px;
+  margin: 0;
+}
+
+/* ── Split panels ────────────────────────────────────────── */
+.two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  margin-top: 38px;
+  align-items: start;
+}
+
+.panel {
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: var(--color-bg);
+  padding: 28px;
+}
+
+.panel h3 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 21px;
+  letter-spacing: -0.02em;
+  margin: 0 0 10px;
+  color: var(--color-text-primary);
+}
+
+.panel p {
+  color: var(--color-text-muted);
+  font-size: 15.5px;
+  margin: 0 0 18px;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.list li {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 15px;
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  color: var(--color-text-secondary);
+}
+
+.list li::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+  background: var(--color-brand);
+  flex: none;
+  transform: translateY(-1px);
+}
+
+/* ── "The maths" / 3-cell cards (publisher) ─────────────── */
+.maths {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--color-border);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 38px;
+}
+
+.mCell {
+  background: var(--color-bg);
+  padding: 28px 26px;
+}
+
+.mCell .k {
+  font-family: var(--font-body);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--color-brand);
+}
+
+.mCell h3 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: -0.02em;
+  margin: 13px 0 8px;
+  color: var(--color-text-primary);
+}
+
+.mCell p {
+  color: var(--color-text-muted);
+  font-size: 15px;
+  margin: 0;
+}
+
+/* ── Integration steps (publisher) ──────────────────────── */
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--color-border);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 38px;
+}
+
+.step {
+  background: var(--color-bg);
+  padding: 26px 24px;
+}
+
+.step .n {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--color-brand);
+}
+
+.step h4 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 19px;
+  letter-spacing: -0.02em;
+  margin: 12px 0 8px;
+  color: var(--color-text-primary);
+}
+
+.step p {
+  color: var(--color-text-muted);
+  font-size: 15px;
+  margin: 0;
+}
+
+.skin pre {
+  margin: 22px 0 0;
+  background: #0a0a0a;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 12px;
+  padding: 20px 22px;
+  overflow-x: auto;
+  color: #fafafa;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.c {
+  color: #a1a1aa;
+}
+
+.k {
+  color: var(--color-brand-hover);
+}
+
+/* ── FAQ ─────────────────────────────────────────────────── */
+.faq {
+  margin-top: 34px;
+  border-top: 1px solid var(--color-border);
+}
+
+.faq details {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.faq summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 20px 0;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 19px;
+  letter-spacing: -0.02em;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: center;
+  color: var(--color-text-primary);
+}
+
+.faq summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq summary::after {
+  content: "+";
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 22px;
+  color: var(--color-text-subtle);
+}
+
+.faq details[open] summary::after {
+  content: "\2013";
+}
+
+.faq details p {
+  margin: 0 0 22px;
+  color: var(--color-text-muted);
+  font-size: 16px;
+  max-width: 72ch;
+}
+
+/* ── Close CTA (text-only "sign" version, if needed standalone) ──── */
+.closeCta {
+  display: flex;
+  justify-content: center;
+  margin-top: 34px;
+}
+
+.sign {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: clamp(21px, 2.6vw, 30px);
+  letter-spacing: -0.02em;
+  margin: 0 0 32px;
+  text-align: center;
+  color: var(--color-text-primary);
+}
+
+.sign em {
+  font-style: normal;
+  color: var(--color-brand);
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 960px) {
+  .heroGrid,
+  .tri,
+  .two,
+  .maths,
+  .steps {
+    grid-template-columns: 1fr;
+    gap: 26px;
+  }
+  .tri,
+  .maths,
+  .steps {
+    gap: 1px;
+  }
+  .hero {
+    padding: 50px 0 44px;
+  }
+  .band {
+    padding: 56px 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .wrap {
+    padding: 0 20px;
+  }
+}
