@@ -81,7 +81,10 @@ export function ChatGptMockup() {
                 <button className={styles.model} type="button">Instant <CaretDown size={11} /></button>
                 <Microphone size={16} />
                 <span className={styles.voiceBtn} aria-hidden="true">
-                  <i /><i /><i /><i />
+                  <i style={{ height: 6 }} />
+                  <i style={{ height: 12 }} />
+                  <i style={{ height: 8 }} />
+                  <i style={{ height: 10 }} />
                 </span>
               </div>
               <div className={styles.suggestions}>

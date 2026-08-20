@@ -378,6 +378,9 @@
 }
 
 .loadingSponsor button {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
   margin-left: auto;
   flex-shrink: 0;
   border: 0;

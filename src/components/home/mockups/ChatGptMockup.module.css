@@ -183,7 +183,6 @@
 
 .voiceBtn i {
   width: 2px;
-  height: 10px;
   border-radius: 1px;
   background: var(--cg-send-fg);
 }
@@ -368,4 +367,24 @@
 @keyframes cgpt-bounce {
   0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
   30% { transform: translateY(-3px); opacity: 1; }
+}
+
+@media (max-width: 640px) {
+  .start h2 {
+    font-size: 19px;
+    text-align: center;
+  }
+
+  .suggestions {
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .suggestions button {
+    padding: 6px 10px;
+    font-size: 10.5px;
+    gap: 4px;
+    white-space: nowrap;
+  }
 }

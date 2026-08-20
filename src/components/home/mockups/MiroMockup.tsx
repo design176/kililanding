@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { ArrowUpRight } from "@phosphor-icons/react";
 import { WindowChrome } from "./WindowChrome";
 import styles from "./MiroMockup.module.css";
 
@@ -111,7 +112,9 @@ export function MiroMockup() {
                   </div>
                   <p>Subscriptions and trials for mobile apps</p>
                 </div>
-                <button type="button">Learn more ↗</button>
+                <button type="button">
+                  Learn more <ArrowUpRight size={12} weight="bold" />
+                </button>
               </aside>
             </div>
           )}

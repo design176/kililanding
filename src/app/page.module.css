@@ -311,10 +311,30 @@
   .consolesGrid {
     grid-template-columns: 1fr;
   }
+
+  /* Columns stack, so the side-by-side divider lines no longer apply. */
+  .consoleCellDivided::before {
+    display: none;
+  }
 }
 
 @media (max-width: 640px) {
   .demoBand {
     padding: 24px 16px 16px;
+  }
+
+  .compareCard {
+    padding: 20px;
+    gap: 20px;
+  }
+
+  .compareHead {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .compareHeading {
+    font-size: 28px;
   }
 }

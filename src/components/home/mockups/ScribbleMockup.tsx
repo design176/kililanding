@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Robot } from "@phosphor-icons/react";
+import { ArrowUp, ArrowUpRight, Robot } from "@phosphor-icons/react";
 import { WindowChrome } from "./WindowChrome";
 import styles from "./ScribbleMockup.module.css";
 
@@ -90,13 +90,19 @@ export function ScribbleMockup() {
                 <div className={styles.dots}><i /><i /><i /></div>
                 <span>Reading the Scribble docs…</span>
                 <aside className={styles.sponsored}>
-                  <b />
-                  <div>
-                    <strong>Algolia</strong>
-                    <em>Kili Sponsored Ad</em>
-                    <p>Search that understands your documentation.</p>
+                  <div className={styles.sponsoredTop}>
+                    <b />
+                    <div>
+                      <div className={styles.sponsoredTitle}>
+                        <strong>Algolia</strong>
+                        <em>Kili Sponsored Ad</em>
+                      </div>
+                      <p>Search that understands your documentation.</p>
+                    </div>
                   </div>
-                  <button type="button">Learn more ↗</button>
+                  <button type="button">
+                    Learn more <ArrowUpRight size={12} weight="bold" />
+                  </button>
                 </aside>
               </div>
             )}
@@ -122,7 +128,7 @@ export function ScribbleMockup() {
 
           <div className={styles.inputRow}>
             <input value={phase === 0 ? typedQuestion : ""} placeholder={phase === 0 ? "" : "Ask a follow-up…"} readOnly aria-label="Ask Docs Assistant" />
-            <button type="button" aria-label="Send message">↑</button>
+            <button type="button" aria-label="Send message"><ArrowUp size={13} weight="bold" /></button>
           </div>
           <footer>Powered by Kili Ad Network</footer>
         </aside>
