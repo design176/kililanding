@@ -29,7 +29,7 @@ function validateContact(val: string): string | null {
   return EMAIL_RE.test(val) ? null : "that doesn't look like a valid email.";
 }
 
-export function SignupForm() {
+export function SignupForm({ flush }: { flush?: boolean }) {
   const [site, setSite] = useState("");
   const [contact, setContact] = useState("");
   const [platform, setPlatform] = useState<PlatformId>("x");
@@ -87,7 +87,7 @@ export function SignupForm() {
   };
 
   return (
-    <div className={styles.capture}>
+    <div className={flush ? styles.captureFlush : styles.capture}>
       <p className={styles.lede}>
         Building an AI product?<br />
         <span className={styles.ledeSpan}>Tell us where to find you.</span>

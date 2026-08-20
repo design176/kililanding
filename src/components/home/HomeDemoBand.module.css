@@ -1,0 +1,93 @@
+.notchRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.notchEar {
+  flex-shrink: 0;
+  display: block;
+}
+
+.tabList {
+  display: inline-flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  border-radius: 0 0 24px 24px;
+  background: var(--color-bg);
+  flex-shrink: 0;
+}
+
+.tab,
+.tabActive {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  cursor: pointer;
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: -0.02em;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.tab {
+  background: var(--color-surface-3);
+  color: var(--color-text-muted);
+}
+
+.tab:hover {
+  color: var(--color-text-primary);
+}
+
+.tabActive {
+  background: var(--color-bg);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border-subtle);
+  box-shadow: var(--shadow-xs);
+}
+
+.demoFrame {
+  width: min(882px, 100%);
+  height: 500px;
+  border-radius: 20px 20px 0 0;
+  border: 1px solid var(--color-border);
+  border-bottom: none;
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+}
+
+/* ── Mobile: pills float above the window instead of notching
+   into it, and the window gets breathing room on all sides ──── */
+@media (max-width: 640px) {
+  .notchEar {
+    display: none;
+  }
+
+  .tabList {
+    max-width: 100%;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 6px;
+    border-radius: 16px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .tab,
+  .tabActive {
+    padding: 6px 9px;
+    font-size: 11.5px;
+    gap: 4px;
+  }
+
+  .demoFrame {
+    border-radius: 20px;
+    border-bottom: 1px solid var(--color-border);
+  }
+}

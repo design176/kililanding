@@ -1,0 +1,27 @@
+.ring {
+  transform: rotate(-90deg);
+  flex-shrink: 0;
+}
+
+.progress {
+  stroke-dashoffset: var(--circumference);
+  animation-name: tab-timer-fill;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes tab-timer-fill {
+  from {
+    stroke-dashoffset: var(--circumference);
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progress {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}

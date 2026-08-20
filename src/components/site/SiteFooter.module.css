@@ -1,31 +1,78 @@
 .footer {
   width: 100%;
-  border-top: 1px solid var(--color-border);
-  padding: 40px 0 56px;
   display: flex;
   justify-content: center;
+  background: var(--color-bg-subtle);
+  color: var(--color-text-primary);
 }
 
-.footerInner {
+.inner {
   width: 100%;
   max-width: 1400px;
   padding: 0 24px;
+}
+
+/* ── Merged closing CTA ──────────────────────────────────── */
+.cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  text-align: center;
+  padding: 64px 24px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.ctaHeading {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 32px;
+  letter-spacing: -0.01em;
+  color: var(--color-text-primary);
+}
+
+.ctaHeading :global(em) {
+  font-style: normal;
+  color: var(--color-brand);
+}
+
+.ctaBody {
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: var(--color-text-muted);
+  max-width: 60ch;
+}
+
+/* ── Bottom row ──────────────────────────────────────────── */
+.bottomRow {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 24px;
   flex-wrap: wrap;
+  padding: 24px 0;
   font-family: var(--font-body);
   font-size: 14.5px;
   color: var(--color-text-muted);
 }
 
-.footerLinks {
+.iconGroup {
   display: flex;
-  gap: 22px;
-  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
 }
 
-.footerLinks a:hover {
+.socials {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.socials a {
+  color: var(--color-text-muted);
+  display: inline-flex;
+}
+
+.socials a:hover {
   color: var(--color-text-primary);
 }

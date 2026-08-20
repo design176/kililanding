@@ -1,0 +1,60 @@
+.window {
+  --wc-bar-bg: rgba(34, 34, 36, 0.97);
+  --wc-bar-border: rgba(255, 255, 255, 0.08);
+  --wc-bar-text: #d8d8da;
+
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #111;
+}
+
+:global([data-theme="light"]) .window {
+  --wc-bar-bg: rgba(246, 246, 247, 0.97);
+  --wc-bar-border: rgba(0, 0, 0, 0.08);
+  --wc-bar-text: #3c3c40;
+}
+
+.bar {
+  position: relative;
+  height: 34px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid var(--wc-bar-border);
+  background: var(--wc-bar-bg);
+  color: var(--wc-bar-text);
+  font-size: 11px;
+}
+
+.controls {
+  position: absolute;
+  left: 12px;
+  display: flex;
+  gap: 7px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  display: block;
+  border-radius: 50%;
+}
+
+.close {
+  background: #ff5f57;
+}
+
+.minimize {
+  background: #febc2e;
+}
+
+.expand {
+  background: #28c840;
+}
+
+.body {
+  height: calc(100% - 34px);
+  overflow: hidden;
+}

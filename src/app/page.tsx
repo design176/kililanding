@@ -1,26 +1,36 @@
-import Link from "next/link";
-import { MoneyWavy, Code, ShieldStar, CaretRight } from "@phosphor-icons/react/dist/ssr";
-import { Button } from "@/components/ui/Button";
-import { Placeholder } from "@/components/Placeholder";
-import { HomeTabs } from "@/components/home/HomeTabs";
+import { IsoIllustration } from "@/components/home/illustrations/IsoIllustration";
+import {
+  MoneyWavy,
+  Code,
+  ShieldStar,
+  CaretRight,
+  Cookie,
+  TrendUp,
+  Eyes,
+  Sliders,
+  Wallet,
+  Unite,
+} from "@phosphor-icons/react/dist/ssr";
+import { HomeDemoBand } from "@/components/home/HomeDemoBand";
 import { ComparisonTable } from "@/components/home/ComparisonTable";
 import { SiteNav } from "@/components/site/SiteNav";
-import { SiteClosingCta } from "@/components/site/SiteClosingCta";
 import { SiteFooter } from "@/components/site/SiteFooter";
+import { GetStartedButton } from "@/components/site/GetStartedButton";
+import { GetStartedTrigger } from "@/components/site/GetStartedTrigger";
 import styles from "./page.module.css";
 
 export default function Home() {
   return (
     <div className={styles.page}>
-      <SiteNav active="home" />
+      <SiteNav />
 
       {/* ── Hero ────────────────────────────────────────────── */}
       <section className={styles.hero}>
-        <Link href="#" className={styles.newPill}>
+        <GetStartedTrigger className={styles.newPill}>
           <span className={styles.newTag}>NEW</span>
           <span>Learn how we are making AI free</span>
           <CaretRight size={12} weight="bold" />
-        </Link>
+        </GetStartedTrigger>
 
         <h1 className={styles.h1}>The Ad Network for AI apps.</h1>
 
@@ -30,24 +40,14 @@ export default function Home() {
         </p>
 
         <div className={styles.heroButtons}>
-          <Link href="#">
-            <Button variant="secondary" size="lg" pill>View Docs</Button>
-          </Link>
-          <Link href="/get-started">
-            <Button variant="primary" size="lg" pill>Get Started</Button>
-          </Link>
+          {/* View Docs button hidden for now — no docs site yet */}
+          <GetStartedButton variant="primary" size="lg" pill>Get Started</GetStartedButton>
         </div>
       </section>
 
       {/* ── Tab strip + screenshot band ────────────────────── */}
       <section className={styles.demoBand}>
-        <HomeTabs />
-        <Placeholder
-          label="Product screenshot — Claude Code sponsored suggestion (Chat tools demo)"
-          width="min(882px, 100%)"
-          height={320}
-          className={styles.demoFrame}
-        />
+        <HomeDemoBand />
       </section>
 
       {/* ── For Advertiser / For Publisher split ───────────── */}
@@ -61,15 +61,12 @@ export default function Home() {
             <span className={styles.splitHeadingGreen}>Show up on ai answers,</span>
             {" "}the moment they express buying intent not three days later in a retargeting feed.
           </h2>
-          <Link href="/get-started">
-            <Button variant="primary" size="lg" pill>Start a Campaign</Button>
-          </Link>
-          <Placeholder
-            label="Advertiser dashboard screenshot — Overview, dark mode"
-            width="100%"
-            height={420}
-            className={styles.dashboardFrame}
-          />
+          <ul className={styles.splitBullets}>
+            <li><Cookie size={28} /> Triggered by the prompt, not a cookie</li>
+            <li><TrendUp size={28} /> Closed-loop measurement with CAPI</li>
+            <li><Eyes size={28} /> Attention you cannot buy elsewhere</li>
+          </ul>
+          <GetStartedButton variant="primary" size="lg" pill>Get Started</GetStartedButton>
         </div>
 
         <div className={styles.splitCol}>
@@ -81,15 +78,12 @@ export default function Home() {
             <span className={styles.splitHeadingGreen}>Run a free tier profitably,</span>
             {" "}Add Kili once and earn whenever a relevant sponsor is matched inside a user session.
           </h2>
-          <Link href="/get-started">
-            <Button variant="primary" size="lg" pill>Integrate Now</Button>
-          </Link>
-          <Placeholder
-            label="Publisher dashboard screenshot — Overview, dark mode"
-            width="100%"
-            height={420}
-            className={styles.dashboardFrame}
-          />
+          <ul className={styles.splitBullets}>
+            <li><Sliders size={28} /> One SDK, live in an afternoon</li>
+            <li><Wallet size={28} /> You keep 50% of advertiser spend</li>
+            <li><Unite size={28} /> Approve or block advertiser categories</li>
+          </ul>
+          <GetStartedButton variant="primary" size="lg" pill>Get Started</GetStartedButton>
         </div>
       </section>
 
@@ -104,15 +98,15 @@ export default function Home() {
 
         <div className={styles.consolesGrid}>
           <div className={styles.consoleCell}>
-            <Placeholder label="Isometric icon — Match" width={200} height={168} />
+            <IsoIllustration name="match" className={styles.consoleIcon} />
             <h3 className={styles.consoleCellTitle}>Match</h3>
             <p className={styles.consoleCellBody}>
               Triggered by user intent. Kili scores every eligible sponsor against
               the buying intent in the query and drops anything below your floor.
             </p>
           </div>
-          <div className={styles.consoleCell}>
-            <Placeholder label="Isometric icon — Serve" width={200} height={168} />
+          <div className={`${styles.consoleCell} ${styles.consoleCellDivided}`}>
+            <IsoIllustration name="serve" className={styles.consoleIcon} />
             <h3 className={styles.consoleCellTitle}>Serve</h3>
             <p className={styles.consoleCellBody}>
               A new surface. Loading placement, in-answer text or display card
@@ -120,8 +114,8 @@ export default function Home() {
               interface.
             </p>
           </div>
-          <div className={styles.consoleCell}>
-            <Placeholder label="Isometric icon — Measure" width={200} height={168} />
+          <div className={`${styles.consoleCell} ${styles.consoleCellDivided}`}>
+            <IsoIllustration name="measure" className={styles.consoleIcon} />
             <h3 className={styles.consoleCellTitle}>Measure</h3>
             <p className={styles.consoleCellBody}>
               Attributable. Closed-loop measurement with CAPI, so a CPM buy can
@@ -145,28 +139,25 @@ export default function Home() {
 
       {/* ── Comparison table ────────────────────────────────── */}
       <section className={styles.compare}>
-        <div className={styles.compareHead}>
-          <h2 className={styles.compareHeading}>Relevance no cookie can match.</h2>
-          <Link href="/get-started">
-            <Button variant="primary" size="lg" pill>Get Started</Button>
-          </Link>
-        </div>
+        <div className={styles.compareCard}>
+          <div className={styles.compareHead}>
+            <h2 className={styles.compareHeading}>Relevance no cookie can match.</h2>
+            <GetStartedButton variant="primary" size="lg" pill>Get Started</GetStartedButton>
+          </div>
 
-        <ComparisonTable />
+          <ComparisonTable />
+        </div>
       </section>
 
-      {/* ── Final CTA ───────────────────────────────────────── */}
-      <SiteClosingCta
+      {/* ── Final CTA, merged into the footer ────────────────── */}
+      <SiteFooter
         heading={
           <>
             Turn conversations <em>into revenue.</em>
           </>
         }
         body="Whether you run an AI product or want to reach the people using one, Kili gives you a cleaner way to start."
-        secondary={{ label: "View Docs", href: "#" }}
       />
-
-      <SiteFooter />
     </div>
   );
 }

@@ -28,11 +28,17 @@ export const metadata: Metadata = {
   },
 };
 
+const isDev = process.env.APP_ENV === 'dev';
+
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html lang='en' className={workSans.variable} suppressHydrationWarning>
-      <Analytics />
-      <GoogleTagManager gtmId='GTM-WX32SVGQ' />
+      {!isDev && (
+        <>
+          <Analytics />
+          <GoogleTagManager gtmId='GTM-WX32SVGQ' />
+        </>
+      )}
       <body>
         <Providers>{children}</Providers>
       </body>

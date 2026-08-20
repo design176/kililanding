@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/Button";
 import { Placeholder } from "@/components/Placeholder";
 import { SiteNav } from "@/components/site/SiteNav";
 import { SiteFooter } from "@/components/site/SiteFooter";
-import { SiteClosingCta } from "@/components/site/SiteClosingCta";
 import styles from "@/components/marketing/marketing.module.css";
 
 export const metadata: Metadata = {
@@ -16,7 +15,7 @@ export const metadata: Metadata = {
 export default function PublisherPage() {
   return (
     <div className={styles.skin}>
-      <SiteNav active="publisher" />
+      <SiteNav />
 
       <main>
         {/* HERO */}
@@ -282,16 +281,14 @@ export default function PublisherPage() {
 
       </main>
 
-      {/* CLOSE */}
-      <SiteClosingCta
+      {/* CLOSE, merged into the footer */}
+      <SiteFooter
         heading={
           <>
             Ads kept the web free. <em>Kili keeps AI free.</em>
           </>
         }
       />
-
-      <SiteFooter />
     </div>
   );
 }

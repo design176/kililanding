@@ -1,0 +1,559 @@
+.app {
+  --m-bg: #f7f7f8;
+  --m-dot: #d6d6db;
+  --m-surface: #ffffff;
+  --m-border: #e4e4e7;
+  --m-text: #1c1c1e;
+  --m-text-muted: #6b6b72;
+  --m-text-faint: #8b8b92;
+  --m-btn-bg: #f0f0f2;
+  --m-accent: #4262ff;
+  --m-accent-soft-bg: #eceaff;
+  --m-accent-soft-border: #dcdaff;
+  --m-goal-bg: #fff8d6;
+  --m-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--m-bg);
+  color: var(--m-text);
+  font-family: var(--font-body);
+}
+
+:global([data-theme="dark"]) .app {
+  --m-bg: #19191b;
+  --m-dot: #313136;
+  --m-surface: #232326;
+  --m-border: #35353a;
+  --m-text: #f2f2f4;
+  --m-text-muted: #9a9aa2;
+  --m-text-faint: #86868f;
+  --m-btn-bg: #2c2c30;
+  --m-accent-soft-bg: #262244;
+  --m-accent-soft-border: #3a3560;
+  --m-goal-bg: #3a341a;
+  --m-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.boardMenu {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 38px;
+  flex-shrink: 0;
+  padding: 0 12px;
+  background: #0d0d0e;
+  color: #fff;
+  font-size: 12px;
+}
+
+.boardMenu button {
+  border: 0;
+  background: transparent;
+  color: #fff;
+  cursor: default;
+}
+
+.wordmark {
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.boardMenu b {
+  font-weight: 600;
+  color: #cfcfcf;
+}
+
+.boardMenu > button:last-child {
+  margin-left: auto;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 34px;
+  flex-shrink: 0;
+  padding: 0 12px;
+  background: var(--m-surface);
+  border-bottom: 1px solid var(--m-border);
+  font-size: 12px;
+}
+
+.collaborators {
+  display: flex;
+  align-items: center;
+  gap: -4px;
+  margin-left: 8px;
+}
+
+.collaborators i {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  margin-left: -4px;
+  border-radius: 50%;
+  border: 1.5px solid var(--m-surface);
+  background: #ffcf5c;
+  font-size: 8px;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.collaborators i:nth-child(2) { background: #ff9ec7; }
+.collaborators i:nth-child(3) { background: #a7c7ff; }
+
+.collaborators b {
+  margin-left: 4px;
+  font-weight: 600;
+  color: var(--m-text);
+}
+
+.actions > button {
+  margin-left: auto;
+  border: 0;
+  border-radius: 6px;
+  padding: 5px 10px;
+  background: var(--m-btn-bg);
+  color: var(--m-text);
+  font-size: 11.5px;
+  cursor: default;
+}
+
+.actions .share {
+  margin-left: 6px;
+  background: var(--m-accent);
+  color: #fff;
+  font-weight: 600;
+}
+
+.toolbar {
+  position: absolute;
+  top: 44px;
+  left: 8px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 6px;
+  border-radius: 10px;
+  background: var(--m-surface);
+  box-shadow: var(--m-shadow);
+}
+
+.toolbar button {
+  width: 26px;
+  height: 26px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--m-text-muted);
+  font-size: 13px;
+  cursor: default;
+}
+
+.toolbar .active {
+  background: var(--m-accent-soft-bg);
+  color: var(--m-accent);
+}
+
+.board {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  background-image: radial-gradient(circle, var(--m-dot) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+.zoom {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: var(--m-surface);
+  box-shadow: var(--m-shadow);
+  font-size: 11px;
+  color: var(--m-text);
+}
+
+.zoom button {
+  border: 0;
+  background: transparent;
+  color: var(--m-text-muted);
+  cursor: default;
+}
+
+/* ── Empty / prompt state ────────────────────────────────── */
+.empty {
+  position: absolute;
+  top: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(420px, 82%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 28px 24px;
+  border-radius: 14px;
+  background: var(--m-surface);
+  box-shadow: var(--m-shadow);
+  text-align: center;
+}
+
+.empty > span {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--m-accent);
+  color: #fff;
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+.empty strong {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--m-text);
+}
+
+.empty p {
+  color: var(--m-text-muted);
+  font-size: 12px;
+}
+
+.promptRow {
+  width: 100%;
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.promptField {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  padding: 9px 12px;
+  border: 1px solid var(--m-border);
+  border-radius: 8px;
+  font-size: 12px;
+  color: var(--m-text);
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.caret {
+  display: inline-block;
+  width: 1.5px;
+  height: 13px;
+  margin-left: 1px;
+  background: var(--m-text);
+  animation: miro-caret-blink 900ms steps(1) infinite;
+}
+
+.promptRow button {
+  flex-shrink: 0;
+  border: 0;
+  border-radius: 8px;
+  padding: 0 14px;
+  background: var(--m-accent);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: default;
+}
+
+/* ── Generating state ────────────────────────────────────── */
+.generating {
+  position: absolute;
+  top: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(420px, 82%);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 22px;
+  border-radius: 14px;
+  background: var(--m-surface);
+  box-shadow: var(--m-shadow);
+}
+
+.generationStatus {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2.5px solid var(--m-border);
+  border-top-color: var(--m-accent);
+  animation: miro-spin 900ms linear infinite;
+}
+
+.generationStatus small {
+  display: block;
+  color: var(--m-text-faint);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.generationStatus strong {
+  display: block;
+  margin-top: 2px;
+  font-size: 12.5px;
+  color: var(--m-text);
+}
+
+.progress {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--m-btn-bg);
+  overflow: hidden;
+}
+
+.progress i {
+  display: block;
+  height: 100%;
+  width: 55%;
+  border-radius: 999px;
+  background: var(--m-accent);
+  animation: miro-progress 4.2s ease-in-out infinite;
+}
+
+.loadingSponsor {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--color-brand-soft);
+  border: 1px solid var(--color-brand-border);
+}
+
+.sponsorTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sponsorTitle strong {
+  font-size: 12px;
+  color: var(--m-text);
+}
+
+.sponsorPill {
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: var(--color-brand);
+  color: var(--color-on-brand);
+  font-size: 8.5px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.loadingSponsor p {
+  margin-top: 2px;
+  color: var(--m-text-muted);
+  font-size: 11px;
+}
+
+.loadingSponsor button {
+  margin-left: auto;
+  flex-shrink: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-brand-text);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: default;
+}
+
+/* ── Canvas (final board) ────────────────────────────────── */
+.canvas {
+  position: relative;
+  height: 100%;
+  padding: 16px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  align-content: start;
+  overflow-y: auto;
+}
+
+.boardTitle {
+  grid-column: 1 / -1;
+  margin-bottom: 4px;
+}
+
+.boardTitle small {
+  color: var(--m-text-faint);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.boardTitle strong {
+  display: block;
+  margin-top: 2px;
+  font-size: 16px;
+  color: var(--m-text);
+}
+
+.boardTitle span {
+  display: block;
+  margin-top: 2px;
+  color: var(--m-text-muted);
+  font-size: 11px;
+}
+
+.frame {
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--m-surface);
+  border: 1px solid var(--m-border);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.frame header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 11.5px;
+  color: var(--m-text);
+}
+
+.frame header span {
+  color: var(--m-text-faint);
+}
+
+.goals div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.goals i {
+  padding: 6px 8px;
+  border-radius: 6px;
+  background: var(--m-goal-bg);
+  color: var(--m-text);
+  font-size: 11px;
+  font-style: normal;
+}
+
+.track {
+  display: flex;
+  gap: 6px;
+}
+
+.track b {
+  flex: 1;
+  padding: 6px 4px;
+  border-radius: 6px;
+  background: var(--m-accent-soft-bg);
+  color: var(--m-accent);
+  font-size: 10px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.channels p {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 5px 0;
+  font-size: 11px;
+  color: var(--m-text);
+}
+
+.channels i {
+  color: var(--m-accent);
+  font-style: normal;
+}
+
+.channels b {
+  margin-left: auto;
+  font-weight: 600;
+}
+
+.metrics div {
+  display: flex;
+  gap: 12px;
+}
+
+.metrics span {
+  font-size: 10.5px;
+  color: var(--m-text-muted);
+}
+
+.metrics b {
+  display: block;
+  font-size: 14px;
+  color: var(--m-text);
+}
+
+.dragSponsor {
+  grid-column: 1 / -1;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--color-brand-soft);
+  border: 1px solid var(--color-brand-border);
+}
+
+.dragSponsor strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 12.5px;
+  color: var(--m-text);
+}
+
+.dragSponsor p {
+  margin-top: 3px;
+  color: var(--m-text-muted);
+  font-size: 11px;
+}
+
+.dragSponsor button {
+  margin-top: 8px;
+  border: 0;
+  background: transparent;
+  color: var(--color-brand-text);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: default;
+}
+
+@keyframes miro-caret-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+@keyframes miro-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes miro-progress {
+  0% { width: 15%; }
+  50% { width: 70%; }
+  100% { width: 92%; }
+}

@@ -8,6 +8,13 @@
   text-align: left;
 }
 
+/* No own card chrome — used when already inside another container
+   (e.g. the get-started modal), so we don't get a box-in-a-box look. */
+.captureFlush {
+  width: 100%;
+  text-align: left;
+}
+
 .lede {
   margin: 0 0 14px;
   font-size: 14px;

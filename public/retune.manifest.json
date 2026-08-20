@@ -1,0 +1,273 @@
+{
+  "version": 2,
+  "components": {
+    "Button": {
+      "props": {
+        "variant": {
+          "type": "enum",
+          "values": ["primary", "secondary", "ghost", "destructive", "accent"],
+          "default": "primary",
+          "class_map": {
+            "primary": "primary",
+            "secondary": "secondary",
+            "ghost": "ghost",
+            "destructive": "destructive",
+            "accent": "accent"
+          }
+        },
+        "size": {
+          "type": "enum",
+          "values": ["sm", "md", "lg", "xl"],
+          "default": "md",
+          "class_map": {
+            "sm": "sm",
+            "md": "md",
+            "lg": "lg",
+            "xl": "xl"
+          }
+        },
+        "pill": {
+          "type": "boolean",
+          "default": false,
+          "class_map": { "true": "pill" }
+        },
+        "disabled": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "Badge": {
+      "props": {
+        "tone": {
+          "type": "enum",
+          "values": ["neutral", "brand", "success", "warning", "danger", "info", "purple", "amber"],
+          "default": "neutral",
+          "class_map": {
+            "neutral": "neutral",
+            "brand": "brand",
+            "success": "success",
+            "warning": "warning",
+            "danger": "danger",
+            "info": "info",
+            "purple": "purple",
+            "amber": "amber"
+          }
+        },
+        "dot": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "Tabs": {
+      "props": {
+        "size": {
+          "type": "enum",
+          "values": ["sm", "md", "lg"],
+          "default": "md"
+        },
+        "activeVariant": {
+          "type": "enum",
+          "values": ["primary", "secondary"],
+          "default": "primary",
+          "description": "Which Button variant the currently-active tab renders as. Inactive tabs always render as ghost."
+        },
+        "pill": {
+          "type": "boolean",
+          "default": false,
+          "class_map": { "true": "trackPill" },
+          "description": "Fully-rounded pill shape for the track and its tabs, used on the marketing pages."
+        }
+      }
+    },
+    "Skeleton": {
+      "props": {
+        "variant": {
+          "type": "enum",
+          "values": ["text", "rect", "circle"],
+          "default": "rect",
+          "class_map": {
+            "text": "text",
+            "rect": "rect",
+            "circle": "circle"
+          }
+        }
+      }
+    },
+    "PlatformPicker": {
+      "props": {
+        "value": {
+          "type": "enum",
+          "values": ["x", "instagram", "tiktok", "linkedin", "github", "youtube"],
+          "default": "x",
+          "description": "Which social platform icon is shown as selected in the get-started signup form's platform dropdown."
+        },
+        "disabled": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "SiteClosingCta": {
+      "props": {
+        "body": {
+          "type": "string",
+          "description": "Optional subhead paragraph shown under the heading in the black closing CTA panel."
+        }
+      }
+    },
+    "SignupForm": {
+      "state": {
+        "status": {
+          "type": "enum",
+          "values": ["idle", "loading", "success", "error"],
+          "default": "idle",
+          "description": "Drives the submit button's label ('Send' / 'Sending…' / 'Sent'), whether inputs are disabled, and the note text's color below the form."
+        },
+        "siteError": {
+          "type": "boolean",
+          "default": false,
+          "description": "Shows the product-url input's error (red) border."
+        },
+        "contactError": {
+          "type": "boolean",
+          "default": false,
+          "description": "Shows the email/handle input's error (red) border."
+        }
+      }
+    },
+    "HomeDemoBand": {
+      "state": {
+        "active": {
+          "type": "enum",
+          "values": ["chat", "mcp", "creative", "web"],
+          "default": "chat",
+          "description": "Which pill in the notch tab strip is highlighted (white, with the timer ring) and which placeholder screenshot is shown below it. Auto-advances every 4s, or on click."
+        }
+      }
+    }
+  },
+  "tokens": {
+    "colors": {
+      "background": {
+        "bg": { "value": "#FFFFFF", "variable": "--color-bg" },
+        "bg-subtle": { "value": "#FAFAFA", "variable": "--color-bg-subtle" },
+        "bg-muted": { "value": "#F7F7F8", "variable": "--color-bg-muted" }
+      },
+      "surface": {
+        "surface-1": { "value": "#FCFCFD", "variable": "--color-surface-1" },
+        "surface-2": { "value": "#F9FAFB", "variable": "--color-surface-2" },
+        "surface-3": { "value": "#F2F4F7", "variable": "--color-surface-3" },
+        "surface-4": { "value": "#EAECF0", "variable": "--color-surface-4" },
+        "surface-raised": { "value": "#FFFFFF", "variable": "--color-surface-raised" },
+        "surface-overlay": { "value": "#FFFFFF", "variable": "--color-surface-overlay" }
+      },
+      "interactive": {
+        "hover": { "value": "#F2F4F7", "variable": "--color-hover" },
+        "active": { "value": "#EAECF0", "variable": "--color-active" },
+        "selected": { "value": "#ECFDF3", "variable": "--color-selected" },
+        "disabled-bg": { "value": "#F2F4F7", "variable": "--color-disabled-bg" }
+      },
+      "border": {
+        "border-subtle": { "value": "#F0F1F2", "variable": "--color-border-subtle" },
+        "border": { "value": "#E4E7EC", "variable": "--color-border" },
+        "border-strong": { "value": "#D0D5DD", "variable": "--color-border-strong" },
+        "border-emphasis": { "value": "#98A2B3", "variable": "--color-border-emphasis" }
+      },
+      "text": {
+        "text-primary": { "value": "#101828", "variable": "--color-text-primary" },
+        "text-secondary": { "value": "#344054", "variable": "--color-text-secondary" },
+        "text-tertiary": { "value": "#475467", "variable": "--color-text-tertiary" },
+        "text-muted": { "value": "#667085", "variable": "--color-text-muted" },
+        "text-subtle": { "value": "#98A2B3", "variable": "--color-text-subtle" },
+        "text-disabled": { "value": "#B2B8C2", "variable": "--color-text-disabled" },
+        "text-inverse": { "value": "#FFFFFF", "variable": "--color-text-inverse" }
+      },
+      "brand": {
+        "brand": { "value": "#16A34A", "variable": "--color-brand" },
+        "brand-hover": { "value": "#15803D", "variable": "--color-brand-hover" },
+        "brand-active": { "value": "#166534", "variable": "--color-brand-active" },
+        "brand-disabled": { "value": "#86D9A2", "variable": "--color-brand-disabled" },
+        "brand-soft": { "value": "#ECFDF3", "variable": "--color-brand-soft" },
+        "brand-soft-hover": { "value": "#D1FADF", "variable": "--color-brand-soft-hover" },
+        "brand-soft-active": { "value": "#ABEFC6", "variable": "--color-brand-soft-active" },
+        "brand-border": { "value": "#ABEFC6", "variable": "--color-brand-border" },
+        "brand-text": { "value": "#067647", "variable": "--color-brand-text" },
+        "on-brand": { "value": "#FFFFFF", "variable": "--color-on-brand" },
+        "focus": { "value": "#16A34A", "variable": "--color-focus" },
+        "focus-ring": { "value": "rgba(22, 163, 74, 0.28)", "variable": "--color-focus-ring" }
+      },
+      "danger": {
+        "danger": { "value": "#EA1818", "variable": "--color-danger" },
+        "danger-hover": { "value": "#C51010", "variable": "--color-danger-hover" },
+        "danger-soft": { "value": "#FEF3F2", "variable": "--color-danger-soft" },
+        "danger-border": { "value": "#FFCCC9", "variable": "--color-danger-border" },
+        "danger-text": { "value": "#E23F3F", "variable": "--color-danger-text" }
+      },
+      "row": {
+        "row-hover": { "value": "#F9FAFB", "variable": "--color-row-hover" },
+        "row-selected": { "value": "#ECFDF3", "variable": "--color-row-selected" },
+        "row-divider": { "value": "#EAECF0", "variable": "--color-row-divider" }
+      },
+      "button-mono": {
+        "btn-mono-dark-fill": { "value": "#18181b", "variable": "--btn-mono-dark-fill" },
+        "btn-mono-dark-fill-hover": { "value": "#262626", "variable": "--btn-mono-dark-fill-hover" },
+        "btn-mono-dark-fill-active": { "value": "#000000", "variable": "--btn-mono-dark-fill-active" },
+        "btn-mono-dark-text": { "value": "#ffffff", "variable": "--btn-mono-dark-text" },
+        "btn-mono-light-top": { "value": "#ffffff", "variable": "--btn-mono-light-top" },
+        "btn-mono-light-bottom": { "value": "#f6f6f6", "variable": "--btn-mono-light-bottom" },
+        "btn-mono-light-hover-bottom": { "value": "#efefef", "variable": "--btn-mono-light-hover-bottom" },
+        "btn-mono-light-active-top": { "value": "#f6f6f6", "variable": "--btn-mono-light-active-top" },
+        "btn-mono-light-active-bottom": { "value": "#ededed", "variable": "--btn-mono-light-active-bottom" },
+        "btn-mono-light-border": { "value": "#ffffff", "variable": "--btn-mono-light-border" },
+        "btn-mono-light-ring": { "value": "#ededed", "variable": "--btn-mono-light-ring" },
+        "btn-mono-light-text": { "value": "#18181b", "variable": "--btn-mono-light-text" }
+      }
+    },
+    "spacing": {
+      "button-sm-x": { "value": "8px" },
+      "button-md-x": { "value": "10px" },
+      "button-lg-x": { "value": "14px" },
+      "button-xl-x": { "value": "18px" },
+      "button-gap": { "value": "6px" },
+      "3": { "value": "12px" },
+      "4": { "value": "16px" },
+      "6": { "value": "24px" },
+      "8": { "value": "32px" },
+      "12": { "value": "48px" },
+      "14": { "value": "56px" },
+      "18": { "value": "74px" },
+      "24": { "value": "96px" }
+    },
+    "radii": {
+      "sm": { "value": "6px", "description": "Button size=sm" },
+      "md": { "value": "7px", "description": "Button size=md" },
+      "lg": { "value": "8px", "description": "Button size=lg" },
+      "xl": { "value": "9px", "description": "Button size=xl" },
+      "card": { "value": "12px", "description": "Panels, cards, cell grids across the marketing pages and home sections" },
+      "frame": { "value": "20px", "description": "Screenshot/demo frame top corners" },
+      "notch": { "value": "24px", "description": "Home hero tab-strip notch bottom corners" },
+      "pill": { "value": "999px", "description": "Button pill=true, Badge, Tabs pill=true" }
+    },
+    "borderWidths": {
+      "hairline": { "value": "1px" },
+      "thick": { "value": "1.5px", "description": "Button secondary/primary mono-light border" }
+    },
+    "shadows": {
+      "xs": { "value": "0 1px 2px rgba(16, 24, 40, 0.05)", "variable": "--shadow-xs" },
+      "sm": { "value": "0 1px 3px rgba(16, 24, 40, 0.08), 0 1px 2px rgba(16, 24, 40, 0.04)", "variable": "--shadow-sm" },
+      "md": { "value": "0 4px 8px -2px rgba(16, 24, 40, 0.10), 0 2px 4px -2px rgba(16, 24, 40, 0.06)", "variable": "--shadow-md" },
+      "lg": { "value": "0 12px 24px -8px rgba(16, 24, 40, 0.14)", "variable": "--shadow-lg" }
+    },
+    "typography": {
+      "font-heading": { "value": "\"Satoshi\", sans-serif", "variable": "--font-heading" },
+      "font-body": { "value": "var(--font-work-sans), \"Work Sans\", sans-serif", "variable": "--font-body" },
+      "badge": { "value": "11px", "description": "Badge label font-size" },
+      "button-sm": { "value": "12px", "description": "Button size=sm font-size" },
+      "button-md": { "value": "13px", "description": "Button size=md font-size" },
+      "button-lg": { "value": "14px", "description": "Button size=lg font-size" },
+      "button-xl": { "value": "15px", "description": "Button size=xl font-size" }
+    }
+  }
+}

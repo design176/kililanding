@@ -9,8 +9,9 @@ interface PlaceholderProps {
 }
 
 /**
- * Stand-in for a graphic not built yet. White box, 10px centered label
- * describing what belongs here — swap for the real asset later.
+ * Stand-in for a graphic not built yet. Blank box, 10px centered label
+ * describing what belongs here — swap for the real asset later. Uses
+ * the site's theme tokens so it doesn't break in dark mode.
  */
 export function Placeholder({ label, width, height, className, style }: PlaceholderProps) {
   return (
@@ -23,9 +24,9 @@ export function Placeholder({ label, width, height, className, style }: Placehol
         alignItems: "center",
         justifyContent: "center",
         textAlign: "center",
-        background: "#ffffff",
-        border: "1px dashed #d4d4d4",
-        color: "#737373",
+        background: "var(--color-surface-2)",
+        border: "1px dashed var(--color-border-strong)",
+        color: "var(--color-text-muted)",
         fontSize: "10px",
         lineHeight: 1.4,
         padding: "8px",

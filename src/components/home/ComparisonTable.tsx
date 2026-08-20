@@ -1,8 +1,8 @@
 "use client";
 
-import { Table } from "@/components/ui/Table";
+import styles from "./ComparisonTable.module.css";
 
-const comparisonRows = [
+const ROWS = [
   {
     key: "signal",
     dimension: "Signal",
@@ -43,14 +43,29 @@ const comparisonRows = [
 
 export function ComparisonTable() {
   return (
-    <Table
-      columns={[
-        { key: "dimension", header: "", render: (r) => <strong>{r.dimension}</strong> },
-        { key: "banner", header: "Banner and display networks" },
-        { key: "kili", header: "Kili", render: (r) => <strong>{r.kili}</strong> },
-      ]}
-      rows={comparisonRows}
-      rowKey={(r) => r.key}
-    />
+    <div className={styles.chart}>
+      <div className={styles.grid}>
+        <div className={styles.headRow}>
+          <span className={styles.headLabel} />
+          <span className={styles.headBanner}>Banner and display networks</span>
+        </div>
+
+        {ROWS.map((row) => (
+          <div className={styles.row} key={row.key}>
+            <span className={styles.label}>{row.dimension}</span>
+            <span className={styles.banner}>{row.banner}</span>
+          </div>
+        ))}
+      </div>
+
+      <div className={styles.kiliCard}>
+        <div className={styles.kiliHead}>Kili</div>
+        {ROWS.map((row) => (
+          <div className={styles.kiliRow} key={row.key}>
+            {row.kili}
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }

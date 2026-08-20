@@ -6,7 +6,7 @@ import styles from "./get-started.module.css";
 export default function GetStartedPage() {
   return (
     <div className={styles.page}>
-      <SiteNav active="home" />
+      <SiteNav />
       <main className={styles.main}>
         <h1 className={styles.heading}>Get started with Kili.</h1>
         <p className={styles.subheading}>
