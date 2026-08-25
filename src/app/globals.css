@@ -4,6 +4,7 @@
 :root {
   --font-heading: "Satoshi", sans-serif;
   --font-body: var(--font-work-sans), "Work Sans", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 }
 
 /* ── Design tokens ──────────────────────────────────────────────────
@@ -164,10 +165,6 @@
 /* ── Base styles ────────────────────────────────────────────── */
 html {
   height: 100%;
-}
-
-html,
-body {
   max-width: 100vw;
   overflow-x: hidden;
 }
@@ -196,4 +193,18 @@ a {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
+}
+
+/* ── Shared mockup animations ───────────────────────────────
+   Every app mockup blinks a text caret and most show a three-dot
+   "thinking" indicator. The keyframes are declared once here instead
+   of once per mockup module. */
+@keyframes kili-caret-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+@keyframes kili-dot-bounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+  30% { transform: translateY(-3px); opacity: 1; }
 }

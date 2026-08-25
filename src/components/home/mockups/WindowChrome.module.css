@@ -7,12 +7,21 @@
   height: 100%;
   overflow: hidden;
   background: #111;
+  border-radius: inherit;
+  outline: 1px solid var(--color-border);
+  outline-offset: -1px;
 }
 
 :global([data-theme="light"]) .window {
   --wc-bar-bg: rgba(246, 246, 247, 0.97);
   --wc-bar-border: rgba(0, 0, 0, 0.08);
   --wc-bar-text: #3c3c40;
+}
+
+/* Empty placeholder window shown behind slide transitions — should
+   read as ambient chrome, not a fixed dark block, in either theme. */
+.window[data-app="base"] {
+  background: var(--color-surface-2);
 }
 
 .bar {

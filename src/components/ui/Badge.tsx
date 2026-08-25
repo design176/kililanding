@@ -1,4 +1,5 @@
 import type { HTMLAttributes } from "react";
+import { cx } from "@/lib/cx";
 import styles from "./Badge.module.css";
 
 type Tone =
@@ -16,19 +17,9 @@ export type BadgeProps = HTMLAttributes<HTMLSpanElement> & {
   dot?: boolean;
 };
 
-export function Badge({
-  tone = "neutral",
-  dot,
-  className,
-  children,
-  ...props
-}: BadgeProps) {
-  const classes = [styles.badge, styles[tone], className ?? ""]
-    .filter(Boolean)
-    .join(" ");
-
+export function Badge({ tone = "neutral", dot, className, children, ...props }: BadgeProps) {
   return (
-    <span className={classes} {...props}>
+    <span className={cx(styles.badge, styles[tone], className)} {...props}>
       {dot && <span className={styles.dot} />}
       {children}
     </span>

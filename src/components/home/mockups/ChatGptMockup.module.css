@@ -154,7 +154,7 @@
   margin-left: 1px;
   background: var(--cg-caret);
   vertical-align: -2px;
-  animation: cgpt-caret-blink 900ms steps(1) infinite;
+  animation: kili-caret-blink 900ms steps(1) infinite;
 }
 
 .model {
@@ -268,7 +268,7 @@
   height: 5px;
   border-radius: 50%;
   background: var(--cg-text-faint);
-  animation: cgpt-bounce 1s ease-in-out infinite;
+  animation: kili-dot-bounce 1s ease-in-out infinite;
 }
 
 .thinking i:nth-child(2) { animation-delay: 0.15s; }
@@ -354,19 +354,9 @@
   color: var(--cg-send-fg);
 }
 
-@keyframes cgpt-caret-blink {
-  0%, 49% { opacity: 1; }
-  50%, 100% { opacity: 0; }
-}
-
 @keyframes cgpt-fade-up {
   from { opacity: 0; transform: translateY(4px); }
   to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes cgpt-bounce {
-  0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
-  30% { transform: translateY(-3px); opacity: 1; }
 }
 
 @media (max-width: 640px) {

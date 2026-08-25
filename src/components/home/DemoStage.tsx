@@ -5,6 +5,7 @@ import { ChatGptMockup } from "./mockups/ChatGptMockup";
 import { ClaudeCodeMockup } from "./mockups/ClaudeCodeMockup";
 import { MiroMockup } from "./mockups/MiroMockup";
 import { ScribbleMockup } from "./mockups/ScribbleMockup";
+import { WindowChrome } from "./mockups/WindowChrome";
 import styles from "./DemoStage.module.css";
 
 function renderMockup(active: string) {
@@ -25,6 +26,12 @@ function renderMockup(active: string) {
 export function DemoStage({ active, cycle }: { active: string; cycle: number }) {
   return (
     <div className={styles.stage}>
+      {/* Persistent empty window frame so the border/chrome never
+          disappears during the exit → enter gap between slides. */}
+      <div className={styles.base} aria-hidden="true">
+        <WindowChrome app="base" title="">{null}</WindowChrome>
+      </div>
+
       <AnimatePresence mode="wait">
         <motion.div
           key={`${active}-${cycle}`}

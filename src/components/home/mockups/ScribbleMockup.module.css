@@ -165,7 +165,7 @@
   height: 5px;
   border-radius: 50%;
   background: var(--sc-text-faint);
-  animation: sc-bounce 1s ease-in-out infinite;
+  animation: kili-dot-bounce 1s ease-in-out infinite;
 }
 
 .dots i:nth-child(2) { animation-delay: 0.15s; }
@@ -310,7 +310,3 @@
   background: var(--sc-surface);
 }
 
-@keyframes sc-bounce {
-  0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
-  30% { transform: translateY(-3px); opacity: 1; }
-}

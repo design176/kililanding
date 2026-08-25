@@ -2,66 +2,59 @@
 
 import { useEffect, useRef, useState } from "react";
 import { ArrowUp, ArrowUpRight, Robot } from "@phosphor-icons/react";
+import { useAutoScrollToBottom } from "@/lib/use-auto-scroll";
+import { useTimedSteps } from "@/lib/use-timed-steps";
+import { useTypewriter } from "@/lib/use-typewriter";
 import { WindowChrome } from "./WindowChrome";
 import styles from "./ScribbleMockup.module.css";
 
 const QUESTION = "Summarise the Scribble docs";
 
-// Generic skeleton backdrop — stands in for the real Scribble page behind
-// the widget, instead of embedding a live iframe.
+/** How long the assistant "reads the docs" before answering. */
+const THINKING_MS = 2600;
+
+/** Reveal schedule for the three answer paragraphs, in ms from phase 2. */
+const ANSWER_DELAYS = [200, 900, 1600];
+
+const BACKDROP_LINE_WIDTHS = ["70%", "88%", "60%"];
+const BACKDROP_TAIL_WIDTHS = ["78%", "52%"];
+
+/** Generic page skeleton behind the widget — cheaper than embedding a live site. */
 function SkeletonBackdrop() {
   return (
     <div className={styles.backdrop}>
       <div className={styles.backdropBar} />
-      <div className={styles.backdropLine} style={{ width: "70%" }} />
-      <div className={styles.backdropLine} style={{ width: "88%" }} />
-      <div className={styles.backdropLine} style={{ width: "60%" }} />
+      {BACKDROP_LINE_WIDTHS.map((width) => (
+        <div key={width} className={styles.backdropLine} style={{ width }} />
+      ))}
       <div className={styles.backdropBlock} />
-      <div className={styles.backdropLine} style={{ width: "78%" }} />
-      <div className={styles.backdropLine} style={{ width: "52%" }} />
+      {BACKDROP_TAIL_WIDTHS.map((width) => (
+        <div key={width} className={styles.backdropLine} style={{ width }} />
+      ))}
     </div>
   );
 }
 
 export function ScribbleMockup() {
-  // 0 = typing question, 1 = thinking (sponsored card shown), 2 = answer
+  // 0 = typing the question, 1 = thinking (sponsored card shown), 2 = answering.
   const [phase, setPhase] = useState<0 | 1 | 2>(0);
-  const [typedQuestion, setTypedQuestion] = useState("");
-  const [answerStage, setAnswerStage] = useState(0);
   const chatRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (phase !== 0 || typedQuestion === QUESTION) return;
-    const timer = window.setTimeout(() => setTypedQuestion(QUESTION.slice(0, typedQuestion.length + 1)), 45);
-    return () => window.clearTimeout(timer);
-  }, [phase, typedQuestion]);
-
-  // Auto-send shortly after typing finishes — no press-Enter cue.
-  useEffect(() => {
-    if (phase !== 0 || typedQuestion !== QUESTION) return;
-    const timer = window.setTimeout(() => setPhase(1), 700);
-    return () => window.clearTimeout(timer);
-  }, [phase, typedQuestion]);
+  const typedQuestion = useTypewriter(QUESTION, {
+    enabled: phase === 0,
+    speed: 45,
+    settleMs: 700,
+    onSettle: () => setPhase(1),
+  });
 
   useEffect(() => {
     if (phase !== 1) return;
-    const timer = window.setTimeout(() => setPhase(2), 2600);
+    const timer = window.setTimeout(() => setPhase(2), THINKING_MS);
     return () => window.clearTimeout(timer);
   }, [phase]);
 
-  useEffect(() => {
-    if (phase !== 2) return;
-    const timers = [
-      window.setTimeout(() => setAnswerStage(1), 200),
-      window.setTimeout(() => setAnswerStage(2), 900),
-      window.setTimeout(() => setAnswerStage(3), 1600),
-    ];
-    return () => timers.forEach((t) => window.clearTimeout(t));
-  }, [phase]);
-
-  useEffect(() => {
-    chatRef.current?.scrollTo({ top: chatRef.current.scrollHeight, behavior: "smooth" });
-  }, [answerStage, phase]);
+  const answerStage = useTimedSteps(ANSWER_DELAYS, { enabled: phase === 2 });
+  useAutoScrollToBottom(chatRef, `${phase}-${answerStage}`);
 
   return (
     <WindowChrome app="scribble" title="Scribble">
@@ -127,7 +120,12 @@ export function ScribbleMockup() {
           </div>
 
           <div className={styles.inputRow}>
-            <input value={phase === 0 ? typedQuestion : ""} placeholder={phase === 0 ? "" : "Ask a follow-up…"} readOnly aria-label="Ask Docs Assistant" />
+            <input
+              value={phase === 0 ? typedQuestion : ""}
+              placeholder={phase === 0 ? "" : "Ask a follow-up…"}
+              readOnly
+              aria-label="Ask Docs Assistant"
+            />
             <button type="button" aria-label="Send message"><ArrowUp size={13} weight="bold" /></button>
           </div>
           <footer>Powered by Kili Ad Network</footer>

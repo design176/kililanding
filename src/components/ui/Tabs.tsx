@@ -1,4 +1,5 @@
 import { Button, type ButtonProps } from "./Button";
+import { cx } from "@/lib/cx";
 import styles from "./Tabs.module.css";
 
 export type TabItem = {
@@ -28,7 +29,7 @@ export function Tabs({
   className,
 }: TabsProps) {
   return (
-    <div className={`${styles.track} ${pill ? styles.trackPill : ""} ${className ?? ""}`}>
+    <div className={cx(styles.track, pill && styles.trackPill, className)}>
       {items.map((item) => (
         <Button
           key={item.value}
@@ -36,7 +37,7 @@ export function Tabs({
           variant={item.value === value ? activeVariant : "ghost"}
           size={size}
           pill={pill}
-          className={item.value === value ? "" : styles.inactiveTab}
+          className={item.value === value ? undefined : styles.inactiveTab}
           onClick={() => onChange(item.value)}
         >
           {item.label}

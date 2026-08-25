@@ -1,4 +1,5 @@
 import { forwardRef, type ButtonHTMLAttributes } from "react";
+import { cx } from "@/lib/cx";
 import styles from "./Button.module.css";
 
 type Variant = "primary" | "secondary" | "ghost" | "destructive" | "accent";
@@ -17,16 +18,20 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
   { variant = "primary", size = "md", forceState, pill, className, ...props },
   ref
 ) {
-  const classes = [
-    styles.btn,
-    styles[size],
-    styles[variant],
-    variant !== "ghost" ? styles.glossy : "",
-    pill ? styles.pill : "",
-    className ?? "",
-  ]
-    .filter(Boolean)
-    .join(" ");
-
-  return <button ref={ref} className={classes} data-force={forceState} {...props} />;
+  return (
+    <button
+      ref={ref}
+      data-force={forceState}
+      className={cx(
+        styles.btn,
+        styles[size],
+        styles[variant],
+        // Ghost is the one variant with no fill to put a gloss on.
+        variant !== "ghost" && styles.glossy,
+        pill && styles.pill,
+        className
+      )}
+      {...props}
+    />
+  );
 });

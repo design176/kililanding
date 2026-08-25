@@ -1,33 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { PlatformPicker, PlatformId } from "@/components/PlatformPicker";
 import { AnimatePresence, motion } from "motion/react";
+import { PlatformPicker, type PlatformId } from "@/components/PlatformPicker";
+import { cx } from "@/lib/cx";
+import { isHandle, validateContact, validateProductUrl } from "@/lib/signup";
 import styles from "./SignupForm.module.css";
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
 type FormStatus = "idle" | "loading" | "success" | "error";
-
-function validateUrl(val: string): string | null {
-  if (!val) return null; // optional field
-  try {
-    const withScheme = val.includes("://") ? val : `https://${val}`;
-    const url = new URL(withScheme);
-    if (!url.hostname.includes(".")) throw new Error();
-    return null;
-  } catch {
-    return "enter a valid url like yourproduct.com";
-  }
-}
-
-function validateContact(val: string): string | null {
-  if (!val) return "leave an email or a @handle so we can reach you.";
-  if (val.startsWith("@")) {
-    return val.length < 4 ? "please check if the username is correct." : null;
-  }
-  return EMAIL_RE.test(val) ? null : "that doesn't look like a valid email.";
-}
+type FieldErrors = { site?: boolean; contact?: boolean };
 
 export function SignupForm({ flush }: { flush?: boolean }) {
   const [site, setSite] = useState("");
@@ -35,25 +16,22 @@ export function SignupForm({ flush }: { flush?: boolean }) {
   const [platform, setPlatform] = useState<PlatformId>("x");
   const [status, setStatus] = useState<FormStatus>("idle");
   const [note, setNote] = useState("");
-  const [siteError, setSiteError] = useState(false);
-  const [contactError, setContactError] = useState(false);
+  const [errors, setErrors] = useState<FieldErrors>({});
 
-  const isHandle = contact.startsWith("@");
+  const locked = status === "loading" || status === "success";
 
   const handleSubmit = async () => {
-    const urlErr = validateUrl(site);
-    const contactErr = validateContact(contact);
+    const siteError = validateProductUrl(site);
+    const contactError = validateContact(contact);
 
-    if (urlErr || contactErr) {
-      setSiteError(!!urlErr);
-      setContactError(!!contactErr);
+    if (siteError || contactError) {
+      setErrors({ site: !!siteError, contact: !!contactError });
       setStatus("error");
-      setNote(urlErr ?? contactErr ?? "");
+      setNote(siteError ?? contactError ?? "");
       return;
     }
 
-    setSiteError(false);
-    setContactError(false);
+    setErrors({});
     setStatus("loading");
     setNote("");
 
@@ -64,10 +42,9 @@ export function SignupForm({ flush }: { flush?: boolean }) {
         body: JSON.stringify({
           product: site.trim(),
           contact: contact.trim(),
-          platform: isHandle ? platform : "email",
+          platform,
         }),
       });
-
       const data = await res.json();
 
       if (!res.ok) {
@@ -86,12 +63,27 @@ export function SignupForm({ flush }: { flush?: boolean }) {
     }
   };
 
+  /** Props every field shares: same styling, same disabled rule, Enter submits. */
+  const fieldProps = (field: keyof FieldErrors, setValue: (value: string) => void) => ({
+    spellCheck: false,
+    disabled: locked,
+    className: cx(styles.input, errors[field] && styles.inputError),
+    onKeyDown: (event: React.KeyboardEvent) => {
+      if (event.key === "Enter") handleSubmit();
+    },
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
+      setValue(event.target.value);
+      if (errors[field]) setErrors((current) => ({ ...current, [field]: false }));
+    },
+  });
+
   return (
     <div className={flush ? styles.captureFlush : styles.capture}>
       <p className={styles.lede}>
         Building an AI product?<br />
         <span className={styles.ledeSpan}>Tell us where to find you.</span>
       </p>
+
       <div className={styles.fields}>
         <label htmlFor="site" className={styles.srOnly}>product url</label>
         <input
@@ -99,16 +91,10 @@ export function SignupForm({ flush }: { flush?: boolean }) {
           type="url"
           placeholder="yourproduct.com"
           autoComplete="url"
-          spellCheck={false}
           value={site}
-          disabled={status === "loading" || status === "success"}
-          onChange={(e) => {
-            setSite(e.target.value);
-            if (siteError) setSiteError(false);
-          }}
-          onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
-          className={[styles.input, siteError ? styles.inputError : ""].join(" ")}
+          {...fieldProps("site", setSite)}
         />
+
         <div className={styles.field}>
           <label htmlFor="contact" className={styles.srOnly}>email or @handle</label>
           <input
@@ -118,19 +104,13 @@ export function SignupForm({ flush }: { flush?: boolean }) {
             placeholder="email or @handle"
             autoComplete="email"
             autoCapitalize="off"
-            spellCheck={false}
             value={contact}
-            disabled={status === "loading" || status === "success"}
-            onChange={(e) => {
-              setContact(e.target.value);
-              if (contactError) setContactError(false);
-            }}
-            onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
-            className={[styles.input, contactError ? styles.inputError : ""].join(" ")}
+            {...fieldProps("contact", setContact)}
           />
 
+          {/* The platform picker only means anything for an @handle. */}
           <AnimatePresence>
-            {isHandle && status !== "success" && (
+            {isHandle(contact) && status !== "success" && (
               <motion.div
                 key="platform"
                 initial={{ opacity: 0, scale: 0.85 }}
@@ -147,20 +127,21 @@ export function SignupForm({ flush }: { flush?: boolean }) {
           <button
             type="button"
             onClick={handleSubmit}
-            disabled={status === "loading" || status === "success"}
-            className={[styles.button, status === "success" ? styles.buttonSuccess : ""].join(" ")}
+            disabled={locked}
+            className={cx(styles.button, status === "success" && styles.buttonSuccess)}
           >
             {status === "loading" ? "Sending…" : status === "success" ? "Sent" : "Send"}
           </button>
         </div>
       </div>
+
       {note && (
         <p
-          className={[
+          className={cx(
             styles.note,
-            status === "success" ? styles.noteSuccess : "",
-            status === "error" ? styles.noteError : "",
-          ].join(" ")}
+            status === "success" && styles.noteSuccess,
+            status === "error" && styles.noteError
+          )}
         >
           {note}
         </p>

@@ -1,108 +1,226 @@
-.chart {
-  display: flex;
-  gap: 20px;
-  align-items: stretch;
-}
+/*
+ * Technical-drawing grid: two inner vertical rules, a hairline between every row,
+ * and a 5px registration tick at each intersection.
+ *
+ * The geometry only works because the row grid has NO column gap — that makes
+ * the column boundaries land exactly on `--label-col-width` and on the midpoint
+ * of the remaining space, which is what the rules and ticks align to. Spacing
+ * lives in each cell's padding instead. Don't reintroduce `gap` here.
+ */
 
-/* ── Label / banner columns — plain rows on the card bg ─────── */
-.grid {
-  flex: 1.6;
-  min-width: 0;
+.chart {
+  --label-col-width: 160px;
+  --rule: 1px;
+  --tick: 5px;
+  /* Left offset that centres a tick on a rule, given the rule's own width. */
+  --tick-inset: calc((var(--tick) - var(--rule)) / 2);
+  /* Breathing room above the first horizontal rule. */
+  --overhang: 10px;
+  --cell-pad-left: 36px;
+  --cell-pad-right: 34px;
+
   display: flex;
   flex-direction: column;
+  gap: 0;
 }
 
-.headRow {
-  display: flex;
+/* ── Column header pills ─────────────────────────────────── */
+.headerRow {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: var(--label-col-width) 1fr 1fr;
   align-items: center;
-  gap: 24px;
-  height: 48px;
-  border-bottom: 1px solid var(--color-border);
+  min-height: 60px;
+  overflow: hidden;
 }
 
-.headLabel {
-  width: 200px;
-  flex-shrink: 0;
+.headerRow::before,
+.headerRow::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: var(--rule);
+  background: var(--color-border);
+  pointer-events: none;
 }
 
-.headBanner {
-  flex: 1;
-  font-family: var(--font-body);
-  font-weight: 700;
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-text-subtle);
+.headerRow::before {
+  left: var(--label-col-width);
 }
 
-.row {
-  display: flex;
+.headerRow::after {
+  left: calc((100% + var(--label-col-width)) / 2);
+}
+
+.pillMuted {
+  grid-column: 2;
+}
+
+.pillMuted,
+.pillBrand {
+  display: inline-flex;
   align-items: center;
-  gap: 24px;
-  min-height: 72px;
-  border-bottom: 1px solid var(--color-border);
-}
-
-.row:last-child {
-  border-bottom: none;
-}
-
-.label {
-  width: 200px;
-  flex-shrink: 0;
-  font-family: var(--font-body);
-  font-weight: 700;
-  font-size: 15px;
-  color: var(--color-text-primary);
-}
-
-.banner {
-  flex: 1;
-  font-family: var(--font-body);
+  justify-self: start;
+  /* Line the pill up with the marker in the column beneath it. */
+  margin-left: calc(var(--cell-pad-left) + var(--rule));
+  padding: 5px 12px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
   font-weight: 500;
-  font-size: 15px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.pillMuted {
+  background: var(--color-surface-4);
+  color: var(--color-text-secondary);
+}
+
+.pillBrand {
+  background: var(--color-brand);
+  color: var(--color-on-brand);
+}
+
+/* ── The grid ────────────────────────────────────────────────
+   The comparison section owns the outer rails so they run continuously
+   from the Protect divider. This table only paints its horizontal rules;
+   the two inner verticals remain exact cell borders. ─────────────────── */
+.table {
+  position: relative;
+  padding: var(--overhang) 0 0;
+}
+
+/* Horizontal rule + a tick at the label boundary. The second inner tick,
+   between the two value columns, is anchored to its owning cell below.
+   The section rails stay clean without registration squares. */
+.table::before,
+.table::after,
+.tableRow:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: var(--tick);
+  background-image:
+    linear-gradient(var(--color-border-strong), var(--color-border-strong)),
+    linear-gradient(var(--color-border), var(--color-border));
+  background-repeat: no-repeat;
+  background-position:
+    calc(var(--label-col-width) - var(--tick-inset)) center,
+    center center;
+  background-size:
+    var(--tick) var(--tick),
+    100% var(--rule);
+  pointer-events: none;
+}
+
+.table::before {
+  top: calc(var(--overhang) - var(--tick) / 2);
+}
+
+.table::after {
+  bottom: calc(-1 * var(--tick) / 2);
+}
+
+.tableRow {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--label-col-width) 1fr 1fr;
+  min-height: 110px;
+}
+
+.tableRow:not(:last-child)::after {
+  bottom: calc(-1 * var(--tick) / 2);
+}
+
+/* ── Cells ───────────────────────────────────────────────── */
+.rowLabel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 28px 16px 28px 12px;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 13px;
   line-height: 1.4;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   color: var(--color-text-muted);
 }
 
-/* ── Floating "Kili" card — pops above/below the row grid ───── */
-.kiliCard {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  margin: -12px 0;
-  padding: 12px 24px;
-  border-radius: 16px;
-  background: #0a0a0a;
-  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.4);
-}
-
-.kiliHead {
-  display: flex;
+.labelIconBox {
+  flex-shrink: 0;
+  display: inline-flex;
   align-items: center;
-  height: 48px;
-  font-family: var(--font-body);
-  font-weight: 800;
-  font-size: 12px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-brand);
+  justify-content: center;
+  width: 29px;
+  height: 29px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 4px;
+  background: var(--color-surface-1);
 }
 
-.kiliRow {
+.labelIconBox svg {
+  color: var(--color-text-subtle);
+}
+
+.rowValue {
+  position: relative;
   display: flex;
-  align-items: center;
-  min-height: 72px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  align-items: flex-start;
+  gap: 14px;
+  padding: 24px var(--cell-pad-right) 24px var(--cell-pad-left);
+  border-left: var(--rule) solid var(--color-border);
   font-family: var(--font-body);
-  font-weight: 700;
-  font-size: 15px;
-  line-height: 1.4;
-  color: #ffffff;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--color-text-tertiary);
 }
 
-.kiliRow:last-child {
-  border-bottom: none;
+/* The fourth tick, on the rule between the two value columns. Every row draws
+   one on its own top rule; the last row adds one on the table's bottom rule,
+   which covers all N+1 horizontal rules without a fixed row height. */
+.rowValue:last-child::before,
+.tableRow:last-child .rowValue:last-child::after {
+  content: "";
+  position: absolute;
+  /* Offsets are from the padding box, so the cell's own border is added back. */
+  left: calc(-1 * (var(--tick-inset) + var(--rule)));
+  width: var(--tick);
+  height: var(--tick);
+  background: var(--color-border-strong);
+  pointer-events: none;
+}
+
+.rowValue:last-child::before {
+  top: calc(-1 * var(--tick) / 2);
+}
+
+.tableRow:last-child .rowValue:last-child::after {
+  bottom: calc(-1 * var(--tick) / 2);
+}
+
+.xIcon {
+  flex-shrink: 0;
+  margin-top: 6px;
+  color: var(--color-danger);
+}
+
+.squareBullet {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  margin-top: 10px;
+  background: var(--color-brand);
+}
+
+.kiliValue {
+  color: var(--color-text-secondary);
+  font-weight: 400;
 }
 
 /* ── Mobile: one self-contained card per dimension ───────────
@@ -110,45 +228,68 @@
    lists that require scrolling back and forth to match up. ── */
 .mobileRows {
   display: none;
+  border: 1px solid var(--color-border);
 }
 
 .mobileCard {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  padding: 16px 0;
+  gap: 24px;
+  padding: 28px 20px;
 }
 
 .mobileCard:first-child {
-  padding-top: 0;
+  padding-top: 28px;
+}
+
+.mobileCard + .mobileCard {
+  border-top: 1px solid var(--color-border);
 }
 
 .mobileDivider {
-  border: none;
-  border-top: 1px solid var(--color-border);
-  margin: 0 0 6px;
+  display: none;
+}
+
+.mobileDivider::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--color-border-strong), var(--color-border-strong)),
+    linear-gradient(var(--color-border-strong), var(--color-border-strong)),
+    linear-gradient(var(--color-border), var(--color-border));
+  background-repeat: no-repeat;
+  background-position:
+    calc(-1 * var(--tick-inset)) center,
+    calc(100% + var(--tick-inset)) center,
+    center center;
+  background-size:
+    var(--tick) var(--tick),
+    var(--tick) var(--tick),
+    100% var(--rule);
 }
 
 .mobileLabel {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-family: var(--font-heading);
-  font-weight: 700;
-  font-size: 20px;
-  letter-spacing: -0.01em;
-  color: var(--color-brand);
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
 }
 
 .mobileLabelIcon {
   flex-shrink: 0;
-  color: var(--color-brand);
+  color: var(--color-text-subtle);
 }
 
 .mobileField {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 10px;
 }
 
 .mobileFieldLabel,
@@ -156,55 +297,72 @@
   position: relative;
   display: inline-flex;
   align-items: center;
-  padding-left: 26px;
-  font-family: var(--font-body);
-  font-weight: 700;
-  font-size: 16px;
-  letter-spacing: 0.06em;
+  padding-left: 32px;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 1.3;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
-.mobileFieldBullet {
-  position: absolute;
-  left: 8px;
-  flex-shrink: 0;
-  color: var(--color-text-primary);
-}
-
 .mobileFieldLabel {
-  color: var(--color-text-primary);
+  color: var(--color-danger-text);
 }
 
 .mobileFieldLabelKili {
-  color: var(--color-text-primary);
+  color: var(--color-brand-text);
+}
+
+.mobileFieldBulletX {
+  position: absolute;
+  left: 6px;
+  flex-shrink: 0;
+  color: var(--color-danger);
+}
+
+.mobileFieldBulletSquare {
+  position: absolute;
+  left: 7px;
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  background: var(--color-brand);
+}
+
+.mobileBannerValue,
+.mobileKiliValue {
+  margin-left: 32px;
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.55;
 }
 
 .mobileBannerValue {
-  margin-left: 26px;
-  font-family: var(--font-body);
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 1.4;
+  font-weight: 400;
   color: var(--color-text-muted);
 }
 
 .mobileKiliValue {
-  margin-left: 26px;
-  font-family: var(--font-body);
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 1.4;
-  color: var(--color-text-muted);
+  font-weight: 400;
+  color: var(--color-text-primary);
 }
 
-@media (max-width: 860px) {
-  .grid,
-  .kiliCard {
+@media (max-width: 1000px) {
+  .headerRow,
+  .table {
     display: none;
   }
 
   .mobileRows {
     display: flex;
     flex-direction: column;
+    margin-inline: 24px;
+  }
+}
+
+@media (max-width: 640px) {
+  .mobileRows {
+    margin-inline: 0;
   }
 }

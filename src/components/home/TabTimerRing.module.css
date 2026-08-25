@@ -18,10 +18,3 @@
     stroke-dashoffset: 0;
   }
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .progress {
-    animation: none;
-    stroke-dashoffset: 0;
-  }
-}

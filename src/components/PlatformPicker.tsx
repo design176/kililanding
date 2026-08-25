@@ -11,6 +11,7 @@ import {
   YoutubeLogo,
   CaretDown,
 } from "@phosphor-icons/react";
+import { cx } from "@/lib/cx";
 import styles from "./PlatformPicker.module.css";
 
 export const PLATFORMS = [
@@ -97,10 +98,7 @@ export function PlatformPicker({ value, onChange, disabled }: Props) {
                 aria-label={label}
                 title={label}
                 onClick={() => { onChange(id); setOpen(false); }}
-                className={[
-                  styles.option,
-                  value === id ? styles.optionActive : "",
-                ].join(" ")}
+                className={cx(styles.option, value === id && styles.optionActive)}
               >
                 <Icon size={16} weight={value === id ? "fill" : "regular"} />
               </button>

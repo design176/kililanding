@@ -2,6 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { cx } from "@/lib/cx";
+import { useAutoScrollToBottom } from "@/lib/use-auto-scroll";
+import { useTypewriter } from "@/lib/use-typewriter";
 import { WindowChrome } from "./WindowChrome";
 import styles from "./ClaudeCodeMockup.module.css";
 
@@ -22,64 +25,69 @@ const RESPONSE_LINES = [
   { kind: "deployment-options", text: "I found three good deployment paths for this project." },
 ] as const;
 
+/** Character offset at the end of each line, so streaming is a single counter. */
+const LINE_ENDS = RESPONSE_LINES.map((_, index) =>
+  RESPONSE_LINES.slice(0, index + 1).reduce((total, line) => total + line.text.length, 0)
+);
+const TOTAL_LENGTH = LINE_ENDS[LINE_ENDS.length - 1];
+
+const STREAM_START_MS = 400;
+const CHARS_PER_TICK = 3;
+const TICK_MS = 16;
+/** Beat held at the end of each line, so output reads as discrete steps. */
+const LINE_PAUSE_MS = 260;
+
+const DEPLOYMENT_OPTIONS = [
+  { name: "Vercel", detail: "Zero-config Next.js deployment" },
+  { name: "Render", detail: "Managed web service with simple scaling" },
+];
+
 export function ClaudeCodeMockup() {
-  const [step, setStep] = useState<0 | 1>(0);
-  const [typedQuery, setTypedQuery] = useState("");
-  const [responseLength, setResponseLength] = useState(0);
+  const [started, setStarted] = useState(false);
+  const [streamed, setStreamed] = useState(0);
   const transcriptRef = useRef<HTMLDivElement>(null);
 
-  // Type the query, then auto-submit shortly after (no press-Enter cue).
-  useEffect(() => {
-    if (step !== 0 || typedQuery === QUERY) return;
-    const timer = window.setTimeout(() => setTypedQuery(QUERY.slice(0, typedQuery.length + 1)), 42);
-    return () => window.clearTimeout(timer);
-  }, [step, typedQuery]);
+  const typedQuery = useTypewriter(QUERY, {
+    enabled: !started,
+    speed: 42,
+    settleMs: 700,
+    onSettle: () => setStarted(true),
+  });
 
+  // Stream the response character by character, pausing at every line break.
   useEffect(() => {
-    if (step !== 0 || typedQuery !== QUERY) return;
-    const timer = window.setTimeout(() => setStep(1), 700);
-    return () => window.clearTimeout(timer);
-  }, [step, typedQuery]);
+    if (!started) return;
 
-  // Stream the response, character by character, with pauses at line breaks.
-  useEffect(() => {
-    if (step !== 1) return;
-
-    const totalLength = RESPONSE_LINES.reduce((total, line) => total + line.text.length, 0);
-    const lineEnds = RESPONSE_LINES.map((_, index) =>
-      RESPONSE_LINES.slice(0, index + 1).reduce((total, line) => total + line.text.length, 0)
-    );
-    let currentLength = 0;
+    let length = 0;
     let timer: number | undefined;
 
     const typeNext = () => {
-      currentLength = Math.min(currentLength + 3, totalLength);
-      setResponseLength(currentLength);
-      if (currentLength >= totalLength) return;
+      length = Math.min(length + CHARS_PER_TICK, TOTAL_LENGTH);
+      setStreamed(length);
+      if (length >= TOTAL_LENGTH) return;
 
-      const crossedLineEnd = lineEnds.some(
-        (end) => currentLength >= end && currentLength - 3 < end
+      const justFinishedLine = LINE_ENDS.some(
+        (end) => length >= end && length - CHARS_PER_TICK < end
       );
-      timer = window.setTimeout(typeNext, crossedLineEnd ? 260 : 16);
+      timer = window.setTimeout(typeNext, justFinishedLine ? LINE_PAUSE_MS : TICK_MS);
     };
 
-    timer = window.setTimeout(typeNext, 400);
+    timer = window.setTimeout(typeNext, STREAM_START_MS);
     return () => window.clearTimeout(timer);
-  }, [step]);
+  }, [started]);
 
-  useEffect(() => {
-    transcriptRef.current?.scrollTo({ top: transcriptRef.current.scrollHeight, behavior: "smooth" });
-  }, [responseLength]);
+  useAutoScrollToBottom(transcriptRef, streamed);
 
-  function visibleLine(index: number) {
-    const consumed = RESPONSE_LINES.slice(0, index).reduce((t, l) => t + l.text.length, 0);
-    return RESPONSE_LINES[index].text.slice(0, Math.max(0, responseLength - consumed));
+  /** How much of a given line has been streamed so far. */
+  function visibleText(index: number) {
+    const start = LINE_ENDS[index] - RESPONSE_LINES[index].text.length;
+    return RESPONSE_LINES[index].text.slice(0, Math.max(0, streamed - start));
   }
 
-  return (
-    <WindowChrome app="claude" title="Claude Code">
-      <div className={styles.tui}>
-        {step === 0 ? (
+  if (!started) {
+    return (
+      <WindowChrome app="claude" title="Claude Code">
+        <div className={styles.tui}>
           <div className={styles.startScreen}>
             <div className={styles.identity}>
               <Image src="/assets/claude-code.svg" alt="" width={56} height={56} priority />
@@ -102,84 +110,86 @@ export function ClaudeCodeMockup() {
               </div>
             </div>
           </div>
-        ) : (
-          <>
-            <div className={styles.sessionHeader}>
-              <div className={styles.sessionBrand}>
-                <Image src="/assets/claude-code.svg" alt="" width={26} height={26} />
-                <div>
-                  <strong>Claude Code</strong>
-                  <span>Sonnet 4.5 · ~/project/kili</span>
-                </div>
-              </div>
-              <span>Deployment Expert MCP</span>
+        </div>
+      </WindowChrome>
+    );
+  }
+
+  return (
+    <WindowChrome app="claude" title="Claude Code">
+      <div className={styles.tui}>
+        <div className={styles.sessionHeader}>
+          <div className={styles.sessionBrand}>
+            <Image src="/assets/claude-code.svg" alt="" width={26} height={26} />
+            <div>
+              <strong>Claude Code</strong>
+              <span>Sonnet 4.5 · ~/project/kili</span>
             </div>
+          </div>
+          <span>Deployment Expert MCP</span>
+        </div>
 
-            <div className={styles.transcript} ref={transcriptRef}>
-              <div className={styles.userPrompt}>
-                <span>❯</span> {QUERY}
-              </div>
-              <div className={styles.response} aria-live="polite">
-                {RESPONSE_LINES.map((line, index) => {
-                  const visible = visibleLine(index);
-                  if (!visible) return null;
+        <div className={styles.transcript} ref={transcriptRef}>
+          <div className={styles.userPrompt}>
+            <span>❯</span> {QUERY}
+          </div>
 
-                  if (line.kind === "deployment-options") {
-                    return (
-                      <section className={styles.deploymentOptions} key={line.text}>
-                        <p>
-                          {visible}
-                          {visible.length < line.text.length && <i className={styles.streamCaret} />}
-                        </p>
-                        <div className={styles.option}>
-                          <strong>Vercel</strong>
-                          <small>Zero-config Next.js deployment</small>
-                        </div>
-                        <div className={styles.option}>
-                          <strong>Render</strong>
-                          <small>Managed web service with simple scaling</small>
-                        </div>
-                        <div className={`${styles.option} ${styles.sponsored}`}>
-                          <div className={styles.optionHeading}>
-                            <strong>Railway</strong>
-                            <span>Kili Sponsored Ad</span>
-                          </div>
-                          <p>Managed builds, environment variables, and preview environments. Get $5 in free credits.</p>
-                          {visible.length === line.text.length && (
-                            <button type="button">Set up Railway and get started →</button>
-                          )}
-                        </div>
-                      </section>
-                    );
-                  }
+          <div className={styles.response} aria-live="polite">
+            {RESPONSE_LINES.map((line, index) => {
+              const visible = visibleText(index);
+              if (!visible) return null;
+              const streaming = visible.length < line.text.length;
 
-                  return (
-                    <p className={`${styles.line} ${styles[line.kind]}`} key={line.text}>
+              if (line.kind === "deployment-options") {
+                return (
+                  <section className={styles.deploymentOptions} key={line.text}>
+                    <p>
                       {visible}
-                      {visible.length < line.text.length && (
-                        <span className={styles.streamCaret} aria-hidden="true" />
-                      )}
+                      {streaming && <i className={styles.streamCaret} />}
                     </p>
-                  );
-                })}
-              </div>
-            </div>
 
-            <div className={styles.composerWrap}>
-              <div className={styles.followup}>
-                <span>❯</span>
-                <div className={styles.followupMeta}>
-                  <span>Sonnet 4.5</span>
-                  <span>Deployment Expert MCP connected</span>
-                </div>
-              </div>
-              <div className={styles.shortcuts}>
-                <span>esc to interrupt</span>
-                <span>shift+tab cycle mode &nbsp;·&nbsp; ? shortcuts</span>
-              </div>
+                    {DEPLOYMENT_OPTIONS.map(({ name, detail }) => (
+                      <div className={styles.option} key={name}>
+                        <strong>{name}</strong>
+                        <small>{detail}</small>
+                      </div>
+                    ))}
+
+                    <div className={cx(styles.option, styles.sponsored)}>
+                      <div className={styles.optionHeading}>
+                        <strong>Railway</strong>
+                        <span>Kili Sponsored Ad</span>
+                      </div>
+                      <p>Managed builds, environment variables, and preview environments. Get $5 in free credits.</p>
+                      {!streaming && <button type="button">Set up Railway and get started →</button>}
+                    </div>
+                  </section>
+                );
+              }
+
+              return (
+                <p className={cx(styles.line, styles[line.kind])} key={line.text}>
+                  {visible}
+                  {streaming && <span className={styles.streamCaret} aria-hidden="true" />}
+                </p>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className={styles.composerWrap}>
+          <div className={styles.followup}>
+            <span>❯</span>
+            <div className={styles.followupMeta}>
+              <span>Sonnet 4.5</span>
+              <span>Deployment Expert MCP connected</span>
             </div>
-          </>
-        )}
+          </div>
+          <div className={styles.shortcuts}>
+            <span>esc to interrupt</span>
+            <span>shift+tab cycle mode &nbsp;·&nbsp; ? shortcuts</span>
+          </div>
+        </div>
       </div>
     </WindowChrome>
   );

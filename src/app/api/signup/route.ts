@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { neon } from "@neondatabase/serverless";
+import { resolveContactPlatform, validateContact } from "@/lib/signup";
 
 const sql = neon(process.env.DATABASE_URL!);
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
+/**
+ * There is no migration tool on this project, so the table is defined here and
+ * reconciled on every request. Both statements are idempotent.
+ */
 async function ensureTable() {
   await sql`
     CREATE TABLE IF NOT EXISTS coming_soon_signups (
@@ -15,7 +18,6 @@ async function ensureTable() {
       created_at       TIMESTAMPTZ DEFAULT NOW()
     )
   `;
-  // Idempotent — adds column if table existed before this column was introduced
   await sql`
     ALTER TABLE coming_soon_signups
     ADD COLUMN IF NOT EXISTS contact_platform TEXT
@@ -26,41 +28,27 @@ export async function POST(request: NextRequest) {
   try {
     const { product, contact, platform } = await request.json();
 
-    if (!contact || typeof contact !== "string") {
+    if (typeof contact !== "string") {
       return NextResponse.json(
         { error: "leave an email or a @handle so we can reach you." },
         { status: 400 }
       );
     }
 
-    const trimmed = contact.trim();
-    const isHandle = trimmed.startsWith("@");
-
-    if (isHandle) {
-      if (trimmed.length < 2) {
-        return NextResponse.json(
-          { error: "add your handle after the @." },
-          { status: 400 }
-        );
-      }
-    } else {
-      if (!EMAIL_RE.test(trimmed)) {
-        return NextResponse.json(
-          { error: "that doesn't look like a valid email." },
-          { status: 400 }
-        );
-      }
+    const error = validateContact(contact);
+    if (error) {
+      return NextResponse.json({ error }, { status: 400 });
     }
-
-    const contactPlatform: string = isHandle
-      ? (typeof platform === "string" && platform ? platform : "x")
-      : "email";
 
     await ensureTable();
 
     await sql`
       INSERT INTO coming_soon_signups (product_url, contact, contact_platform)
-      VALUES (${product?.trim() || null}, ${trimmed}, ${contactPlatform})
+      VALUES (
+        ${typeof product === "string" ? product.trim() || null : null},
+        ${contact.trim()},
+        ${resolveContactPlatform(contact, typeof platform === "string" ? platform : undefined)}
+      )
     `;
 
     return NextResponse.json({ ok: true });
