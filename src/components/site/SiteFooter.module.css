@@ -109,12 +109,13 @@
   font-size: 15px;
   line-height: 1.4;
   color: var(--color-text-muted);
-  transition: color 160ms ease, transform 160ms ease;
+  text-decoration: none;
+  transition: color 160ms ease;
 }
 
 .navLink:hover {
   color: var(--color-text-primary);
-  transform: translateX(3px);
+  text-decoration: underline;
 }
 
 /* ── Bottom row ──────────────────────────────────────────── */

@@ -184,6 +184,9 @@ body {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  transition: background-color 220ms ease-in-out, border-color 220ms ease-in-out,
+    color 220ms ease-in-out, fill 220ms ease-in-out, stroke 220ms ease-in-out,
+    box-shadow 220ms ease-in-out;
 }
 
 a {

@@ -1,11 +1,6 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
-import {
-  XLogo,
-  InstagramLogo,
-  LinkedinLogo,
-  YoutubeLogo,
-} from "@phosphor-icons/react/dist/ssr";
+import { XLogo } from "@phosphor-icons/react/dist/ssr";
 import { Logo } from "@/components/Logo";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { MoneyNoiseBackground } from "@/components/home/MoneyNoiseBackground";
@@ -13,10 +8,7 @@ import { GetStartedButton } from "@/components/site/GetStartedButton";
 import styles from "./SiteFooter.module.css";
 
 const SOCIALS = [
-  { label: "X", href: "https://x.com/scribble_dao", Icon: XLogo },
-  { label: "Instagram", href: "https://www.instagram.com/0xscribble", Icon: InstagramLogo },
-  { label: "LinkedIn", href: "https://www.linkedin.com/company/0xscribble", Icon: LinkedinLogo },
-  { label: "YouTube", href: "https://www.youtube.com/@0xScribble", Icon: YoutubeLogo },
+  { label: "X", href: "https://x.com/trykili", Icon: XLogo },
 ];
 
 const PRODUCT_LINKS = [
