@@ -13,7 +13,6 @@ const SOCIALS = [
 
 const PRODUCT_LINKS = [
   { label: "For Advertisers", href: "/advertiser" },
-  { label: "For Publishers", href: "/publisher" },
 ];
 
 export function SiteFooter({

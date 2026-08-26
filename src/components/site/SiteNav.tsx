@@ -41,9 +41,6 @@ export function SiteNav() {
             <Link href="/advertiser" onClick={() => setIsMenuOpen(false)}>
               For advertisers
             </Link>
-            <Link href="/publisher" onClick={() => setIsMenuOpen(false)}>
-              For publishers
-            </Link>
           </div>
           <div className={styles.navButtons}>
             <GetStartedButton variant="primary" size="lg" pill>Get Started</GetStartedButton>

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Work_Sans } from 'next/font/google';
 import { GoogleTagManager } from '@next/third-parties/google';
 import { Analytics } from '@vercel/analytics/next';
+import { Retune } from 'retune';
 import { Providers } from './providers';
 import './globals.css';
 
@@ -48,7 +49,12 @@ const isDev = process.env.APP_ENV === 'dev';
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
-    <html lang='en' className={workSans.variable} suppressHydrationWarning>
+    <html
+      lang='en'
+      className={workSans.variable}
+      data-theme='dark'
+      suppressHydrationWarning
+    >
       {!isDev && (
         <>
           <Analytics />
@@ -57,6 +63,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
       )}
       <body>
         <Providers>{children}</Providers>
+        <Retune hotkey='alt+e' />
       </body>
     </html>
   );

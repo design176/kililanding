@@ -1,6 +1,6 @@
 "use client";
 
-import { useTheme } from "next-themes";
+import { useTheme } from "@/components/site/ThemeProvider";
 import { Sun, Moon } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/Button";
 import { useMounted } from "@/lib/use-mounted";

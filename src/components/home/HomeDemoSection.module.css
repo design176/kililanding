@@ -1,0 +1,175 @@
+.comparison {
+  width: min(1040px, calc(100% - 32px));
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) 42px minmax(0, 1.1fr);
+  align-items: center;
+  gap: 14px;
+  padding: 14px 0 30px;
+}
+
+.comparisonSide {
+  min-width: 0;
+}
+
+.activityStrip {
+  min-width: 0;
+  height: 76px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 20px;
+  overflow: hidden;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 22px;
+  background: var(--color-surface-3);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.18);
+  font-family: var(--font-mono);
+}
+
+.activityStripActive {
+  border-color: var(--color-brand-active);
+  box-shadow:
+    0 18px 42px rgba(0, 0, 0, 0.18),
+    inset 0 0 0 1px rgba(34, 197, 94, 0.08);
+  animation: activeGlow 3.2s ease-in-out infinite;
+}
+
+.waitingMark {
+  flex-shrink: 0;
+  color: #d97757;
+  font-size: 18px;
+}
+
+.waitingText {
+  overflow: hidden;
+  color: #d97757;
+  font-size: 17px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.status {
+  flex-shrink: 0;
+  color: var(--color-text-subtle);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.transition {
+  align-self: center;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: var(--color-surface-3);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.24);
+  color: var(--color-brand-hover);
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.transition span {
+  display: grid;
+  place-items: center;
+  line-height: 0;
+  animation: chevronTravel 1.8s ease-in-out infinite;
+}
+
+.transition svg {
+  display: block;
+}
+
+.adLine {
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.kiliLogo {
+  flex-shrink: 0;
+  border-radius: 4px;
+}
+
+.kiliBrand {
+  flex-shrink: 0;
+  color: var(--color-brand-hover);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.kiliMessage {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@keyframes activeGlow {
+  0%,
+  100% {
+    border-color: var(--color-brand-active);
+  }
+
+  50% {
+    border-color: var(--color-brand-hover);
+  }
+}
+
+@keyframes chevronTravel {
+  0%,
+  100% {
+    opacity: 0.32;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 760px) {
+  .comparison {
+    width: min(520px, calc(100% - 24px));
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding-bottom: 24px;
+  }
+
+  .transition {
+    justify-self: center;
+    transform: rotate(90deg);
+  }
+}
+
+@media (max-width: 480px) {
+  .activityStrip {
+    height: 68px;
+    gap: 8px;
+    padding: 0 14px;
+    border-radius: 18px;
+  }
+
+  .waitingText,
+  .kiliBrand {
+    font-size: 13px;
+  }
+
+  .kiliMessage {
+    font-size: 11px;
+  }
+
+  .status {
+    font-size: 10px;
+  }
+}

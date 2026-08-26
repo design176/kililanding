@@ -1,0 +1,441 @@
+.bentoGrid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  background: var(--color-border);
+}
+
+.tile {
+  position: relative;
+  isolation: isolate;
+  min-width: 0;
+  min-height: 390px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 32px;
+  padding: clamp(26px, 3vw, 40px);
+  background:
+    radial-gradient(circle at 82% 78%, rgba(22, 163, 74, 0.07), transparent 34%),
+    var(--color-bg);
+}
+
+.advertisersTile {
+  grid-column: span 7;
+}
+
+.cpmTile {
+  grid-column: span 5;
+}
+
+.payoutTile {
+  grid-column: span 5;
+}
+
+.privacyTile {
+  grid-column: span 7;
+}
+
+.focusTile {
+  grid-column: 1 / -1;
+  min-height: 540px;
+  /* The editor window runs off the bottom edge of the tile, so this one tile
+     drops its bottom padding instead of closing the frame. */
+  padding-bottom: 0;
+  display: grid;
+  grid-template-columns: minmax(230px, 0.72fr) minmax(0, 1.28fr);
+  align-items: center;
+  gap: clamp(40px, 7vw, 96px);
+}
+
+.tileCopy {
+  position: relative;
+  z-index: 3;
+  max-width: 540px;
+}
+
+.kiliMarkHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.eyebrow {
+  display: block;
+  margin-bottom: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-brand);
+}
+
+.tile h2 {
+  max-width: 19ch;
+  font-family: var(--font-heading);
+  font-size: clamp(24px, 2.25vw, 34px);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+  color: var(--color-text-primary);
+}
+
+.tile p {
+  max-width: 47ch;
+  margin-top: 13px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+/* Advertisers */
+.advertiserVisual {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.brandRail {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 22px 36px;
+}
+
+.abstractMark {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 8px 0;
+  color: var(--color-text-primary);
+  opacity: 0.72;
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.abstractMark svg {
+  display: block;
+}
+
+.brandLogo {
+  width: auto;
+  height: 32px;
+  max-width: none;
+  max-height: none;
+  flex-shrink: 0;
+  align-self: flex-start;
+  object-fit: contain;
+}
+
+.partnerStatus {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.partnerStatus svg {
+  color: var(--color-brand);
+}
+
+/* CPM */
+.cpmVisual {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 6px 0 0;
+}
+
+.cpmGraph {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+
+.cpmLegend {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.cpmLegendKili {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-brand);
+}
+
+.cpmLegendKili::before {
+  content: '';
+  width: 14px;
+  height: 2.5px;
+  border-radius: 999px;
+  background: var(--color-brand);
+}
+
+.cpmLegendComp {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-text-subtle);
+}
+
+.cpmLegendComp::before {
+  content: '';
+  width: 14px;
+  height: 2.5px;
+  border-radius: 999px;
+  background: var(--color-text-subtle);
+  opacity: 0.9;
+}
+
+/* Payouts */
+.payoutFlow {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  min-height: 0;
+  padding: 4px 0 0;
+  border: none;
+  border-radius: 0;
+  background: none;
+}
+
+.kiliSource {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: auto;
+  height: auto;
+  background: none;
+  border-radius: 0;
+}
+
+.flowArrow {
+  flex: none;
+  color: var(--color-brand);
+  animation: payout-arrow 1.8s ease-in-out infinite;
+}
+
+.payoutDestinations {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.payoutDestinations span {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  color: var(--color-text-secondary);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.payoutDestinations svg {
+  color: var(--color-brand);
+}
+
+.payoutIconUsdc {
+  width: 22px;
+  height: 22px;
+  flex: none;
+  display: block;
+}
+
+.payoutIconStripe {
+  width: auto;
+  height: 18px;
+  flex: none;
+  display: block;
+}
+
+@keyframes payout-arrow {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(5px); }
+}
+
+/* Privacy */
+.privacyTile {
+  position: relative;
+  overflow: hidden;
+}
+
+.privacyAscii {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  padding: 18px 20px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.35;
+  letter-spacing: 0.14em;
+  color: var(--color-border-strong);
+  opacity: 0.22;
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.privacyAscii > div {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: clip;
+}
+
+.privacyVisual {
+  position: relative;
+  z-index: 1;
+  min-height: 178px;
+  display: grid;
+  place-items: center;
+}
+
+.privacyOrbit {
+  position: absolute;
+  width: min(330px, 80%);
+  height: 130px;
+  border: none;
+  border-radius: 50%;
+}
+
+.privacyOrbit span {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--color-brand-border);
+  border-radius: 50%;
+  background: var(--color-brand-soft);
+  color: var(--color-brand-text);
+}
+
+.privacyOrbit span:nth-child(1) { left: -19px; top: 45px; }
+.privacyOrbit span:nth-child(2) { right: -19px; top: 45px; }
+.privacyOrbit span:nth-child(3) { left: calc(50% - 19px); top: -19px; }
+
+.shield {
+  position: relative;
+  z-index: 2;
+  width: 158px;
+  height: 153px;
+  color: var(--color-brand);
+}
+
+.privacyLabel {
+  position: absolute;
+  z-index: 3;
+  bottom: 2px;
+  padding: 5px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-bg);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-text-muted);
+}
+
+/* Focus */
+.focusVisual {
+  align-self: end;
+  height: clamp(360px, 32vw, 460px);
+  overflow: hidden;
+  border: 1px solid var(--color-border-strong);
+  border-bottom: 0;
+  /* WindowChrome inherits its radius, so it has to be set here. Square at the
+     bottom so the window reads as continuing past the tile. */
+  border-radius: 16px 16px 0 0;
+  box-shadow: var(--shadow-md);
+}
+
+@media (max-width: 900px) {
+  .advertisersTile,
+  .cpmTile,
+  .payoutTile,
+  .privacyTile {
+    grid-column: span 6;
+  }
+
+  .tile {
+    min-height: 370px;
+  }
+
+  .focusTile {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .bentoGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .advertisersTile,
+  .cpmTile,
+  .payoutTile,
+  .privacyTile,
+  .focusTile {
+    grid-column: 1;
+  }
+
+  .tile,
+  .focusTile {
+    min-height: 0;
+    padding: 26px 22px;
+  }
+
+  .focusTile {
+    padding-bottom: 0;
+  }
+
+  /* Stacked chat-over-editor needs the room, or the sponsored line at the
+     bottom of the transcript gets clipped. */
+  .focusVisual {
+    height: 520px;
+  }
+
+  .brandRail {
+    gap: 14px 12px;
+  }
+
+  .brandLogo {
+    max-height: 22px;
+  }
+
+  .payoutFlow {
+    gap: 12px;
+    padding: 15px;
+  }
+
+  .kiliSource {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    font-size: 17px;
+  }
+
+}
