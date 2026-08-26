@@ -1,3 +1,11 @@
+.section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+}
+
 .comparison {
   width: min(1040px, calc(100% - 32px));
   display: grid;
@@ -5,6 +13,19 @@
   align-items: center;
   gap: 14px;
   padding: 14px 0 30px;
+}
+
+/* Platform side of the switcher — one placeholder card holding the same
+   footprint as the comparison so the band does not resize on toggle. */
+.comingSoon {
+  width: min(1040px, calc(100% - 32px));
+  padding: 14px 0 30px;
+}
+
+.comingSoonStrip {
+  justify-content: center;
+  color: var(--color-text-muted);
+  font-size: 17px;
 }
 
 .comparisonSide {
@@ -146,6 +167,11 @@
     padding-bottom: 24px;
   }
 
+  .comingSoon {
+    width: min(520px, calc(100% - 24px));
+    padding-bottom: 24px;
+  }
+
   .transition {
     justify-self: center;
     transform: rotate(90deg);
@@ -171,5 +197,9 @@
 
   .status {
     font-size: 10px;
+  }
+
+  .comingSoonStrip {
+    font-size: 14px;
   }
 }

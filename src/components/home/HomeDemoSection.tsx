@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { CaretRight } from "@phosphor-icons/react";
+import { AudienceSwitcher } from "./AudienceSwitcher";
 import styles from "./HomeDemoSection.module.css";
 
 const ACTIVITY_STEP_MS = 2400;
@@ -33,33 +34,44 @@ function useActivityClock(words: string[]) {
 export function HomeDemoSection() {
   const waiting = useActivityClock(WAITING_WORDS);
   const claude = useActivityClock(CLAUDE_WORDS);
+  const [isPlatform, setIsPlatform] = useState(false);
 
   return (
-    <div className={styles.comparison} aria-label="AI activity without and with Kili">
-      <section className={styles.comparisonSide} aria-label="Without Kili">
-        <div className={styles.activityStrip}>
-          <span className={styles.waitingMark} aria-hidden="true">✳</span>
-          <span className={styles.waitingText}>{waiting.word}...</span>
-          <span className={styles.spacer} />
-          <span className={styles.status}>Working · {waiting.seconds.toFixed(1)}s</span>
-        </div>
-      </section>
+    <div className={styles.section}>
+      <AudienceSwitcher isPlatform={isPlatform} onChange={setIsPlatform} />
 
-      <span className={styles.transition} aria-hidden="true">
-        <span><CaretRight size={18} weight="bold" /></span>
-      </span>
-
-      <section className={styles.comparisonSide} aria-label="With Kili">
-        <div className={`${styles.activityStrip} ${styles.activityStripActive}`}>
-          <div className={styles.adLine}>
-            <Image className={styles.kiliLogo} src="/icon.svg" alt="" width={18} height={18} />
-            <span className={styles.kiliBrand}>[KILI]</span>
-            <span className={styles.kiliMessage}>Get paid on every AI answer.</span>
-            <span className={styles.spacer} />
-            <span className={styles.status}>{claude.word} · {claude.seconds.toFixed(1)}s</span>
-          </div>
+      {isPlatform ? (
+        <div className={styles.comingSoon}>
+          <div className={`${styles.activityStrip} ${styles.comingSoonStrip}`}>Coming soon</div>
         </div>
-      </section>
+      ) : (
+        <div className={styles.comparison} aria-label="AI activity without and with Kili">
+          <section className={styles.comparisonSide} aria-label="Without Kili">
+            <div className={styles.activityStrip}>
+              <span className={styles.waitingMark} aria-hidden="true">✳</span>
+              <span className={styles.waitingText}>{waiting.word}...</span>
+              <span className={styles.spacer} />
+              <span className={styles.status}>Working · {waiting.seconds.toFixed(1)}s</span>
+            </div>
+          </section>
+
+          <span className={styles.transition} aria-hidden="true">
+            <span><CaretRight size={18} weight="bold" /></span>
+          </span>
+
+          <section className={styles.comparisonSide} aria-label="With Kili">
+            <div className={`${styles.activityStrip} ${styles.activityStripActive}`}>
+              <div className={styles.adLine}>
+                <Image className={styles.kiliLogo} src="/icon.svg" alt="" width={18} height={18} />
+                <span className={styles.kiliBrand}>[KILI]</span>
+                <span className={styles.kiliMessage}>Get paid on every AI answer.</span>
+                <span className={styles.spacer} />
+                <span className={styles.status}>{claude.word} · {claude.seconds.toFixed(1)}s</span>
+              </div>
+            </div>
+          </section>
+        </div>
+      )}
     </div>
   );
 }
