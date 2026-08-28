@@ -19,6 +19,7 @@ import {
   Stop,
 } from "@phosphor-icons/react";
 import { BODY_FONTS, HEADING_FONTS } from "@/lib/fonts";
+import { HERO_ANIMATIONS } from "@/lib/heroAnimations";
 import { useSiteSettings } from "@/components/site/SiteSettingsContext";
 import { useMounted } from "@/lib/use-mounted";
 import { WindowChrome } from "./WindowChrome";
@@ -62,17 +63,69 @@ function ThinkingStatusWord() {
   return <>{STATUS_WORDS[frame]}</>;
 }
 
+/** The rotating asterisk glyph Claude Code's CLI uses for its "thinking" spinner. */
+const SPINNER_FRAMES = ["✶", "✳", "✢", "✳"];
+const SPINNER_TICK_MS = 130;
+
+/** Matches the CSS `ccThinkingStrikeDraw` cycle (CodeEditorMockup.module.css):
+ * the line is struck through from 8% to 81% of the shared 6.6s loop, so the
+ * spinner freezes there instead of still cycling underneath a strikethrough. */
+const TERMINAL_CYCLE_MS = 6600;
+const STRUCK_START_MS = 0.13 * TERMINAL_CYCLE_MS;
+const STRUCK_END_MS = 0.89 * TERMINAL_CYCLE_MS;
+
+function ThinkingSpinner() {
+  const [frame, setFrame] = useState(0);
+
+  useEffect(() => {
+    let animationFrame = 0;
+    let lastTick = 0;
+
+    const update = (now: number) => {
+      const cyclePosition = now % TERMINAL_CYCLE_MS;
+      const isStruck = cyclePosition >= STRUCK_START_MS && cyclePosition < STRUCK_END_MS;
+
+      if (!isStruck && now - lastTick >= SPINNER_TICK_MS) {
+        lastTick = now;
+        setFrame((current) => (current + 1) % SPINNER_FRAMES.length);
+      }
+
+      animationFrame = window.requestAnimationFrame(update);
+    };
+
+    animationFrame = window.requestAnimationFrame(update);
+    return () => window.cancelAnimationFrame(animationFrame);
+  }, []);
+
+  return <>{SPINNER_FRAMES[frame]}</>;
+}
+
 const COUNTER_DURATION_MS = 18000;
 const COUNTER_LOOP_MS = 22000;
+
+/** Matches the CSS `ccAdReveal` cycle (CodeEditorMockup.module.css) that
+ * fades the ad block + tooltips in at 17% and starts fading them out at
+ * 77% of the shared 6.6s loop, so the tooltip counters can be phase-locked
+ * to that same reveal instead of ticking on their own independent clock. */
+const AD_VISIBLE_AT_MS = 0.17 * TERMINAL_CYCLE_MS;
+const AD_FADE_OUT_AT_MS = 0.77 * TERMINAL_CYCLE_MS;
+const AD_COUNT_SETTLE_MS = 300;
+const AD_COUNT_START_MS = AD_VISIBLE_AT_MS + AD_COUNT_SETTLE_MS;
+const AD_COUNT_END_MS = AD_FADE_OUT_AT_MS - AD_COUNT_SETTLE_MS;
 
 function LoopingCounter({
   target,
   currency = false,
   seconds = false,
+  syncToAdCycle = false,
 }: {
   target: number;
   currency?: boolean;
   seconds?: boolean;
+  /** Ties the count-up to the shared ad-reveal cycle (see above) instead of
+   * running its own independent loop — for the two tooltip counters that
+   * flank the sponsored ad in `RevenueShowcase`. */
+  syncToAdCycle?: boolean;
 }) {
   const startingValue = target * 0.82;
   const [value, setValue] = useState(startingValue);
@@ -82,8 +135,18 @@ function LoopingCounter({
     const startedAt = performance.now();
 
     const update = (now: number) => {
-      const elapsed = (now - startedAt) % COUNTER_LOOP_MS;
-      const progress = Math.min(elapsed / COUNTER_DURATION_MS, 1);
+      let progress: number;
+
+      if (syncToAdCycle) {
+        const cyclePosition = now % TERMINAL_CYCLE_MS;
+        progress =
+          (cyclePosition - AD_COUNT_START_MS) / (AD_COUNT_END_MS - AD_COUNT_START_MS);
+      } else {
+        const elapsed = (now - startedAt) % COUNTER_LOOP_MS;
+        progress = elapsed / COUNTER_DURATION_MS;
+      }
+      progress = Math.min(Math.max(progress, 0), 1);
+
       const easedProgress = 1 - (1 - progress) ** 3;
 
       setValue(startingValue + (target - startingValue) * easedProgress);
@@ -92,7 +155,7 @@ function LoopingCounter({
 
     animationFrame = window.requestAnimationFrame(update);
     return () => window.cancelAnimationFrame(animationFrame);
-  }, [startingValue, target]);
+  }, [startingValue, target, syncToAdCycle]);
 
   return (
     <>
@@ -168,8 +231,12 @@ function ClaudeCodeTerminal() {
 
       <div className={styles.terminalBody}>
         <div className={styles.ccThinkingLine} aria-hidden="true">
-          <span className={styles.ccThinkingMark}>✳</span>
-          <span className={styles.ccThinkingText}>Thinking</span>
+          <span className={styles.ccThinkingMark}>
+            <ThinkingSpinner />
+          </span>
+          <span className={styles.ccThinkingText}>Thinking&hellip;</span>
+          <span className={styles.ccThinkingMeta}>(thinking with medium effort)</span>
+          <span className={styles.ccThinkingStrike} aria-hidden="true" />
         </div>
 
         <div className={styles.ccAd}>
@@ -453,28 +520,71 @@ export function CodeEditorMockup({ file = PAGE_FILE }: { file?: EditorFile }) {
  * running earnings/tokens callouts, kept from the earlier split-view concept.
  */
 export function RevenueShowcase() {
+  const mounted = useMounted();
+  const { heroAnimationId } = useSiteSettings();
+  const animationType = mounted ? heroAnimationId : HERO_ANIMATIONS[0].id;
+
   return (
     <section className={styles.revenueClaudeShowcase} aria-label="Kili revenue and Claude Code demo">
-      <aside className={`${styles.revenueTooltip} ${styles.earningsTooltip}`} aria-label="Earned with Kili">
-        <span>Earned with Kili</span>
-        <strong aria-label="1,248 dollars and 36 cents earned with Kili">
-          <LoopingCounter target={1248.36} currency />
-        </strong>
-        <svg className={styles.earningsConnector} viewBox="0 0 84 38" aria-hidden="true">
-          <path className={styles.connectorRoute} d="M0 2V31H80" />
-          <path className={styles.connectorArrow} d="M73 26L80 31L73 36" />
-        </svg>
-      </aside>
-      <aside className={`${styles.revenueTooltip} ${styles.tokensTooltip}`} aria-label="Tokens spent">
-        <span>Tokens spent</span>
-        <strong aria-label="48,200 tokens spent">
-          <LoopingCounter target={48200} />
-        </strong>
-        <svg className={styles.tokensConnector} viewBox="0 0 88 38" aria-hidden="true">
-          <path className={styles.connectorRoute} d="M88 2V31H5" />
-          <path className={styles.connectorArrow} d="M12 26L5 31L12 36" />
-        </svg>
-      </aside>
+      {animationType === "v2" ? (
+        <>
+          <aside
+            className={`${styles.revenueTooltip} ${styles.earningsTooltip} ${styles.revenueTooltipAlways}`}
+            aria-label="Money lost, then earned with Kili"
+          >
+            <div className={styles.moneyLostFace}>
+              <span>Money lost</span>
+              <strong className={styles.moneyLostValue}>$12.40</strong>
+            </div>
+            <div className={styles.earnedFace}>
+              <span>Earned with Kili</span>
+              <strong aria-label="1,248 dollars and 36 cents earned with Kili">
+                <LoopingCounter target={1248.36} currency syncToAdCycle />
+              </strong>
+            </div>
+            <svg className={styles.earningsConnector} viewBox="0 0 84 38" aria-hidden="true">
+              <path className={styles.connectorRoute} d="M0 2V31H80" />
+              <path className={styles.connectorArrow} d="M73 26L80 31L73 36" />
+            </svg>
+          </aside>
+          <aside
+            className={`${styles.revenueTooltip} ${styles.tokensTooltip} ${styles.revenueTooltipAlways}`}
+            aria-label="Tokens used"
+          >
+            <span>Tokens used</span>
+            <strong aria-label="48,200 tokens used">
+              <LoopingCounter target={48200} syncToAdCycle />
+            </strong>
+            <svg className={styles.tokensConnector} viewBox="0 0 88 38" aria-hidden="true">
+              <path className={styles.connectorRoute} d="M88 2V31H5" />
+              <path className={styles.connectorArrow} d="M12 26L5 31L12 36" />
+            </svg>
+          </aside>
+        </>
+      ) : (
+        <aside className={`${styles.revenueTooltip} ${styles.earningsTooltip}`} aria-label="Earned with Kili">
+          <span>Earned with Kili</span>
+          <strong aria-label="1,248 dollars and 36 cents earned with Kili">
+            <LoopingCounter target={1248.36} currency />
+          </strong>
+          <svg
+            className={`${styles.earningsConnector} ${styles.earningsConnectorThinking}`}
+            viewBox="0 0 84 20"
+            aria-hidden="true"
+          >
+            <path className={styles.connectorRoute} d="M0 2V14H80" />
+            <path className={styles.connectorArrow} d="M73 9L80 14L73 19" />
+          </svg>
+          <svg
+            className={`${styles.earningsConnector} ${styles.earningsConnectorKili}`}
+            viewBox="0 0 84 38"
+            aria-hidden="true"
+          >
+            <path className={styles.connectorRoute} d="M0 2V31H80" />
+            <path className={styles.connectorArrow} d="M73 26L80 31L73 36" />
+          </svg>
+        </aside>
+      )}
       <ClaudeCodeTerminal />
     </section>
   );

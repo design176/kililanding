@@ -2,7 +2,10 @@
   position: relative;
   box-sizing: border-box;
   width: 100%;
-  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
   padding-inline: 140px;
   overflow: hidden;
   border: 0;
@@ -29,6 +32,7 @@
   font-size: 10px;
   line-height: 1.2;
   pointer-events: none;
+  animation: ccAdReveal 6.6s ease-in-out infinite;
 }
 
 .revenueTooltip strong {
@@ -51,12 +55,49 @@
   right: 8px;
 }
 
+/* Animation 2: tooltips stay visible for the whole cycle (present from the
+   "thinking" phase, not just fading in with the ad below) — overrides the
+   base .revenueTooltip's ccAdReveal animation via the combined selector's
+   higher specificity. */
+.revenueTooltipAlways {
+  animation: none;
+  opacity: 1;
+  transform: none;
+}
+
+/* The two faces of Animation 2's money tooltip, cross-fading into each
+   other during the same windows ccThinkingStrikeDraw draws/erases in. */
+.moneyLostFace,
+.earnedFace {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.moneyLostFace {
+  animation: ccBeforeStruck 6.6s ease-in-out infinite;
+}
+
+.earnedFace {
+  animation: ccAfterStruck 6.6s ease-in-out infinite;
+}
+
+/* Must be scoped with .earningsTooltip (two classes) — the existing
+   `.earningsTooltip strong` rule is the same specificity tier as a lone
+   class and would otherwise win and render this green instead of orange. */
+.earningsTooltip .moneyLostValue {
+  color: #d97757;
+}
+
 .earningsConnector,
 .tokensConnector {
   position: absolute;
   top: calc(100% + 4px);
   height: 38px;
   overflow: visible;
+  animation: ccAdReveal 6.6s ease-in-out infinite;
 }
 
 .earningsConnector {
@@ -67,6 +108,18 @@
 .tokensConnector {
   right: 50%;
   width: 88px;
+}
+
+/* Animation 1: the earnings connector points at two different targets
+   over the cycle — first the "✳ Thinking…" line (shorter, higher), then
+   swaps to the Sponsored/[KILI] row (the original path) once struck. */
+.earningsConnectorThinking {
+  height: 20px;
+  animation: ccConnectorThinkingFade 6.6s ease-in-out infinite;
+}
+
+.earningsConnectorKili {
+  animation: ccConnectorKiliFade 6.6s ease-in-out infinite;
 }
 
 .connectorRoute,
@@ -138,7 +191,8 @@
 
 .agentPanel.agentPanelStandalone {
   width: 100%;
-  height: 100%;
+  flex: 1;
+  min-height: 0;
   overflow: hidden;
   border: 1px solid var(--cc-border);
   border-radius: 10px 10px 0 0;
@@ -200,25 +254,69 @@
 }
 
 .ccThinkingLine {
+  position: relative;
   display: flex;
-  align-items: center;
+  align-items: baseline;
   gap: 8px;
+  width: fit-content;
   margin-bottom: 14px;
 }
 
 .ccThinkingMark {
+  display: inline-block;
+  width: 1em;
+  text-align: center;
   color: var(--cc-accent);
-  font-size: 16px;
-  text-decoration: line-through;
-  text-decoration-color: var(--cc-text-faint);
+  font-size: 20px;
 }
 
 .ccThinkingText {
-  color: var(--cc-text-muted);
   font-size: 14px;
   font-weight: 500;
-  text-decoration: line-through;
-  text-decoration-color: var(--cc-text-faint);
+  background: linear-gradient(
+    90deg,
+    var(--cc-text-muted) 0%,
+    var(--cc-text-muted) 40%,
+    var(--cc-text) 50%,
+    var(--cc-text-muted) 60%,
+    var(--cc-text-muted) 100%
+  );
+  background-size: 250% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: ccThinkingShimmer 6.6s linear infinite;
+}
+
+.ccThinkingMeta {
+  font-size: 14px;
+  font-weight: 400;
+  background: linear-gradient(
+    90deg,
+    var(--cc-text-faint) 0%,
+    var(--cc-text-faint) 40%,
+    var(--cc-text-muted) 50%,
+    var(--cc-text-faint) 60%,
+    var(--cc-text-faint) 100%
+  );
+  background-size: 250% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: ccThinkingShimmer 6.6s linear infinite;
+}
+
+.ccThinkingStrike {
+  position: absolute;
+  left: 0;
+  bottom: 0.6em;
+  width: 100%;
+  height: 1px;
+  font-size: 14px;
+  background: var(--cc-accent);
+  transform-origin: left;
+  transform: scaleX(0);
+  animation: ccThinkingStrikeDraw 6.6s ease-in-out infinite;
 }
 
 .blankPane {
@@ -834,6 +932,10 @@ button.file:hover {
   padding-top: 2px;
 }
 
+.agentPanelStandalone .ccAd {
+  animation: ccAdReveal 6.6s ease-in-out infinite;
+}
+
 .ccAdCaption {
   font-size: 9px;
   font-weight: 700;
@@ -1003,5 +1105,165 @@ button.file:hover {
 
   .main {
     flex: 0 0 34%;
+  }
+}
+
+/* Standalone terminal reveal loop: Thinking appears, gets struck through, then
+   the sponsored row (and its flanking tooltips/connectors) fade in — see
+   ClaudeCodeTerminal / RevenueShowcase. All three run on the same 6s cycle so
+   the beats stay locked together. */
+/* Same beats as before (bake-in was tuned against a 6s cycle), just
+   renormalized onto a 9s one so a 3s blank hold lands at the end, before
+   the loop restarts. */
+/* Renormalized against the 9.4s cycle: the ad/tooltip hold (21%-64%) is
+   ~4.05s, so the sponsored row stays on screen at least 4s before the
+   ~1s fade-out and the trailing blank pause. */
+/* The "✳ Thinking…" line itself never disappears — only the strike (drawn
+   in, held, then erased) and the ad/tooltips (faded in, held, faded out)
+   cycle, so the window is never blank. */
+/* 6.6s cycle: strike draws in fast, holds struck through the entire ad
+   beat below, then erases only once the ad/tooltips have fully hidden —
+   that's the reset back to "Thinking…" unstruck before the loop repeats. */
+/* The text-shimmer sweep Claude Code's CLI uses for its status word. */
+/* Shimmer only while unstruck (matches ccThinkingStrikeDraw's 8%-81%
+   struck window) — it freezes in place once the line is struck through
+   and resumes only after the strike erases. */
+@keyframes ccThinkingShimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  13% {
+    background-position: 0% 0;
+  }
+  89% {
+    background-position: 0% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Draw stays quick (4% of the cycle, ~260ms) but starts later so it lands
+   struck through right as the ad begins fading in (13%, matching
+   ccAdReveal) instead of well before it — then holds through the ad's
+   whole visible+fade-out lifecycle (ending at 81%) with a buffer before
+   erasing, so the strike never disappears early either. */
+@keyframes ccThinkingStrikeDraw {
+  0%,
+  9% {
+    transform: scaleX(0);
+  }
+  13%,
+  85% {
+    transform: scaleX(1);
+  }
+  89%,
+  100% {
+    transform: scaleX(0);
+  }
+}
+
+/* Generic "before the line is struck through" / "after it's struck
+   through" opacity pair, timed to only swap once ccThinkingStrikeDraw's
+   own draw (9%-13%) / erase (85%-89%) transitions have fully finished —
+   not while either is still mid-transition. Used by Animation 2's
+   money-tooltip cross-fade and Animation 1's connector-target swap. */
+@keyframes ccBeforeStruck {
+  0%,
+  13% {
+    opacity: 1;
+  }
+  17% {
+    opacity: 0;
+  }
+  89% {
+    opacity: 0;
+  }
+  93%,
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes ccAfterStruck {
+  0%,
+  13% {
+    opacity: 0;
+  }
+  17% {
+    opacity: 1;
+  }
+  89% {
+    opacity: 1;
+  }
+  93%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Animation 1's connector swap: both nudge downward together during the
+   handoff (Thinking continues down as it fades out, Kili settles down
+   into place as it fades in) so the swap reads as one continuous motion
+   rather than a jump between two disjoint fixed positions. */
+@keyframes ccConnectorThinkingFade {
+  0%,
+  13% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  17% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  89% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  93%,
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ccConnectorKiliFade {
+  0%,
+  13% {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  17% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  89% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  93%,
+  100% {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+/* Ad block + both tooltips + connectors, one shared timeline (not
+   individually repeating): fade/slide in, hold visible for ~4s, fade out. */
+@keyframes ccAdReveal {
+  0%,
+  13% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  17%,
+  77% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  81%,
+  100% {
+    opacity: 0;
+    transform: translateY(6px);
   }
 }

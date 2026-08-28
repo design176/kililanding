@@ -26,7 +26,8 @@ export default function Home() {
 
           <h1 className={styles.h1}>Get Paid everytime your agent thinks...</h1>
 
-          <p className={styles.lede}>Your tokens can now bring you revenue.</p>
+          <p className={styles.lede}>We turned your agent’s idle time into an ad marketplace.
+Every time your agent is “thinking…”, you earn 50% of net ad revenue.</p>
 
           <div className={styles.heroButtons}>
             <InstallCommand />

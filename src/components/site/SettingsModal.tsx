@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { X, Sun, Moon, Check } from "@phosphor-icons/react";
 import { useTheme } from "./ThemeProvider";
 import { HEADING_FONTS, BODY_FONTS } from "@/lib/fonts";
+import { HERO_ANIMATIONS } from "@/lib/heroAnimations";
 import { useSiteSettings } from "./SiteSettingsContext";
 import { useMounted } from "@/lib/use-mounted";
 import { cx } from "@/lib/cx";
@@ -13,7 +14,14 @@ import styles from "./SettingsModal.module.css";
 export function SettingsModal() {
   const [isOpen, setIsOpen] = useState(false);
   const { theme, setTheme } = useTheme();
-  const { headingFontId, bodyFontId, setHeadingFontId, setBodyFontId } = useSiteSettings();
+  const {
+    headingFontId,
+    bodyFontId,
+    heroAnimationId,
+    setHeadingFontId,
+    setBodyFontId,
+    setHeroAnimationId,
+  } = useSiteSettings();
   const mounted = useMounted();
 
   useEffect(() => {
@@ -95,6 +103,25 @@ export function SettingsModal() {
                   <Moon size={14} weight="bold" />
                   Dark
                 </button>
+              </div>
+            </div>
+
+            <div className={styles.section}>
+              <h3 className={styles.sectionLabel}>Hero Animation</h3>
+              <div className={styles.pillGroup}>
+                {HERO_ANIMATIONS.map((option) => (
+                  <button
+                    key={option.id}
+                    type="button"
+                    className={cx(
+                      styles.pillOption,
+                      heroAnimationId === option.id && styles.pillOptionActive
+                    )}
+                    onClick={() => setHeroAnimationId(option.id)}
+                  >
+                    {option.label}
+                  </button>
+                ))}
               </div>
             </div>
 
