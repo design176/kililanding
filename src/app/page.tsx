@@ -24,11 +24,7 @@ export default function Home() {
             <CaretRight size={12} weight='bold' />
           </GetStartedTrigger>
 
-          <h1 className={styles.h1}>
-            Get Paid everytime your
-            <br />
-            agent thinks...
-          </h1>
+          <h1 className={styles.h1}>Get Paid everytime your agent thinks...</h1>
 
           <p className={styles.lede}>Your tokens can now bring you revenue.</p>
 

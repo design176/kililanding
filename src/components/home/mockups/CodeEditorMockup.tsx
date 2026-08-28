@@ -152,9 +152,51 @@ function EarningsChart() {
   );
 }
 
-function ClaudeCodePanel({ standalone = false }: { standalone?: boolean }) {
+/** The floating terminal window used standalone on the home page: just the
+ * macOS-style title bar and the sponsored ad line, nothing else. */
+function ClaudeCodeTerminal() {
   return (
-    <div className={`${styles.agentPanel} ${standalone ? styles.agentPanelStandalone : ""}`}>
+    <div className={`${styles.agentPanel} ${styles.agentPanelStandalone}`}>
+      <div className={styles.terminalBar}>
+        <div className={styles.terminalControls}>
+          <span className={`${styles.terminalDot} ${styles.terminalClose}`} aria-hidden="true" />
+          <span className={`${styles.terminalDot} ${styles.terminalMinimize}`} aria-hidden="true" />
+          <span className={`${styles.terminalDot} ${styles.terminalExpand}`} aria-hidden="true" />
+        </div>
+        <span className={styles.terminalTitle}>Claude Code</span>
+      </div>
+
+      <div className={styles.terminalBody}>
+        <div className={styles.ccThinkingLine} aria-hidden="true">
+          <span className={styles.ccThinkingMark}>✳</span>
+          <span className={styles.ccThinkingText}>Thinking</span>
+        </div>
+
+        <div className={styles.ccAd}>
+          <span className={styles.ccAdCaption}>Sponsored</span>
+          <div className={styles.ccAdLine}>
+            <Image src="/icon.svg" alt="" width={16} height={16} className={styles.ccAdLogo} />
+            <span className={styles.ccAdBrand}>[KILI]</span>
+            <span className={styles.ccAdSubtext}>Get paid on every AI answer.</span>
+            <span className={styles.ccAdSpacer} />
+            <span className={styles.ccAdStatus}>
+              <ThinkingStatusWord /> &middot; <LoopingCounter target={0.2} seconds />
+            </span>
+          </div>
+          {/* Deliberately not a link: the whole mockup is decorative, and a
+              focusable `href="#"` inside an aria-hidden tree is a trap. */}
+          <span className={styles.ccAdCta}>
+            See how Kili pays out on every session &rarr;
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ClaudeCodePanel() {
+  return (
+    <div className={styles.agentPanel}>
       <div className={styles.ccTabs}>
         <span className={styles.ccTabActive}>
           <Image src="/assets/claude-mark.png" alt="" width={14} height={14} />
@@ -167,28 +209,22 @@ function ClaudeCodePanel({ standalone = false }: { standalone?: boolean }) {
         </div>
       </div>
 
-      {!standalone && (
-        <div className={styles.ccTitleRow}>
-          <span className={styles.ccTitle}>Ship the ad placement</span>
-          <div className={styles.ccTitleIcons}>
-            <Clock size={13} weight="bold" />
-            <ChatCircle size={13} weight="bold" />
-          </div>
+      <div className={styles.ccTitleRow}>
+        <span className={styles.ccTitle}>Ship the ad placement</span>
+        <div className={styles.ccTitleIcons}>
+          <Clock size={13} weight="bold" />
+          <ChatCircle size={13} weight="bold" />
         </div>
-      )}
+      </div>
 
       <div className={styles.ccMessages}>
-        {!standalone && (
-          <>
-            <div className={styles.ccUserBubble}>Add Kili to my app</div>
+        <div className={styles.ccUserBubble}>Add Kili to my app</div>
 
-            <p className={styles.ccAssistantText}>
-              On it — I&apos;ll wire the SDK and match it against your existing ad slots (
-              <span className={styles.ccChip}>match.ts</span> and{" "}
-              <span className={styles.ccChip}>kili.config.ts</span>), so nothing else in the app has to change.
-            </p>
-          </>
-        )}
+        <p className={styles.ccAssistantText}>
+          On it — I&apos;ll wire the SDK and match it against your existing ad slots (
+          <span className={styles.ccChip}>match.ts</span> and{" "}
+          <span className={styles.ccChip}>kili.config.ts</span>), so nothing else in the app has to change.
+        </p>
 
         <div className={styles.ccUserBubble}>read my codebase</div>
 
@@ -200,12 +236,9 @@ function ClaudeCodePanel({ standalone = false }: { standalone?: boolean }) {
             <span className={styles.ccAdSubtext}>Get paid on every AI answer.</span>
             <span className={styles.ccAdSpacer} />
             <span className={styles.ccAdStatus}>
-              <ThinkingStatusWord /> &middot;{" "}
-              {standalone ? <LoopingCounter target={0.2} seconds /> : "0.2s"}
+              <ThinkingStatusWord /> &middot; 0.2s
             </span>
           </div>
-          {/* Deliberately not a link: the whole mockup is decorative, and a
-              focusable `href="#"` inside an aria-hidden tree is a trap. */}
           <span className={styles.ccAdCta}>
             See how Kili pays out on every session &rarr;
           </span>
@@ -442,7 +475,7 @@ export function RevenueShowcase() {
           <path className={styles.connectorArrow} d="M12 26L5 31L12 36" />
         </svg>
       </aside>
-      <ClaudeCodePanel standalone />
+      <ClaudeCodeTerminal />
     </section>
   );
 }
