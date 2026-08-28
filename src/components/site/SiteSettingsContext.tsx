@@ -9,16 +9,21 @@ const BODY_FONT_STORAGE_KEY = "kili-body-font";
 const HEADING_WEIGHT_STORAGE_KEY = "kili-heading-weight";
 const BODY_WEIGHT_STORAGE_KEY = "kili-body-weight";
 
+// Site default: headings render Medium, body text renders Light, until
+// someone picks a different weight from the settings modal (Cmd/Ctrl+K).
+const DEFAULT_HEADING_WEIGHT_ID = "500";
+const DEFAULT_BODY_WEIGHT_ID = "300";
+
 function readStoredFontId(key: string, options: FontOption[]) {
   if (typeof window === "undefined") return options[0].id;
   const stored = localStorage.getItem(key);
   return stored && options.some((font) => font.id === stored) ? stored : options[0].id;
 }
 
-function readStoredWeightId(key: string) {
-  if (typeof window === "undefined") return FONT_WEIGHTS[0].id;
+function readStoredWeightId(key: string, defaultId: string) {
+  if (typeof window === "undefined") return defaultId;
   const stored = localStorage.getItem(key);
-  return stored && FONT_WEIGHTS.some((weight) => weight.id === stored) ? stored : FONT_WEIGHTS[0].id;
+  return stored && FONT_WEIGHTS.some((weight) => weight.id === stored) ? stored : defaultId;
 }
 
 type SiteSettingsContextValue = {
@@ -57,10 +62,10 @@ export function SiteSettingsProvider({ children }: { children: ReactNode }) {
     readStoredFontId(BODY_FONT_STORAGE_KEY, BODY_FONTS)
   );
   const [headingWeightId, setHeadingWeightIdState] = useState(() =>
-    readStoredWeightId(HEADING_WEIGHT_STORAGE_KEY)
+    readStoredWeightId(HEADING_WEIGHT_STORAGE_KEY, DEFAULT_HEADING_WEIGHT_ID)
   );
   const [bodyWeightId, setBodyWeightIdState] = useState(() =>
-    readStoredWeightId(BODY_WEIGHT_STORAGE_KEY)
+    readStoredWeightId(BODY_WEIGHT_STORAGE_KEY, DEFAULT_BODY_WEIGHT_ID)
   );
 
   useEffect(() => {
