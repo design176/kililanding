@@ -247,13 +247,23 @@ function ClaudeCodeTerminal() {
             <span className={styles.ccAdSubtext}>Get paid on every AI answer.</span>
             <span className={styles.ccAdSpacer} />
             <span className={styles.ccAdStatus}>
-              <ThinkingStatusWord /> &middot; <LoopingCounter target={0.2} seconds />
+              <span className={styles.ccAdStatusDefault}>
+                <ThinkingStatusWord /> &middot; <LoopingCounter target={0.2} seconds />
+              </span>
+              {/* Mobile swaps the status timer for the tooltip content that's
+                  hidden at that width — see the ≤640px rules below. */}
+              <span className={styles.ccAdStatusMobile}>
+                <span className={styles.ccAdStatusMobileLabel}>Earned with Kili</span>
+                <strong className={styles.ccAdStatusMobileValue}>
+                  <LoopingCounter target={1248.36} currency />
+                </strong>
+              </span>
             </span>
           </div>
           {/* Deliberately not a link: the whole mockup is decorative, and a
               focusable `href="#"` inside an aria-hidden tree is a trap. */}
           <span className={styles.ccAdCta}>
-            See how Kili pays out on every session &rarr;
+            Install Kili now and start earning &rarr;
           </span>
         </div>
       </div>
@@ -307,7 +317,7 @@ function ClaudeCodePanel() {
             </span>
           </div>
           <span className={styles.ccAdCta}>
-            See how Kili pays out on every session &rarr;
+            Install Kili now and start earning &rarr;
           </span>
         </div>
       </div>

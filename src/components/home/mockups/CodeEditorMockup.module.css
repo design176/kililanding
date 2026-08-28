@@ -984,6 +984,11 @@ button.file:hover {
   font-size: 13px;
 }
 
+/* Mobile swaps this for .ccAdStatusMobile — see the ≤640px rules below. */
+.ccAdStatusMobile {
+  display: none;
+}
+
 .ccAdCta {
   color: var(--color-brand);
   font-size: 12px;
@@ -1051,18 +1056,52 @@ button.file:hover {
   color: #fff;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 1024px) {
+  /* No side padding needed — the flanking tooltips are hidden below, so the
+     terminal window can run the full width of the showcase. */
   .revenueClaudeShowcase {
-    padding-inline: 96px;
+    padding-inline: 0;
   }
 
-  .revenueTooltip {
-    width: 80px;
-    padding: 8px;
+  .revenueTooltip,
+  .earningsConnector,
+  .tokensConnector {
+    display: none;
   }
 
-  .revenueTooltip strong {
-    font-size: 14px;
+  /* Keeps the thinking line to one row at narrow widths — without this it
+     wraps and pushes the ad row past the terminal's fixed height, clipping it. */
+  .ccThinkingMeta {
+    display: none;
+  }
+
+  /* The earnings tooltip's content moves into the ad row's status slot
+     instead (see .ccAdStatusDefault / .ccAdStatusMobile). */
+  .ccAdStatusDefault {
+    display: none;
+  }
+
+  .ccAdStatusMobile {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+  }
+
+  .ccAdStatusMobileLabel {
+    color: var(--cc-text-faint);
+    font-family: var(--font-body);
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .ccAdStatusMobileValue {
+    color: #22c55e;
+    font-family: var(--font-heading);
+    font-size: 13px;
+    line-height: 1;
   }
 
   .revenueCardColumn {
