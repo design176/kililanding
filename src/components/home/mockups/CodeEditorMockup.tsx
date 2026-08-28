@@ -18,8 +18,8 @@ import {
   Lightning,
   Stop,
 } from "@phosphor-icons/react";
+import { KiliMark } from "@/components/Logo";
 import { BODY_FONTS, HEADING_FONTS } from "@/lib/fonts";
-import { HERO_ANIMATIONS } from "@/lib/heroAnimations";
 import { useSiteSettings } from "@/components/site/SiteSettingsContext";
 import { useMounted } from "@/lib/use-mounted";
 import { WindowChrome } from "./WindowChrome";
@@ -29,6 +29,16 @@ const PAGE_FILE = "page.tsx";
 const CONFIG_FILE = "kili.config.ts";
 /** Both stay open as tabs; the `file` prop decides which one reads as active. */
 const TABS = [PAGE_FILE, CONFIG_FILE];
+
+/** The Kili integration is stubbed out until the platform side ships — only
+ * the intro line is live, everything below it reads as commented out. */
+const COMING_SOON_COMMENTED_LINES = [
+  "",
+  "export default defineConfig({",
+  "  apiKey: process.env.KILI_API_KEY,",
+  '  placement: "in-answer",',
+  "});",
+];
 
 type EditorFile = typeof PAGE_FILE | typeof CONFIG_FILE;
 
@@ -177,44 +187,6 @@ function CodeLine({ number, children }: { number: number; children: ReactNode })
   );
 }
 
-function EarningsChart() {
-  return (
-    <svg
-      className={styles.earningsChart}
-      viewBox="0 0 320 128"
-      preserveAspectRatio="none"
-      role="img"
-      aria-label="Tokens spent and dollars earned with Kili over time"
-    >
-      <defs>
-        <pattern id="kili-earnings-stripes" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-          <line x1="0" y1="0" x2="0" y2="7" className={styles.chartStripe} />
-        </pattern>
-        <marker id="tokens-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="2.2" markerHeight="2.2" markerUnits="strokeWidth" preserveAspectRatio="xMidYMid meet" orient="auto">
-          <path d="M0 0L8 4L0 8Z" fill="#71717a" />
-        </marker>
-        <marker id="earnings-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="2.2" markerHeight="2.2" markerUnits="strokeWidth" preserveAspectRatio="xMidYMid meet" orient="auto">
-          <path d="M0 0L8 4L0 8Z" fill="#22c55e" />
-        </marker>
-      </defs>
-      <path
-        d="M0 105 C36 93 70 78 104 83 C139 89 164 51 199 46 C230 42 249 78 274 76 C288 75 298 66 304 54 L304 128 L0 128Z"
-        className={styles.chartEarnedArea}
-      />
-      <path
-        d="M0 96 C69 82 132 76 188 60 C235 48 270 42 304 30"
-        className={styles.chartTokensLine}
-        markerEnd="url(#tokens-arrow)"
-      />
-      <path
-        d="M0 105 C36 93 70 78 104 83 C139 89 164 51 199 46 C230 42 249 78 274 76 C288 75 298 66 304 54"
-        className={styles.chartEarnedLine}
-        markerEnd="url(#earnings-arrow)"
-      />
-    </svg>
-  );
-}
-
 /** The floating terminal window used standalone on the home page: just the
  * macOS-style title bar and the sponsored ad line, nothing else. */
 function ClaudeCodeTerminal() {
@@ -240,10 +212,9 @@ function ClaudeCodeTerminal() {
         </div>
 
         <div className={styles.ccAd}>
-          <span className={styles.ccAdCaption}>Sponsored</span>
           <div className={styles.ccAdLine}>
-            <Image src="/icon.svg" alt="" width={16} height={16} className={styles.ccAdLogo} />
-            <span className={styles.ccAdBrand}>[KILI]</span>
+            <KiliMark size={16} className={styles.ccAdLogo} />
+            <span className={styles.ccAdBrand}>[KILI AD]</span>
             <span className={styles.ccAdSubtext}>Get paid on every AI answer.</span>
             <span className={styles.ccAdSpacer} />
             <span className={styles.ccAdStatus}>
@@ -260,11 +231,6 @@ function ClaudeCodeTerminal() {
               </span>
             </span>
           </div>
-          {/* Deliberately not a link: the whole mockup is decorative, and a
-              focusable `href="#"` inside an aria-hidden tree is a trap. */}
-          <span className={styles.ccAdCta}>
-            Install Kili now and start earning &rarr;
-          </span>
         </div>
       </div>
     </div>
@@ -306,9 +272,8 @@ function ClaudeCodePanel() {
         <div className={styles.ccUserBubble}>read my codebase</div>
 
         <div className={styles.ccAd}>
-          <span className={styles.ccAdCaption}>Sponsored</span>
           <div className={styles.ccAdLine}>
-            <Image src="/icon.svg" alt="" width={16} height={16} className={styles.ccAdLogo} />
+            <KiliMark size={16} className={styles.ccAdLogo} />
             <span className={styles.ccAdBrand}>[KILI]</span>
             <span className={styles.ccAdSubtext}>Get paid on every AI answer.</span>
             <span className={styles.ccAdSpacer} />
@@ -530,103 +495,67 @@ export function CodeEditorMockup({ file = PAGE_FILE }: { file?: EditorFile }) {
  * running earnings/tokens callouts, kept from the earlier split-view concept.
  */
 export function RevenueShowcase() {
-  const mounted = useMounted();
-  const { heroAnimationId } = useSiteSettings();
-  const animationType = mounted ? heroAnimationId : HERO_ANIMATIONS[0].id;
-
   return (
     <section className={styles.revenueClaudeShowcase} aria-label="Kili revenue and Claude Code demo">
-      {animationType === "v2" ? (
-        <>
-          <aside
-            className={`${styles.revenueTooltip} ${styles.earningsTooltip} ${styles.revenueTooltipAlways}`}
-            aria-label="Money lost, then earned with Kili"
-          >
-            <div className={styles.moneyLostFace}>
-              <span>Money lost</span>
-              <strong className={styles.moneyLostValue}>$12.40</strong>
-            </div>
-            <div className={styles.earnedFace}>
-              <span>Earned with Kili</span>
-              <strong aria-label="1,248 dollars and 36 cents earned with Kili">
-                <LoopingCounter target={1248.36} currency syncToAdCycle />
-              </strong>
-            </div>
-            <svg className={styles.earningsConnector} viewBox="0 0 84 38" aria-hidden="true">
-              <path className={styles.connectorRoute} d="M0 2V31H80" />
-              <path className={styles.connectorArrow} d="M73 26L80 31L73 36" />
-            </svg>
-          </aside>
-          <aside
-            className={`${styles.revenueTooltip} ${styles.tokensTooltip} ${styles.revenueTooltipAlways}`}
-            aria-label="Tokens used"
-          >
-            <span>Tokens used</span>
-            <strong aria-label="48,200 tokens used">
-              <LoopingCounter target={48200} syncToAdCycle />
-            </strong>
-            <svg className={styles.tokensConnector} viewBox="0 0 88 38" aria-hidden="true">
-              <path className={styles.connectorRoute} d="M88 2V31H5" />
-              <path className={styles.connectorArrow} d="M12 26L5 31L12 36" />
-            </svg>
-          </aside>
-        </>
-      ) : (
-        <aside className={`${styles.revenueTooltip} ${styles.earningsTooltip}`} aria-label="Earned with Kili">
-          <span>Earned with Kili</span>
-          <strong aria-label="1,248 dollars and 36 cents earned with Kili">
-            <LoopingCounter target={1248.36} currency />
-          </strong>
-          <svg
-            className={`${styles.earningsConnector} ${styles.earningsConnectorThinking}`}
-            viewBox="0 0 84 20"
-            aria-hidden="true"
-          >
-            <path className={styles.connectorRoute} d="M0 2V14H80" />
-            <path className={styles.connectorArrow} d="M73 9L80 14L73 19" />
-          </svg>
-          <svg
-            className={`${styles.earningsConnector} ${styles.earningsConnectorKili}`}
-            viewBox="0 0 84 38"
-            aria-hidden="true"
-          >
-            <path className={styles.connectorRoute} d="M0 2V31H80" />
-            <path className={styles.connectorArrow} d="M73 26L80 31L73 36" />
-          </svg>
-        </aside>
-      )}
+      <aside className={`${styles.revenueTooltip} ${styles.earningsTooltip}`} aria-label="Earned with Kili">
+        <span>Earned with Kili</span>
+        <strong aria-label="1,248 dollars and 36 cents earned with Kili">
+          <LoopingCounter target={1248.36} currency />
+        </strong>
+        <svg
+          className={`${styles.earningsConnector} ${styles.earningsConnectorThinking}`}
+          viewBox="0 0 84 20"
+          aria-hidden="true"
+        >
+          <path className={styles.connectorRoute} d="M0 2V14H80" />
+          <path className={styles.connectorArrow} d="M73 9L80 14L73 19" />
+        </svg>
+        <svg
+          className={`${styles.earningsConnector} ${styles.earningsConnectorKili}`}
+          viewBox="0 0 84 38"
+          aria-hidden="true"
+        >
+          <path className={styles.connectorRoute} d="M0 2V31H80" />
+          <path className={styles.connectorArrow} d="M73 26L80 31L73 36" />
+        </svg>
+      </aside>
       <ClaudeCodeTerminal />
     </section>
   );
 }
 
 /**
- * Not currently placed on any page. The earnings dashboard that used to sit
- * behind the draggable split in the editor window.
+ * The "I build AI Platforms" side of the home page toggle: a single-tab VS
+ * Code window with the Kili config stubbed out — a plain "coming soon"
+ * line up top, every line below it commented out.
  */
-export function EarningsPane() {
+export function ComingSoonMockup() {
   return (
-    <aside className={styles.blankPane} aria-label="Kili earnings snapshot">
-      <div className={styles.metricCards}>
-        <article className={styles.metricCard}>
-          <span className={styles.metricLabel}>Tokens spent</span>
-          <strong className={styles.metricValueTokens}>48,200</strong>
-        </article>
-        <hr className={styles.metricDivider} />
-        <article className={styles.metricCard}>
-          <span className={styles.metricLabel}>Earned with Kili</span>
-          <strong className={styles.metricValueEarned}>$1,248.36</strong>
-        </article>
-      </div>
-      <div className={styles.chartPanel}>
-        <div className={styles.chartHeader}>
-          <div className={styles.chartLegend}>
-            <span><i className={styles.legendTokens} />Tokens spent</span>
-            <span><i className={styles.legendEarned} />$ earned</span>
-          </div>
+    <WindowChrome app="editor" title="VS Code" className={styles.comingSoonWindow}>
+      <div className={styles.comingSoonEditor} aria-hidden="true">
+        <div className={styles.tabs}>
+          <span className={styles.tabActive}>{CONFIG_FILE}</span>
         </div>
-        <EarningsChart />
+
+        <div className={styles.code}>
+          <CodeLine number={1}>
+            <span className={styles.comingSoonHeading}>
+              Integrate Kili in your products and earn from ads - coming soon
+            </span>
+          </CodeLine>
+          <CodeLine number={2}>
+            <span className={styles.comment}>
+              {"// import { defineConfig } from "}
+              <span className={styles.blurredText}>&quot;@kili-ai/sdk&quot;</span>;
+            </span>
+          </CodeLine>
+          {COMING_SOON_COMMENTED_LINES.map((line, index) => (
+            <CodeLine number={index + 3} key={index}>
+              <span className={styles.comment}>{line ? `// ${line}` : "//"}</span>
+            </CodeLine>
+          ))}
+        </div>
       </div>
-    </aside>
+    </WindowChrome>
   );
 }

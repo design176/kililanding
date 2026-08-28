@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { AudienceSwitcher } from "./AudienceSwitcher";
-import { RevenueShowcase } from "./mockups/CodeEditorMockup";
+import { RevenueShowcase, ComingSoonMockup } from "./mockups/CodeEditorMockup";
 import styles from "./HomeDemoSection.module.css";
 
 export function HomeDemoSection() {
@@ -14,7 +14,7 @@ export function HomeDemoSection() {
 
       {isPlatform ? (
         <div className={styles.comingSoon}>
-          <div className={styles.comingSoonStrip}>Coming soon</div>
+          <ComingSoonMockup />
         </div>
       ) : (
         <div className={styles.showcase}>

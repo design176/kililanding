@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Unused code moved out of src/ — see archive/README.md.
+    "archive/**",
   ]),
 ]);
 

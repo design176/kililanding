@@ -1,11 +1,13 @@
+/* Satoshi is Fontshare-exclusive (not on Google Fonts), so it's the one
+   font still loaded this way — every other selectable font is loaded via
+   next/font/google in layout.tsx (see src/lib/fonts.ts). */
 @import url('https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Instrument+Serif:ital@0;1&family=Newsreader:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=Inter:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=Sora:wght@300;400;500;600;700&display=swap');
 
 /* ── Font variables ─────────────────────────────────────────── */
 :root {
   --font-heading: "Satoshi", sans-serif;
   --font-body: var(--font-work-sans), "Work Sans", sans-serif;
-  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 }
 
 /* ── Design tokens ──────────────────────────────────────────────────
@@ -197,6 +199,25 @@ a {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
+}
+
+/* Opt-in weight overrides from the settings modal (Cmd/Ctrl+K). Scoped to
+   these attributes rather than always applying var(--font-heading-weight,
+   ...) so the page's default look is untouched until someone actually picks
+   a weight — every heading/body element already declares its own explicit
+   font-weight in component CSS, which otherwise always wins on specificity,
+   hence !important here once the override is actually active. */
+[data-heading-weight-override] h1,
+[data-heading-weight-override] h2,
+[data-heading-weight-override] h3,
+[data-heading-weight-override] h4,
+[data-heading-weight-override] h5,
+[data-heading-weight-override] h6 {
+  font-weight: var(--font-heading-weight) !important;
+}
+
+[data-body-weight-override] body {
+  font-weight: var(--font-body-weight) !important;
 }
 
 /* ── Shared mockup animations ───────────────────────────────

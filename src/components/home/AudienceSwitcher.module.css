@@ -7,6 +7,10 @@
   background: var(--color-surface-4);
   border: 1px solid var(--color-border-strong);
   box-shadow: var(--shadow-md);
+  /* Its parent (.section in HomeDemoSection.module.css) is pointer-events:
+     none so the mouse trail behind it still works — this opts the actual
+     switcher buttons back in. */
+  pointer-events: auto;
 }
 
 .label {

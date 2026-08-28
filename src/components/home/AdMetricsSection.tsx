@@ -1,33 +1,23 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { gsap } from 'gsap';
+import { DotMatrixCounter } from './DotMatrixCounter';
 import styles from './AdMetricsSection.module.css';
 
 const METRICS = [
-  { label: 'Ads shown', value: '1824' },
-  { label: 'Rewards Distributed', value: '6749' },
+  { label: 'Ads shown', value: '1824', prefix: '' },
+  { label: 'Rewards Distributed', value: '6749', prefix: '$' },
 ] as const;
-
-const DIGIT_COUNT = 10;
-
-function createWheel(finalDigit: string, digitIndex: number) {
-  // More rotations on the less-significant wheels creates the familiar
-  // cadence of a number increasing instead of four unrelated reels moving.
-  const rotations = digitIndex + 1;
-  const stopIndex = rotations * DIGIT_COUNT + Number(finalDigit);
-  const digits = Array.from(
-    { length: stopIndex + 1 },
-    (_, index) => index % DIGIT_COUNT,
-  );
-
-  return { digits, stopIndex };
-}
 
 /** Placeholder figures until the live metrics endpoint is connected. */
 export function AdMetricsSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const wheelRefs = useRef<(HTMLSpanElement | null)[]>([]);
+  // Plain mutable containers (not React refs) so DotMatrixCounter's rAF loop
+  // can read the latest text without a re-render — safe to read in JSX since
+  // it's a stable object identity from useMemo, not a ref's `.current`.
+  const textBoxes = useMemo(() => METRICS.map(({ prefix }) => ({ current: `${prefix}0` })), []);
+  const canvasRefs = useRef<(HTMLCanvasElement | null)[]>([]);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -47,36 +37,32 @@ export function AdMetricsSection() {
         const activeTimeline = gsap.timeline({ delay: 0.24 });
         timeline = activeTimeline;
 
-        METRICS.forEach(({ value }, metricIndex) => {
-          for (
-            let digitIndex = value.length - 1;
-            digitIndex >= 0;
-            digitIndex -= 1
-          ) {
-            const wheel =
-              wheelRefs.current[metricIndex * value.length + digitIndex];
+        METRICS.forEach(({ value, prefix }, metricIndex) => {
+          const textRef = textBoxes[metricIndex];
+          const canvasEl = canvasRefs.current[metricIndex];
+          const stagger = metricIndex * 0.15;
+          const counter = { val: 0 };
 
-            if (!wheel) {
-              continue;
-            }
-
-            const { digits, stopIndex } = createWheel(
-              value[digitIndex],
-              digitIndex,
-            );
-            const rightToLeftOrder = value.length - 1 - digitIndex;
-
-            gsap.set(wheel, { yPercent: 0 });
+          if (canvasEl) {
             activeTimeline.to(
-              wheel,
-              {
-                yPercent: -(stopIndex / digits.length) * 100,
-                duration: 1.45 + rightToLeftOrder * 0.2,
-                ease: 'power3.out',
-              },
-              rightToLeftOrder * 0.08,
+              canvasEl,
+              { opacity: 1, duration: 0.6, ease: 'power2.out' },
+              stagger,
             );
           }
+
+          activeTimeline.to(
+            counter,
+            {
+              val: Number(value),
+              duration: 1.4,
+              ease: 'power3.out',
+              onUpdate: () => {
+                textRef.current = `${prefix}${Math.round(counter.val).toLocaleString('en-US')}`;
+              },
+            },
+            stagger,
+          );
         });
       },
       {
@@ -91,7 +77,7 @@ export function AdMetricsSection() {
       observer.disconnect();
       timeline?.kill();
     };
-  }, []);
+  }, [textBoxes]);
 
   return (
     <div className={styles.metricsInner} ref={sectionRef}>
@@ -100,36 +86,19 @@ export function AdMetricsSection() {
           Our ads are not annoying. They show up only while you wait.
         </p>
 
-        {METRICS.map(({ label, value }, metricIndex) => (
+        {METRICS.map(({ label, value, prefix }, metricIndex) => (
           <section className={styles.metric} key={label} aria-label={label}>
             <h2 className={styles.metricLabel}>{label}</h2>
-            <div className={styles.ticker} aria-label={`${label}: ${value}`}>
-              {value.split('').map((digit, digitIndex) => {
-                const { digits } = createWheel(digit, digitIndex);
-
-                return (
-                  <span
-                    className={styles.tickerDigit}
-                    key={digitIndex}
-                    aria-hidden='true'
-                  >
-                    <span
-                      className={styles.digitStrip}
-                      ref={(element) => {
-                        wheelRefs.current[
-                          metricIndex * value.length + digitIndex
-                        ] = element;
-                      }}
-                    >
-                      {digits.map((wheelDigit, wheelIndex) => (
-                        <span className={styles.digitValue} key={wheelIndex}>
-                          {wheelDigit}
-                        </span>
-                      ))}
-                    </span>
-                  </span>
-                );
-              })}
+            <div className={styles.ticker}>
+              <DotMatrixCounter
+                textRef={textBoxes[metricIndex]}
+                maxChars={`${prefix}${Number(value).toLocaleString('en-US')}`.length}
+                className={styles.tickerCanvas}
+                ariaLabel={`${label}: ${prefix}${value}`}
+                onCanvasReady={(element) => {
+                  canvasRefs.current[metricIndex] = element;
+                }}
+              />
             </div>
           </section>
         ))}

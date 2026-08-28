@@ -220,7 +220,7 @@ export function BenefitsBento() {
       </article>
 
       <article className={`${styles.tile} ${styles.privacyTile}`}>
-        <MoneyNoiseBackground interactive={false} maxOpacity={0.55} />
+        <MoneyNoiseBackground maxOpacity={0.55} />
         <div className={styles.tileCopy}>
           <h2>Data privacy is our top priority</h2>
           <p>Kili uses only the context required to match a relevant sponsor.</p>

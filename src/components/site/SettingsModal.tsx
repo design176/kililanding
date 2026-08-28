@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { X, Sun, Moon, Check } from "@phosphor-icons/react";
+import { X, Sun, Moon } from "@phosphor-icons/react";
 import { useTheme } from "./ThemeProvider";
 import { HEADING_FONTS, BODY_FONTS } from "@/lib/fonts";
-import { HERO_ANIMATIONS } from "@/lib/heroAnimations";
+import { FONT_WEIGHTS } from "@/lib/fontWeights";
 import { useSiteSettings } from "./SiteSettingsContext";
 import { useMounted } from "@/lib/use-mounted";
 import { cx } from "@/lib/cx";
@@ -17,10 +17,12 @@ export function SettingsModal() {
   const {
     headingFontId,
     bodyFontId,
-    heroAnimationId,
+    headingWeightId,
+    bodyWeightId,
     setHeadingFontId,
     setBodyFontId,
-    setHeroAnimationId,
+    setHeadingWeightId,
+    setBodyWeightId,
   } = useSiteSettings();
   const mounted = useMounted();
 
@@ -107,60 +109,60 @@ export function SettingsModal() {
             </div>
 
             <div className={styles.section}>
-              <h3 className={styles.sectionLabel}>Hero Animation</h3>
-              <div className={styles.pillGroup}>
-                {HERO_ANIMATIONS.map((option) => (
-                  <button
-                    key={option.id}
-                    type="button"
-                    className={cx(
-                      styles.pillOption,
-                      heroAnimationId === option.id && styles.pillOptionActive
-                    )}
-                    onClick={() => setHeroAnimationId(option.id)}
-                  >
-                    {option.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className={styles.section}>
               <h3 className={styles.sectionLabel}>Heading font</h3>
-              <div className={styles.optionList}>
-                {HEADING_FONTS.map((font) => (
-                  <button
-                    key={font.id}
-                    type="button"
-                    className={cx(
-                      styles.option,
-                      headingFontId === font.id && styles.optionActive
-                    )}
-                    style={{ fontFamily: font.value }}
-                    onClick={() => setHeadingFontId(font.id)}
-                  >
-                    <span>{font.label}</span>
-                    {headingFontId === font.id && <Check size={14} weight="bold" />}
-                  </button>
-                ))}
+              <div className={styles.selectRow}>
+                <select
+                  className={styles.select}
+                  value={headingFontId}
+                  onChange={(event) => setHeadingFontId(event.target.value)}
+                >
+                  {HEADING_FONTS.map((font) => (
+                    <option key={font.id} value={font.id}>
+                      {font.label}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  className={styles.select}
+                  value={headingWeightId}
+                  onChange={(event) => setHeadingWeightId(event.target.value)}
+                  aria-label="Heading font weight"
+                >
+                  {FONT_WEIGHTS.map((weight) => (
+                    <option key={weight.id} value={weight.id}>
+                      {weight.label}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
 
             <div className={styles.section}>
               <h3 className={styles.sectionLabel}>Body font</h3>
-              <div className={styles.optionList}>
-                {BODY_FONTS.map((font) => (
-                  <button
-                    key={font.id}
-                    type="button"
-                    className={cx(styles.option, bodyFontId === font.id && styles.optionActive)}
-                    style={{ fontFamily: font.value }}
-                    onClick={() => setBodyFontId(font.id)}
-                  >
-                    <span>{font.label}</span>
-                    {bodyFontId === font.id && <Check size={14} weight="bold" />}
-                  </button>
-                ))}
+              <div className={styles.selectRow}>
+                <select
+                  className={styles.select}
+                  value={bodyFontId}
+                  onChange={(event) => setBodyFontId(event.target.value)}
+                >
+                  {BODY_FONTS.map((font) => (
+                    <option key={font.id} value={font.id}>
+                      {font.label}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  className={styles.select}
+                  value={bodyWeightId}
+                  onChange={(event) => setBodyWeightId(event.target.value)}
+                  aria-label="Body font weight"
+                >
+                  {FONT_WEIGHTS.map((weight) => (
+                    <option key={weight.id} value={weight.id}>
+                      {weight.label}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
           </motion.div>

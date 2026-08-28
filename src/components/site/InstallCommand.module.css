@@ -17,6 +17,10 @@
   border: 1px solid var(--color-border);
   box-shadow: var(--shadow-sm);
   transition: border-color 160ms ease, background-color 160ms ease;
+  /* Stays clickable even where an ancestor (e.g. .bentoCtaContent) sets
+     pointer-events: none so a MoneyNoiseBackground behind it can track
+     the cursor. */
+  pointer-events: auto;
 }
 
 .pill:hover {
@@ -64,4 +68,15 @@
 .captionAccent {
   color: var(--color-brand);
   font-weight: 700;
+}
+
+@media (max-width: 640px) {
+  .pill {
+    padding: 10px 14px 10px 16px;
+  }
+
+  .prompt,
+  .command {
+    font-size: 13px;
+  }
 }

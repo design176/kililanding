@@ -6,6 +6,7 @@ import { SiteNav } from '@/components/site/SiteNav';
 import { SiteFooter } from '@/components/site/SiteFooter';
 import { GetStartedTrigger } from '@/components/site/GetStartedTrigger';
 import { InstallCommand } from '@/components/site/InstallCommand';
+import { HeroReveal } from '@/components/site/HeroReveal';
 import { AdMetricsSection } from '@/components/home/AdMetricsSection';
 import { HomeDemoSection } from '@/components/home/HomeDemoSection';
 import styles from './page.module.css';
@@ -17,7 +18,7 @@ export default function Home() {
 
       <div className={styles.firstFold}>
         {/* ── Hero ──────────────────────────────────────────── */}
-        <section className={styles.hero}>
+        <HeroReveal className={styles.hero}>
           <GetStartedTrigger className={styles.newPill}>
             <span className={styles.newTag}>NEW</span>
             <span>Learn how we are making AI free</span>
@@ -32,7 +33,7 @@ Every time your agent is “thinking…”, you earn 50% of net ad revenue.</p>
           <div className={styles.heroButtons}>
             <InstallCommand />
           </div>
-        </section>
+        </HeroReveal>
 
         {/* ── Without Kili / with Kili activity comparison ─── */}
         <section className={styles.demoBand}>
@@ -59,7 +60,7 @@ Every time your agent is “thinking…”, you earn 50% of net ad revenue.</p>
 
       {/* ── Install CTA ────────────────────────────────────── */}
       <section className={styles.bentoCta} aria-labelledby='install-kili-heading'>
-        <MoneyNoiseBackground interactive={false} maxOpacity={0.7} />
+        <MoneyNoiseBackground maxOpacity={0.7} />
         <div className={styles.bentoCtaContent}>
           <h2 id='install-kili-heading'>Your tokens can now bring you revenue.</h2>
           <InstallCommand className={styles.bentoCtaCommand} />

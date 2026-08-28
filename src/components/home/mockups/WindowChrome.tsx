@@ -11,13 +11,19 @@ export function WindowChrome({
   app,
   title,
   children,
+  className,
 }: {
   app: string;
   title: string;
   children: ReactNode;
+  className?: string;
 }) {
   return (
-    <section className={styles.window} data-app={app} aria-label={`${title} demo`}>
+    <section
+      className={className ? `${styles.window} ${className}` : styles.window}
+      data-app={app}
+      aria-label={`${title} demo`}
+    >
       <div className={styles.bar}>
         <div className={styles.controls}>
           <span className={`${styles.dot} ${styles.close}`} aria-hidden="true" />

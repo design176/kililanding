@@ -138,3 +138,38 @@
   border-color: var(--color-brand);
   color: var(--color-text-primary);
 }
+
+.selectRow {
+  display: flex;
+  gap: 8px;
+}
+
+.selectRow .select:first-child {
+  flex: 1.4;
+}
+
+.selectRow .select:last-child {
+  flex: 1;
+}
+
+.select {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: transparent;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: border-color 160ms ease;
+}
+
+.select:hover {
+  border-color: var(--color-brand);
+}
+
+.select:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}

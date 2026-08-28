@@ -314,6 +314,13 @@
   place-items: center;
 }
 
+/* Neither of these is interactive — letting the mouse trail on
+   MoneyNoiseBackground (behind them) still track the cursor. */
+.privacyTile .tileCopy,
+.privacyTile .privacyVisual {
+  pointer-events: none;
+}
+
 .privacyOrbit {
   position: absolute;
   width: min(330px, 80%);
@@ -362,6 +369,8 @@
 /* Focus */
 .focusVisual {
   align-self: end;
+  width: 100%;
+  min-width: 0;
   height: clamp(360px, 32vw, 460px);
   overflow: hidden;
   border: 1px solid var(--color-border-strong);

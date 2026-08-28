@@ -26,6 +26,12 @@
   padding: 48px 16px;
 }
 
+/* Hidden until HeroReveal's blur-in stagger runs on mount, so there's
+   nothing to flash before that effect attaches. */
+.hero > * {
+  opacity: 0;
+}
+
 .newPill {
   appearance: none;
   cursor: pointer;
@@ -180,6 +186,10 @@
   gap: 14px;
   padding: 30px 20px;
   text-align: center;
+  /* Only the install-command pill is interactive — this lets the mouse
+     trail on MoneyNoiseBackground (behind this whole block) still track
+     the cursor over the heading. .bentoCtaCommand's pill opts back in. */
+  pointer-events: none;
 }
 
 .bentoCtaContent h2 {
@@ -202,6 +212,10 @@
 @media (max-width: 640px) {
   .h1 {
     white-space: normal;
+  }
+
+  .lede {
+    font-size: 14px;
   }
 
   .demoBand {
