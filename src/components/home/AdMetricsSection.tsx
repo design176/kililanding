@@ -5,20 +5,31 @@ import { animate, type AnimationPlaybackControls } from 'motion/react';
 import { DotMatrixCounter } from './DotMatrixCounter';
 import styles from './AdMetricsSection.module.css';
 
-const METRICS = [
-  { label: 'Ads shown', value: '1824', prefix: '' },
-  { label: 'Ads Spend', value: '6749', prefix: '$' },
-] as const;
-
 const COUNT_EASE = [0.33, 1, 0.68, 1] as const;
 
-/** Placeholder figures until the live metrics endpoint is connected. */
-export function AdMetricsSection() {
+export function AdMetricsSection({
+  adsShown,
+  adSpend,
+}: {
+  adsShown: number;
+  adSpend: number;
+}) {
+  const METRICS = useMemo(
+    () =>
+      [
+        { label: 'Ads shown', value: String(Math.round(adsShown)), prefix: '' },
+        { label: 'Ads Spend', value: String(Math.round(adSpend)), prefix: '$' },
+      ] as const,
+    [adsShown, adSpend],
+  );
   const sectionRef = useRef<HTMLDivElement>(null);
   // Plain mutable containers (not React refs) so DotMatrixCounter's rAF loop
   // can read the latest text without a re-render - safe to read in JSX since
   // it's a stable object identity from useMemo, not a ref's `.current`.
-  const textBoxes = useMemo(() => METRICS.map(({ prefix }) => ({ current: `${prefix}0` })), []);
+  const textBoxes = useMemo(
+    () => METRICS.map(({ prefix }) => ({ current: `${prefix}0` })),
+    [METRICS],
+  );
   const canvasRefs = useRef<(HTMLCanvasElement | null)[]>([]);
 
   useEffect(() => {
@@ -72,7 +83,7 @@ export function AdMetricsSection() {
       observer.disconnect();
       controls.forEach((control) => control.stop());
     };
-  }, [textBoxes]);
+  }, [textBoxes, METRICS]);
 
   return (
     <div className={styles.metricsInner} ref={sectionRef}>
