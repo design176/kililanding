@@ -1,0 +1,1256 @@
+.revenueClaudeShowcase {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  padding-inline: 140px;
+  overflow: hidden;
+  border: 0;
+  outline: 0;
+  background: transparent;
+}
+
+.revenueTooltip {
+  position: absolute;
+  z-index: 2;
+  top: 18px;
+  box-sizing: border-box;
+  width: 118px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 12px;
+  border: 1px solid #303036;
+  border-radius: 8px;
+  background: rgba(15, 15, 17, 0.94);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  color: #a1a1aa;
+  font-family: var(--font-body);
+  font-size: 10px;
+  line-height: 1.2;
+  pointer-events: none;
+  animation: ccAdReveal 6.6s ease-in-out infinite;
+}
+
+.revenueTooltip strong {
+  color: #f4f4f5;
+  font-family: var(--font-heading);
+  font-size: 18px;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+:global([data-theme="light"]) .revenueTooltip {
+  border-color: #d4d4d8;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  color: #52525b;
+}
+
+:global([data-theme="light"]) .revenueTooltip strong {
+  color: #18181b;
+}
+
+.earningsTooltip {
+  left: 8px;
+}
+
+.earningsTooltip strong {
+  color: #22c55e;
+}
+
+.tokensTooltip {
+  right: 8px;
+}
+
+.earningsConnector,
+.tokensConnector {
+  position: absolute;
+  top: calc(100% + 4px);
+  height: 38px;
+  overflow: visible;
+  animation: ccAdReveal 6.6s ease-in-out infinite;
+}
+
+.earningsConnector {
+  left: 50%;
+  width: 84px;
+}
+
+.tokensConnector {
+  right: 50%;
+  width: 88px;
+}
+
+/* Animation 1: the earnings connector points at two different targets
+   over the cycle - first the "✳ Thinking…" line (shorter, higher), then
+   swaps to the Sponsored/[KILI] row (the original path) once struck. */
+.earningsConnectorThinking {
+  height: 20px;
+  animation: ccConnectorThinkingFade 6.6s ease-in-out infinite;
+}
+
+.earningsConnectorKili {
+  animation: ccConnectorKiliFade 6.6s ease-in-out infinite;
+}
+
+.connectorRoute,
+.connectorArrow {
+  fill: none;
+  stroke: #71717a;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.connectorRoute {
+  stroke-dasharray: 4 5;
+}
+
+.earningsConnector .connectorRoute,
+.earningsConnector .connectorArrow {
+  stroke: #22c55e;
+}
+
+.revenueCardColumn {
+  min-width: 0;
+  display: grid;
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  padding: 20px;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  background-color: #050506;
+  background-image:
+    linear-gradient(rgba(161, 161, 170, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(161, 161, 170, 0.05) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+.revenueCard {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 20px;
+  border: 1px solid #2b2b2f;
+  border-radius: 12px;
+  background: rgba(15, 15, 17, 0.9);
+}
+
+.revenueCardLabel {
+  color: #a1a1aa;
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.2;
+}
+
+.revenueCardValue,
+.revenueCardValueEarned {
+  overflow: hidden;
+  color: #f4f4f5;
+  font-family: var(--font-heading);
+  font-size: clamp(30px, 3.2vw, 44px);
+  line-height: 0.95;
+  letter-spacing: -0.05em;
+  text-overflow: ellipsis;
+}
+
+.revenueCardValueEarned {
+  color: #22c55e;
+}
+
+.agentPanel.agentPanelStandalone {
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid var(--cc-border);
+  border-radius: 10px 10px 0 0;
+  background: rgba(8, 8, 9, 0.7);
+  backdrop-filter: blur(2.75px) saturate(140%);
+  font-family: var(--font-mono);
+}
+
+:global([data-theme="light"]) .agentPanel.agentPanelStandalone {
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.terminalBar {
+  position: relative;
+  flex-shrink: 0;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #101012;
+  border-bottom: 1px solid var(--cc-border);
+}
+
+:global([data-theme="light"]) .terminalBar {
+  background: #f6f6f7;
+}
+
+.terminalControls {
+  position: absolute;
+  left: 12px;
+  display: flex;
+  gap: 7px;
+}
+
+.terminalDot {
+  width: 10px;
+  height: 10px;
+  display: block;
+  border-radius: 50%;
+}
+
+.terminalClose {
+  background: #ff5f57;
+}
+
+.terminalMinimize {
+  background: #febc2e;
+}
+
+.terminalExpand {
+  background: #28c840;
+}
+
+.terminalTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--cc-text);
+}
+
+.terminalBody {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 14px 14px 0;
+}
+
+.ccThinkingLine {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  width: fit-content;
+  margin-bottom: 14px;
+}
+
+.ccThinkingMark {
+  display: inline-block;
+  width: 1em;
+  text-align: center;
+  color: var(--cc-accent);
+  font-size: 20px;
+}
+
+.ccThinkingText {
+  font-size: 14px;
+  font-weight: 500;
+  background: linear-gradient(
+    90deg,
+    var(--cc-text-muted) 0%,
+    var(--cc-text-muted) 40%,
+    var(--cc-text) 50%,
+    var(--cc-text-muted) 60%,
+    var(--cc-text-muted) 100%
+  );
+  background-size: 250% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: ccThinkingShimmer 6.6s linear infinite;
+}
+
+.ccThinkingMeta {
+  font-size: 14px;
+  font-weight: 400;
+  background: linear-gradient(
+    90deg,
+    var(--cc-text-faint) 0%,
+    var(--cc-text-faint) 40%,
+    var(--cc-text-muted) 50%,
+    var(--cc-text-faint) 60%,
+    var(--cc-text-faint) 100%
+  );
+  background-size: 250% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: ccThinkingShimmer 6.6s linear infinite;
+}
+
+.ccThinkingStrike {
+  position: absolute;
+  left: 0;
+  bottom: 0.6em;
+  width: 100%;
+  height: 1px;
+  font-size: 14px;
+  background: var(--cc-accent);
+  transform-origin: left;
+  transform: scaleX(0);
+  animation: ccThinkingStrikeDraw 6.6s ease-in-out infinite;
+}
+
+.editor {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #1e1e1e;
+  font-family: var(--font-mono);
+  /* The window collapses on the width it is actually given, not the viewport -
+     the tile's right-hand column gets tight on a laptop for the same reason it
+     does on a phone. Every @container rule below is measured against this. */
+  container-type: inline-size;
+}
+
+.activityBar {
+  flex-shrink: 0;
+  width: 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding-top: 14px;
+  background: #181818;
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.activityIcon {
+  color: #6b6b6b;
+}
+
+.activityIconActive {
+  color: #ffffff;
+}
+
+.sidebar {
+  flex-shrink: 0;
+  width: 178px;
+  display: flex;
+  flex-direction: column;
+  padding: 12px 14px;
+  background: #181818;
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  color: #cfcfcf;
+}
+
+.sidebarHeading {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #8a8a8a;
+  margin-bottom: 10px;
+}
+
+.projectName {
+  font-size: 12px;
+  font-weight: 600;
+  color: #e4e4e4;
+  margin-bottom: 6px;
+}
+
+.fileList {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.file,
+.fileActive {
+  appearance: none;
+  width: 100%;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 11.5px;
+  color: #a9a9a9;
+  white-space: nowrap;
+  background: transparent;
+}
+
+button.file,
+button.fileActive {
+  cursor: pointer;
+  text-align: left;
+}
+
+button.file:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #e4e4e4;
+}
+
+.fileActive {
+  background: #37373d;
+  color: #ffffff;
+}
+
+.fileIcon {
+  flex-shrink: 0;
+  opacity: 0.9;
+}
+
+.folder {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #cfcfcf;
+}
+
+.folderContents {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  margin: 0 0 0 12px;
+  padding-left: 11px;
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.tabs {
+  display: flex;
+  flex-shrink: 0;
+  background: #181818;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.tab,
+.tabActive {
+  appearance: none;
+  border: none;
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+  padding: 8px 16px;
+  font-family: inherit;
+  font-size: 12px;
+  color: #8a8a8a;
+  background: transparent;
+}
+
+.tab:hover {
+  color: #cfcfcf;
+}
+
+.tabActive {
+  background: #1e1e1e;
+  color: #ffffff;
+  box-shadow: inset 0 -2px 0 var(--color-brand, #3fb950);
+}
+
+.code {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  padding: 14px 0;
+}
+
+.codeLine {
+  display: flex;
+  padding: 0 16px;
+  line-height: 20px;
+}
+
+.lineNumber {
+  width: 28px;
+  flex-shrink: 0;
+  font-size: 12px;
+  color: #5a5a5a;
+  text-align: right;
+  margin-right: 16px;
+  user-select: none;
+}
+
+.lineContent {
+  font-size: 12.5px;
+  white-space: pre;
+}
+
+.plain {
+  color: #d4d4d4;
+}
+
+.kw {
+  color: #569cd6;
+}
+
+.str {
+  color: #ce9178;
+}
+
+.fn {
+  color: #dcdcaa;
+}
+
+.prop {
+  color: #9cdcfe;
+}
+
+.num {
+  color: #b5cea8;
+}
+
+.tag {
+  color: #4ec9b0;
+}
+
+.comment {
+  color: #6b6b6f;
+}
+
+.comingSoonHeading {
+  color: var(--color-brand);
+}
+
+.blurredText {
+  filter: blur(2.25px);
+}
+
+/* WindowChrome's own height:100% needs a definite height from its parent to
+   resolve, which .comingSoon (HomeDemoSection.module.css) can't reliably
+   give it as a plain percentage - flex-grow instead. */
+/* Absolute + inset (not flex-grow) so .window ends up with a genuinely
+   definite height - WindowChrome's own .body { height: calc(100% - 34px) }
+   needs that to resolve correctly against it. top:10px replaces the gap
+   .comingSoon's removed padding-top used to create. */
+.comingSoonWindow {
+  position: absolute;
+  inset: 10px 0 0;
+  /* .window's own base rule sets height:100% - with top/bottom insets also
+     set, that wins the over-constrained resolution and bottom gets ignored
+     entirely, so this must be explicit for the insets to actually apply. */
+  height: auto;
+}
+
+/* ComingSoonMockup: a bare single-tab editor, no activity bar/sidebar/split. */
+.comingSoonEditor {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #1e1e1e;
+  font-family: var(--font-mono);
+}
+
+/* The title bar (WindowChrome) already swaps to a light palette in light
+   mode - without these, the editor body underneath stayed hard-coded dark,
+   so the window read as half-light/half-dark. VS Code's own "Light+" theme
+   colors, not the site's --color-* tokens (same rationale as the dark
+   palette above: this needs to read as a real editor screenshot). */
+:global([data-theme="light"]) .editor,
+:global([data-theme="light"]) .comingSoonEditor {
+  /* A shade darker than pure white so it reads distinctly against the
+     Claude Code panel's own (whiter) --cc-bg alongside it. */
+  background: #f4f5f6;
+}
+
+:global([data-theme="light"]) .activityBar,
+:global([data-theme="light"]) .sidebar,
+:global([data-theme="light"]) .tabs {
+  background: #f3f3f3;
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+:global([data-theme="light"]) .activityIcon {
+  color: #6e6e6e;
+}
+
+:global([data-theme="light"]) .activityIconActive {
+  color: #1e1e1e;
+}
+
+:global([data-theme="light"]) .sidebarHeading {
+  color: #6e6e6e;
+}
+
+:global([data-theme="light"]) .projectName,
+:global([data-theme="light"]) .folder {
+  color: #3b3b3b;
+}
+
+:global([data-theme="light"]) .file,
+:global([data-theme="light"]) .fileActive {
+  color: #3b3b3b;
+}
+
+:global([data-theme="light"]) button.file:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: #1e1e1e;
+}
+
+:global([data-theme="light"]) .fileActive {
+  background: #e4e6f1;
+  color: #1e1e1e;
+}
+
+:global([data-theme="light"]) .folderContents {
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+:global([data-theme="light"]) .tab,
+:global([data-theme="light"]) .tabActive {
+  border-color: rgba(0, 0, 0, 0.08);
+  color: #6e6e6e;
+}
+
+:global([data-theme="light"]) .tab:hover {
+  color: #3b3b3b;
+}
+
+:global([data-theme="light"]) .tabActive {
+  background: #f4f5f6;
+  color: #1e1e1e;
+}
+
+:global([data-theme="light"]) .lineNumber {
+  color: #919191;
+}
+
+:global([data-theme="light"]) .plain,
+:global([data-theme="light"]) .prop {
+  color: #1e1e1e;
+}
+
+:global([data-theme="light"]) .kw,
+:global([data-theme="light"]) .tag {
+  color: #0000ff;
+}
+
+:global([data-theme="light"]) .str {
+  color: #a31515;
+}
+
+:global([data-theme="light"]) .fn {
+  color: #795e26;
+}
+
+:global([data-theme="light"]) .num {
+  color: #098658;
+}
+
+:global([data-theme="light"]) .comment {
+  color: #8a8a8a;
+}
+
+.fontClassToken {
+  appearance: none;
+  display: inline;
+  padding: 0;
+  border: 0;
+  border-radius: 2px;
+  background: transparent;
+  color: #86efac;
+  font: inherit;
+  line-height: inherit;
+  cursor: pointer;
+}
+
+.fontClassToken:hover,
+.fontClassToken[aria-expanded="true"] {
+  background: rgba(22, 163, 74, 0.2);
+  color: #bbf7d0;
+}
+
+.fontClassToken:focus-visible {
+  outline: 1px solid #22c55e;
+  outline-offset: 1px;
+}
+
+.fontCompletion {
+  position: absolute;
+  z-index: 3;
+  top: 157px;
+  left: min(108px, calc(100% - 262px));
+  width: 254px;
+  overflow: hidden;
+  border: 1px solid rgba(63, 63, 70, 0.9);
+  border-radius: 8px;
+  background: rgba(21, 21, 23, 0.78);
+  backdrop-filter: blur(16px) saturate(120%);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.46);
+}
+
+.fontCompletionTitle {
+  padding: 7px 10px 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  color: #a1a1aa;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.fontCompletionOption,
+.fontCompletionOptionActive {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 25px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 9px;
+  border: 0;
+  background: transparent;
+  color: #d4d4d8;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.fontCompletionOption:hover,
+.fontCompletionOptionActive {
+  background: rgba(20, 56, 33, 0.88);
+}
+
+.fontCompletionIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border: 1px solid #166534;
+  border-radius: 3px;
+  color: #86efac;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.fontCompletionName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #fafafa;
+}
+
+.fontCompletionClass {
+  color: #86efac;
+  font-size: 9.5px;
+}
+
+.statusBar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 3px 12px;
+  background: var(--color-brand, #007acc);
+  color: #ffffff;
+}
+
+.statusItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.agentPanel {
+  --cc-bg: #181818;
+  --cc-bg-raised: #232323;
+  --cc-border: rgba(255, 255, 255, 0.09);
+  --cc-text: #e4e4e4;
+  --cc-text-muted: #a9a9a9;
+  --cc-text-faint: #6b6b6b;
+  --cc-accent: #d97757;
+  --cc-danger: #ef4444;
+
+  flex-shrink: 0;
+  width: min(340px, 42%);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--cc-bg);
+  border-left: 1px solid rgba(255, 255, 255, 0.06);
+  color: var(--cc-text);
+  font-family: var(--font-body);
+}
+
+/* Like WindowChrome, this mockup keeps its own literal palette rather than
+   the site's --color-* tokens (it's meant to read as a real dark-editor
+   screenshot) - but it still needs a light-mode variant of that palette. */
+:global([data-theme="light"]) .agentPanel {
+  --cc-bg: #ffffff;
+  --cc-bg-raised: #f3f3f3;
+  --cc-border: rgba(0, 0, 0, 0.1);
+  --cc-text: #1e1e1e;
+  --cc-text-muted: #5f5f5f;
+  --cc-text-faint: #8a8a8a;
+}
+
+.ccTabs {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 8px 0;
+  border-bottom: 1px solid var(--cc-border);
+}
+
+.ccTabActive {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 6px 6px 0 0;
+  background: var(--cc-bg-raised);
+  color: var(--cc-text);
+  font-size: 10.5px;
+  font-weight: 600;
+}
+
+.ccTab {
+  padding: 6px 10px;
+  color: var(--cc-text-faint);
+  font-size: 10.5px;
+  font-weight: 500;
+}
+
+.ccTabIcons {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 8px;
+  color: var(--cc-text-faint);
+}
+
+.ccTitleRow {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 12px 8px;
+}
+
+.ccTitle {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--cc-text);
+}
+
+.ccTitleIcons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--cc-text-faint);
+}
+
+.ccMessages {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 4px 12px 10px;
+}
+
+.ccUserBubble {
+  padding: 8px 11px;
+  border: 1px solid var(--cc-border);
+  border-radius: 8px;
+  font-size: 10.5px;
+  color: var(--cc-text);
+}
+
+.ccAssistantText {
+  /* Cancels the 10px flex gap in .ccMessages so the reply sits flush under
+     the bubble it answers, the way the real transcript reads. */
+  margin-top: -10px;
+  font-size: 9.5px;
+  line-height: 1.5;
+  color: var(--cc-text-muted);
+}
+
+.ccChip {
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: rgba(217, 119, 87, 0.16);
+  color: var(--cc-accent);
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+}
+
+.ccAd {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 2px;
+}
+
+.agentPanelStandalone .ccAd {
+  margin-top: 11px;
+  animation: ccAdReveal 6.6s ease-in-out infinite;
+}
+
+.ccAdCaption {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cc-text-faint);
+}
+
+.ccAdLine {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ccAdLogo {
+  flex-shrink: 0;
+}
+
+.ccAdBrand {
+  flex-shrink: 0;
+  color: var(--color-brand);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+
+.ccAdSubtext {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--cc-text-muted);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.ccAdSpacer {
+  flex: 1;
+}
+
+.ccAdStatus {
+  flex-shrink: 0;
+  color: var(--cc-text-faint);
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+/* Mobile swaps this for .ccAdStatusMobile - see the ≤640px rules below. */
+.ccAdStatusMobile {
+  display: none;
+}
+
+.ccAdCta {
+  color: var(--color-brand);
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.ccComposer {
+  flex-shrink: 0;
+  padding: 8px;
+  border-top: 1px solid var(--cc-border);
+}
+
+.ccComposerInput {
+  padding: 9px 10px;
+  border: 1px solid var(--cc-border);
+  border-radius: 8px;
+  color: var(--cc-text-faint);
+  font-size: 10.5px;
+}
+
+.ccComposerRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 4px 0;
+  color: var(--cc-text-faint);
+}
+
+.ccComposerSlash {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--cc-border);
+  border-radius: 4px;
+  font-size: 9px;
+}
+
+.ccComposerSpacer {
+  flex: 1;
+}
+
+.ccAutoPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px 7px;
+  border-radius: 999px;
+  background: var(--cc-bg-raised);
+  color: var(--cc-text-muted);
+  font-size: 9px;
+  font-weight: 600;
+}
+
+.ccStopButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  background: var(--cc-danger);
+  color: #fff;
+}
+
+@media (max-width: 1024px) {
+  /* No side padding needed - the flanking tooltips are hidden below, so the
+     terminal window can run the full width of the showcase. */
+  .revenueClaudeShowcase {
+    padding-inline: 0;
+  }
+
+  .revenueTooltip,
+  .earningsConnector,
+  .tokensConnector {
+    display: none;
+  }
+
+  /* The margin-top on .agentPanelStandalone .ccAd only exists to align
+     the ad row with the earnings connector arrow above - moot once that
+     connector is hidden at this width. */
+  .agentPanelStandalone .ccAd {
+    margin-top: 0;
+  }
+
+  /* Keeps the thinking line to one row at narrow widths - without this it
+     wraps and pushes the ad row past the terminal's fixed height, clipping it. */
+  .ccThinkingMeta {
+    display: none;
+  }
+
+  /* The earnings tooltip's content moves into the ad row's status slot
+     instead (see .ccAdStatusDefault / .ccAdStatusMobile). */
+  .ccAdStatusDefault {
+    display: none;
+  }
+
+  .ccAdStatusMobile {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+  }
+
+  .ccAdStatusMobileLabel {
+    color: var(--cc-text-faint);
+    font-family: var(--font-body);
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .ccAdStatusMobileValue {
+    color: #22c55e;
+    font-family: var(--font-heading);
+    font-size: 13px;
+    line-height: 1;
+  }
+
+  .revenueCardColumn {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: none;
+    gap: 10px;
+    padding: 16px;
+    border-right: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .revenueCard {
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .revenueCardValue,
+  .revenueCardValueEarned {
+    font-size: clamp(24px, 8vw, 38px);
+  }
+}
+
+/* The activity bar is the first thing to go - it carries no information here. */
+@container (max-width: 560px) {
+  .activityBar {
+    display: none;
+  }
+}
+
+/* Too narrow for the desktop split: the editor keeps a thin slice rather than
+   disappearing, and Claude Code takes the rest - on the same side as it sits at
+   every other width. Note `.editor` is itself the query container, so a rule
+   targeting it in here would never match (a container query resolves against
+   the nearest ANCESTOR container). */
+@container (max-width: 460px) {
+  .agentPanel {
+    width: auto;
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  .main {
+    flex: 0 0 28%;
+    min-width: 0;
+  }
+}
+
+/* Standalone terminal reveal loop: Thinking appears, gets struck through, then
+   the sponsored row (and its flanking tooltips/connectors) fade in - see
+   ClaudeCodeTerminal / RevenueShowcase. All three run on the same 6s cycle so
+   the beats stay locked together. */
+/* Same beats as before (bake-in was tuned against a 6s cycle), just
+   renormalized onto a 9s one so a 3s blank hold lands at the end, before
+   the loop restarts. */
+/* Renormalized against the 9.4s cycle: the ad/tooltip hold (21%-64%) is
+   ~4.05s, so the sponsored row stays on screen at least 4s before the
+   ~1s fade-out and the trailing blank pause. */
+/* The "✳ Thinking…" line itself never disappears - only the strike (drawn
+   in, held, then erased) and the ad/tooltips (faded in, held, faded out)
+   cycle, so the window is never blank. */
+/* 6.6s cycle: strike draws in fast, holds struck through the entire ad
+   beat below, then erases only once the ad/tooltips have fully hidden -
+   that's the reset back to "Thinking…" unstruck before the loop repeats. */
+/* The text-shimmer sweep Claude Code's CLI uses for its status word. */
+/* Shimmer only while unstruck (matches ccThinkingStrikeDraw's 8%-81%
+   struck window) - it freezes in place once the line is struck through
+   and resumes only after the strike erases. */
+@keyframes ccThinkingShimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  13% {
+    background-position: 0% 0;
+  }
+  89% {
+    background-position: 0% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Draw stays quick (4% of the cycle, ~260ms) but starts later so it lands
+   struck through right as the ad begins fading in (13%, matching
+   ccAdReveal) instead of well before it - then holds through the ad's
+   whole visible+fade-out lifecycle (ending at 81%) with a buffer before
+   erasing, so the strike never disappears early either. */
+@keyframes ccThinkingStrikeDraw {
+  0%,
+  9% {
+    transform: scaleX(0);
+  }
+  13%,
+  85% {
+    transform: scaleX(1);
+  }
+  89%,
+  100% {
+    transform: scaleX(0);
+  }
+}
+
+/* Animation 1's connector swap: both nudge downward together during the
+   handoff (Thinking continues down as it fades out, Kili settles down
+   into place as it fades in) so the swap reads as one continuous motion
+   rather than a jump between two disjoint fixed positions. */
+@keyframes ccConnectorThinkingFade {
+  0%,
+  13% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  17% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  89% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  93%,
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ccConnectorKiliFade {
+  0%,
+  13% {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  17% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  89% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  93%,
+  100% {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+/* Ad block + both tooltips + connectors, one shared timeline (not
+   individually repeating): fade/slide in, hold visible for ~4s, fade out. */
+@keyframes ccAdReveal {
+  0%,
+  13% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  17%,
+  77% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  81%,
+  100% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}

@@ -1,0 +1,218 @@
+.nav {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 12px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: color-mix(in srgb, var(--color-bg) 88%, transparent);
+  backdrop-filter: blur(10px);
+  transition: padding 220ms ease, background-color 220ms ease;
+}
+
+.navInner {
+  position: relative;
+  width: 100%;
+  max-width: 1250px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  transition:
+    max-width 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    padding 220ms ease,
+    border-color 220ms ease,
+    border-radius 220ms ease,
+    background-color 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.nav[data-scrolled="true"] {
+  padding: 6px 12px;
+  background: transparent;
+  backdrop-filter: none;
+}
+
+.nav[data-scrolled="true"] .navInner {
+  max-width: 700px;
+  padding: 10px 20px;
+  border-color: var(--color-border);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--color-bg) 92%, transparent);
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(14px);
+}
+
+.logoLink {
+  display: inline-flex;
+  flex: 0 0 auto;
+}
+
+.logoLink svg {
+  width: 70px;
+  height: auto;
+  transition: width 220ms ease;
+}
+
+.nav[data-scrolled="true"] .logoLink svg {
+  width: 62px;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: clamp(28px, 4vw, 56px);
+}
+
+.audienceLinks {
+  display: flex;
+  align-items: center;
+  gap: clamp(24px, 3vw, 40px);
+}
+
+.audienceLinks a {
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+  transition: color 160ms ease, transform 160ms ease;
+}
+
+.audienceLinks a:hover {
+  color: var(--color-text-primary);
+  transform: translateY(-1px);
+}
+
+.navButtons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.menuToggle {
+  display: none;
+  position: relative;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--color-text-primary);
+  cursor: pointer;
+}
+
+.menuToggle span {
+  position: absolute;
+  left: 9px;
+  width: 14px;
+  height: 1px;
+  border-radius: 999px;
+  background: currentColor;
+  transition: transform 180ms ease, opacity 150ms ease, top 180ms ease;
+}
+
+.menuToggle span:nth-child(1) {
+  top: 10px;
+}
+
+.menuToggle span:nth-child(2) {
+  top: 16px;
+}
+
+.menuToggle span:nth-child(3) {
+  top: 22px;
+}
+
+.menuToggle[aria-expanded="true"] span:nth-child(1) {
+  top: 16px;
+  transform: rotate(45deg);
+}
+
+.menuToggle[aria-expanded="true"] span:nth-child(2) {
+  opacity: 0;
+}
+
+.menuToggle[aria-expanded="true"] span:nth-child(3) {
+  top: 16px;
+  transform: rotate(-45deg);
+}
+
+@media (max-width: 700px) {
+  .nav {
+    padding: 10px 12px;
+  }
+
+  .navInner {
+    display: flex;
+  }
+
+  .audienceLinks {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 8px;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--color-bg) 96%, transparent);
+    box-shadow: var(--shadow-lg);
+    backdrop-filter: blur(14px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-8px) scale(0.985);
+    transform-origin: top center;
+    transition:
+      opacity 160ms ease,
+      visibility 160ms ease,
+      transform 190ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .navInner[data-menu-open="true"] .audienceLinks {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+  }
+
+  .audienceLinks a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 12px;
+    border-radius: 8px;
+    font-size: 14px;
+  }
+
+  .audienceLinks a:hover {
+    background: var(--color-hover);
+    transform: none;
+  }
+
+  .menuToggle {
+    display: block;
+  }
+
+  .nav[data-scrolled="true"] {
+    padding: 6px 10px;
+  }
+
+  .nav[data-scrolled="true"] .navInner {
+    padding: 8px 12px;
+    border-radius: 10px;
+  }
+
+  .nav[data-scrolled="true"] .logoLink svg {
+    width: 58px;
+  }
+}

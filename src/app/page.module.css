@@ -1,150 +1,232 @@
 .page {
-  --background: #fafafa;
-  --foreground: #fff;
-
-  --text-primary: #000;
-  --text-secondary: #666;
-
-  --button-primary-hover: #383838;
-  --button-secondary-hover: #f2f2f2;
-  --button-secondary-border: #ebebeb;
-
   display: flex;
-  flex: 1;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-family: var(--font-geist-sans);
-  background-color: var(--background);
-}
-
-.main {
-  display: flex;
-  flex: 1;
   width: 100%;
-  max-width: 800px;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-  background-color: var(--foreground);
-  padding: 120px 60px;
+  background: var(--color-bg);
+  color: var(--color-text-primary);
 }
 
-.intro {
+.firstFold {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
-  gap: 24px;
-}
-
-.intro h1 {
-  max-width: 320px;
-  font-size: 40px;
-  font-weight: 600;
-  line-height: 48px;
-  letter-spacing: -2.4px;
-  text-wrap: balance;
-  color: var(--text-primary);
-}
-
-.intro p {
-  max-width: 440px;
-  font-size: 18px;
-  line-height: 32px;
-  text-wrap: balance;
-  color: var(--text-secondary);
-}
-
-.intro a {
-  font-weight: 500;
-  color: var(--text-primary);
-}
-
-.ctas {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  max-width: 440px;
-  gap: 16px;
-  font-size: 14px;
-}
-
-.ctas a {
-  display: flex;
-  justify-content: center;
   align-items: center;
-  height: 40px;
-  padding: 0 16px;
-  border-radius: 128px;
-  border: 1px solid transparent;
-  transition: 0.2s;
+}
+
+/* ── Hero ────────────────────────────────────────────────── */
+.hero {
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 48px 16px;
+}
+
+/* Hidden until HeroReveal's blur-in stagger runs on mount, so there's
+   nothing to flash before that effect attaches. */
+.hero > * {
+  opacity: 0;
+}
+
+.newPill {
+  appearance: none;
   cursor: pointer;
-  width: fit-content;
-  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 12px 2px 2px;
+  border-radius: 999px;
+  background: var(--color-brand-soft);
+  border: 1px solid var(--color-brand);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+  font-family: var(--font-heading);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text-primary);
 }
 
-a.primary {
-  background: var(--text-primary);
-  color: var(--background);
+.newTag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 6px;
+  border-radius: 25px;
+  background: var(--color-brand);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: normal;
+  color: #ffffff;
+}
+
+.h1 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: clamp(28px, 4.2vw, 48px);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+  margin-top: 20px;
+  white-space: nowrap;
+}
+
+.lede {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+  color: var(--color-text-muted);
+  margin-top: 20px;
+  max-width: 600px;
+}
+
+.heroButtons {
+  display: flex;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+/* ── Tab strip + screenshot band ────────────────────────── */
+.demoBand {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  /* Fills the rest of the fold below the nav + hero (~420px combined,
+     approximated below since neither has a fixed height) on tall
+     viewports, down to a 300px floor on short ones - capped at 500px so
+     it never grows past that regardless of viewport height. */
+  height: clamp(300px, calc(100dvh - 420px), 500px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px 16px 0;
+  overflow: hidden;
+  background: var(--color-surface-2);
+}
+
+/* ── Ads only appear while the user is waiting ───────────── */
+.metricsSection {
+  --gutter: max(0px, calc((100vw - 1250px) / 2));
+
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background: var(--color-bg);
+}
+
+/* The former showcase used a faint surface fade beyond its rails. Retaining
+   it here keeps this replacement section visually connected to the page grid. */
+.metricsSection::before,
+.metricsSection::after {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  bottom: 0;
+  width: var(--gutter);
+  background-image: linear-gradient(
+    to bottom,
+    var(--color-surface-2),
+    var(--color-bg)
+  );
+  background-repeat: no-repeat;
+  background-position: top;
+  background-size: 100% 350px;
+  pointer-events: none;
+}
+
+.metricsSection::before {
+  left: 0;
+  border-right: 1px solid var(--color-border);
+}
+
+.metricsSection::after {
+  right: 0;
+  border-left: 1px solid var(--color-border);
+}
+
+.sectionDivider {
+  width: 100%;
+  height: 1px;
+  background: var(--color-border);
+}
+
+/* ── Benefits bento ──────────────────────────────────────── */
+.bentoSection {
+  position: relative;
+  width: 100%;
+  max-width: 1250px;
+  overflow: hidden;
+  border-inline: 1px solid var(--color-border);
+}
+
+/* ── Post-bento install CTA ──────────────────────────────── */
+.bentoCta {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  min-height: 190px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background: var(--color-surface-2);
+}
+
+.bentoCtaContent {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 30px 20px;
+  text-align: center;
+  /* Only the install-command pill is interactive - this lets the mouse
+     trail on MoneyNoiseBackground (behind this whole block) still track
+     the cursor over the heading. .bentoCtaCommand's pill opts back in. */
+  pointer-events: none;
+}
+
+.bentoCtaContent h2 {
+  font-family: var(--font-heading);
+  font-size: clamp(17px, 1.65vw, 21px);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  color: var(--color-text-primary);
+}
+
+.bentoCtaCommand {
   gap: 8px;
 }
 
-a.secondary {
-  border-color: var(--button-secondary-border);
+.bentoCtaCommand > button {
+  padding: 9px 12px 9px 16px;
 }
 
-/* Enable hover only on non-touch devices */
-@media (hover: hover) and (pointer: fine) {
-  a.primary:hover {
-    background: var(--button-primary-hover);
-    border-color: transparent;
+@media (max-width: 640px) {
+  .h1 {
+    white-space: normal;
   }
 
-  a.secondary:hover {
-    background: var(--button-secondary-hover);
-    border-color: transparent;
-  }
-}
-
-@media (max-width: 600px) {
-  .main {
-    padding: 48px 24px;
+  .lede {
+    font-size: 14px;
   }
 
-  .intro {
-    gap: 16px;
+  .demoBand {
+    /* Mobile hero wraps to more lines, so it eats more of the fold. */
+    height: clamp(350px, calc(100dvh - 480px), 500px);
   }
 
-  .intro h1 {
-    font-size: 32px;
-    line-height: 40px;
-    letter-spacing: -1.92px;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .logo {
-    filter: invert();
+  .bentoCta {
+    min-height: 176px;
   }
 
-  .page {
-    --background: #000;
-    --foreground: #000;
-
-    --text-primary: #ededed;
-    --text-secondary: #999;
-
-    --button-primary-hover: #ccc;
-    --button-secondary-hover: #1a1a1a;
-    --button-secondary-border: #1a1a1a;
-  }
-}
-
-.code {
-  font-family: var(--font-geist-mono);
-  font-size: 0.9em;
-  background: color-mix(in srgb, currentColor 8%, transparent);
-  padding: 0.1em 0.4em;
-  border-radius: 6px;
 }

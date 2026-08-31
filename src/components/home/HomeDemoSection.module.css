@@ -1,0 +1,55 @@
+.section {
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  /* Nothing here but the switcher is interactive - this lets the mouse
+     trail on MoneyNoiseBackground (behind this whole section) still track
+     the cursor over the terminal mockup/coming-soon card. */
+  pointer-events: none;
+}
+
+/* flex: 1 fills whatever height the demo band gives .section, so the
+   window's bottom edge always lands flush with the band's bottom edge. */
+.showcase {
+  width: min(960px, calc(100% - 32px));
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0 0;
+}
+
+/* Platform side of the switcher - same footprint/flush-bottom behavior as
+   .showcase so the band does not jump when toggling between the two.
+   position: relative is the positioning context for .comingSoonWindow
+   (CodeEditorMockup.module.css), which fills this via inset - a flex-grow
+   height doesn't reliably propagate as "definite" to WindowChrome's own
+   percentage-height internals, absolute positioning does. */
+.comingSoon {
+  position: relative;
+  width: min(960px, calc(100% - 32px));
+  flex: 1;
+  min-height: 0;
+  border-radius: 10px 10px 0 0;
+  overflow: hidden;
+}
+
+@media (max-width: 760px) {
+  .showcase {
+    width: min(520px, calc(100% - 24px));
+  }
+}
+
+@media (max-width: 640px) {
+  /* Full width on mobile - flex:1 (base rule above) stays in effect at
+     every width so the window's bottom edge is always flush with the
+     band's bottom edge, matching .showcase. */
+  .comingSoon {
+    width: 100%;
+  }
+}

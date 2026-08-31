@@ -1,0 +1,86 @@
+/* Publisher card interior. The tile, screenshot card and points list
+   are shared — see Showcase.module.css. */
+
+/* ── Candlestick chart ────────────────────────────────────── */
+.chartArea {
+  flex-shrink: 0;
+  padding: 20px 16px 4px;
+  height: 226px;
+}
+
+.chartSvg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.grid circle {
+  fill: var(--color-border-subtle);
+}
+
+.wick {
+  stroke-width: 2;
+}
+
+.candleLight {
+  fill: var(--color-border-strong);
+  stroke: var(--color-border-strong);
+}
+
+.candleDark {
+  fill: var(--color-border-emphasis);
+  stroke: var(--color-border-emphasis);
+}
+
+.candleBrand {
+  fill: var(--color-brand);
+  stroke: var(--color-brand);
+}
+
+/* ── Slider ───────────────────────────────────────────────── */
+.sliderRow {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px 16px;
+}
+
+.sliderLabel {
+  flex-shrink: 0;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.sliderTrack {
+  position: relative;
+  flex: 1;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--color-surface-3);
+}
+
+.sliderFill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 55%;
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--color-brand), var(--color-brand-hover));
+}
+
+.sliderHandle {
+  position: absolute;
+  top: 50%;
+  left: 55%;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-brand);
+  border: 3px solid var(--color-surface-1);
+  box-shadow: 0 0 0 1px var(--color-brand), var(--shadow-xs);
+  transform: translate(-50%, -50%);
+}
