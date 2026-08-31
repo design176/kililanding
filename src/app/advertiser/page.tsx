@@ -27,6 +27,7 @@ export const metadata: Metadata = {
   title: "Kili | Advertisers",
   description:
     "Brands, suggested inside the answer. Triggered by buying intent in the query, measured closed-loop with CAPI.",
+  alternates: { canonical: "/advertiser" },
 };
 
 const REASONS: Cell[] = [

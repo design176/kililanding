@@ -97,7 +97,7 @@ const FONT_VARIABLES = [
   geistMono.variable,
 ].join(' ');
 
-const TITLE = 'kili';
+const TITLE = 'Kili';
 const DESCRIPTION = "we're figuring out who pays for ai.";
 const OG_IMAGE = { url: '/og.png', width: 1512, height: 812 };
 
@@ -122,6 +122,14 @@ export const metadata: Metadata = {
 // Analytics and tag manager are skipped on local/dev environments.
 const isDev = process.env.APP_ENV === 'dev';
 
+const ORGANIZATION_JSON_LD = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: TITLE,
+  url: SITE_URL,
+  description: DESCRIPTION,
+};
+
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html
@@ -134,6 +142,10 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
         {/* Satoshi (globals.css) is the one font still loaded via external
             @import rather than next/font - warm the connection for it. */}
         <link rel='preconnect' href='https://api.fontshare.com' crossOrigin='anonymous' />
+        <script
+          type='application/ld+json'
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(ORGANIZATION_JSON_LD) }}
+        />
       </head>
       {!isDev && (
         <>

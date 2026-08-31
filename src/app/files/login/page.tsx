@@ -1,5 +1,10 @@
+import type { Metadata } from "next";
 import { FilesLoginForm } from "@/components/files/FilesLoginForm";
 import styles from "./page.module.css";
+
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
 
 export default async function FilesLoginPage(props: PageProps<"/files/login">) {
   const searchParams = await props.searchParams;

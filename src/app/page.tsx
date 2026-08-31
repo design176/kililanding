@@ -16,6 +16,7 @@ export const metadata: Metadata = {
   title: 'Kili',
   description:
     'Kili turns your AI agent\'s idle "thinking" time into an ad marketplace. Every thinking pause earns you ad revenue, automatically.',
+  alternates: { canonical: '/' },
 };
 
 export default function Home() {

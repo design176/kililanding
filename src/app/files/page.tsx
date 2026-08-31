@@ -1,8 +1,13 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { CaretRight, FileText } from "@phosphor-icons/react/dist/ssr";
 import { Badge } from "@/components/ui/Badge";
 import { FILES, FILE_STATUS_LABEL } from "@/lib/files-index";
 import styles from "./page.module.css";
+
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
 
 const STATUS_TONE = {
   "in-progress": "neutral",
