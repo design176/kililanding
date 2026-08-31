@@ -10,6 +10,7 @@ import { InstallCommand } from '@/components/site/InstallCommand';
 import { HeroReveal } from '@/components/site/HeroReveal';
 import { AdMetricsSection } from '@/components/home/AdMetricsSection';
 import { HomeDemoSection } from '@/components/home/HomeDemoSection';
+import { getKiliStats } from '@/lib/kili-stats';
 import styles from './page.module.css';
 
 export const metadata: Metadata = {
@@ -19,7 +20,9 @@ export const metadata: Metadata = {
   alternates: { canonical: '/' },
 };
 
-export default function Home() {
+export default async function Home() {
+  const { adsShown, adSpend } = await getKiliStats();
+
   return (
     <div className={styles.page}>
       <SiteNav />
@@ -54,7 +57,7 @@ Every time your agent is “thinking…”, you earn 50% of net ad revenue.</p>
 
       {/* ── Ads only appear while the user is waiting ────────── */}
       <section className={styles.metricsSection}>
-        <AdMetricsSection />
+        <AdMetricsSection adsShown={adsShown} adSpend={adSpend} />
       </section>
 
       <div className={styles.sectionDivider} />
