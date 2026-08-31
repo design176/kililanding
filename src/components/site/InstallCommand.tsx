@@ -5,7 +5,7 @@ import { Copy, Check } from "@phosphor-icons/react";
 import { cx } from "@/lib/cx";
 import styles from "./InstallCommand.module.css";
 
-const COMMAND = "npx -y @kili-ai/ide.install";
+const COMMAND = "npx -y @kili-ai/install";
 
 export function InstallCommand({ className }: { className?: string }) {
   const [copied, setCopied] = useState(false);
