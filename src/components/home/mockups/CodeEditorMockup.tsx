@@ -30,7 +30,7 @@ const CONFIG_FILE = "kili.config.ts";
 /** Both stay open as tabs; the `file` prop decides which one reads as active. */
 const TABS = [PAGE_FILE, CONFIG_FILE];
 
-/** The Kili integration is stubbed out until the platform side ships — only
+/** The Kili integration is stubbed out until the platform side ships - only
  * the intro line is live, everything below it reads as commented out. */
 const COMING_SOON_COMMENTED_LINES = [
   "",
@@ -133,7 +133,7 @@ function LoopingCounter({
   currency?: boolean;
   seconds?: boolean;
   /** Ties the count-up to the shared ad-reveal cycle (see above) instead of
-   * running its own independent loop — for the two tooltip counters that
+   * running its own independent loop - for the two tooltip counters that
    * flank the sponsored ad in `RevenueShowcase`. */
   syncToAdCycle?: boolean;
 }) {
@@ -222,7 +222,7 @@ function ClaudeCodeTerminal() {
                 <ThinkingStatusWord /> &middot; <LoopingCounter target={0.2} seconds />
               </span>
               {/* Mobile swaps the status timer for the tooltip content that's
-                  hidden at that width — see the ≤640px rules below. */}
+                  hidden at that width - see the ≤640px rules below. */}
               <span className={styles.ccAdStatusMobile}>
                 <span className={styles.ccAdStatusMobileLabel}>Earned with Kili</span>
                 <strong className={styles.ccAdStatusMobileValue}>
@@ -264,7 +264,7 @@ function ClaudeCodePanel() {
         <div className={styles.ccUserBubble}>Add Kili to my app</div>
 
         <p className={styles.ccAssistantText}>
-          On it — I&apos;ll wire the SDK and match it against your existing ad slots (
+          On it - I&apos;ll wire the SDK and match it against your existing ad slots (
           <span className={styles.ccChip}>match.ts</span> and{" "}
           <span className={styles.ccChip}>kili.config.ts</span>), so nothing else in the app has to change.
         </p>
@@ -310,7 +310,7 @@ function ClaudeCodePanel() {
 /**
  * A VS Code window with Claude Code docked on the right, mid-turn: the agent is
  * working, and the sponsored placement sits in the agent panel rather than over
- * the editor. Purely presentational — nothing inside is clickable or focusable.
+ * the editor. Purely presentational - nothing inside is clickable or focusable.
  *
  * It narrows by dropping panes rather than shrinking type, driven by container
  * queries on `.editor`, so it reacts to the width it is actually given.
@@ -332,7 +332,7 @@ export function CodeEditorMockup({ file = PAGE_FILE }: { file?: EditorFile }) {
   return (
     <WindowChrome app="editor" title="VS Code">
       <div className={styles.editor} aria-hidden="true">
-        {/* The Explorer stays collapsed — no icon is active and the file tree
+        {/* The Explorer stays collapsed - no icon is active and the file tree
             is not rendered, which is what gives the code pane its width. */}
         <div className={styles.activityBar}>
           <Files size={18} weight="regular" className={styles.activityIcon} />
@@ -526,7 +526,7 @@ export function RevenueShowcase() {
 
 /**
  * The "I build AI Platforms" side of the home page toggle: a single-tab VS
- * Code window with the Kili config stubbed out — a plain "coming soon"
+ * Code window with the Kili config stubbed out - a plain "coming soon"
  * line up top, every line below it commented out.
  */
 export function ComingSoonMockup() {

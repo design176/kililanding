@@ -9,7 +9,6 @@
 
 .firstFold {
   width: 100%;
-  min-height: max(500px, calc(100dvh - 58px));
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -96,8 +95,11 @@
   position: relative;
   isolation: isolate;
   width: 100%;
-  flex: 1;
-  min-height: 300px;
+  /* Fills the rest of the fold below the nav + hero (~420px combined,
+     approximated below since neither has a fixed height) on tall
+     viewports, down to a 300px floor on short ones - capped at 500px so
+     it never grows past that regardless of viewport height. */
+  height: clamp(300px, calc(100dvh - 420px), 500px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -186,7 +188,7 @@
   gap: 14px;
   padding: 30px 20px;
   text-align: center;
-  /* Only the install-command pill is interactive — this lets the mouse
+  /* Only the install-command pill is interactive - this lets the mouse
      trail on MoneyNoiseBackground (behind this whole block) still track
      the cursor over the heading. .bentoCtaCommand's pill opts back in. */
   pointer-events: none;
@@ -219,7 +221,8 @@
   }
 
   .demoBand {
-    min-height: 350px;
+    /* Mobile hero wraps to more lines, so it eats more of the fold. */
+    height: clamp(350px, calc(100dvh - 480px), 500px);
   }
 
   .bentoCta {

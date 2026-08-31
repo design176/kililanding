@@ -49,7 +49,7 @@ export function SignupForm({ flush }: { flush?: boolean }) {
 
       if (!res.ok) {
         setStatus("error");
-        setNote(data.error ?? "something went wrong — try again.");
+        setNote(data.error ?? "something went wrong - try again.");
         return;
       }
 
@@ -59,7 +59,7 @@ export function SignupForm({ flush }: { flush?: boolean }) {
       setContact("");
     } catch {
       setStatus("error");
-      setNote("could not connect — try again.");
+      setNote("could not connect - try again.");
     }
   };
 

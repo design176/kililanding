@@ -18,7 +18,7 @@
   --wc-bar-text: #3c3c40;
 }
 
-/* Empty placeholder window shown behind slide transitions — should
+/* Empty placeholder window shown behind slide transitions - should
    read as ambient chrome, not a fixed dark block, in either theme. */
 .window[data-app="base"] {
   background: var(--color-surface-2);

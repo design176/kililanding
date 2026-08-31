@@ -314,7 +314,7 @@
   place-items: center;
 }
 
-/* Neither of these is interactive — letting the mouse trail on
+/* Neither of these is interactive - letting the mouse trail on
    MoneyNoiseBackground (behind them) still track the cursor. */
 .privacyTile .tileCopy,
 .privacyTile .privacyVisual {

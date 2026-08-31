@@ -1,5 +1,5 @@
 /* Satoshi is Fontshare-exclusive (not on Google Fonts), so it's the one
-   font still loaded this way — every other selectable font is loaded via
+   font still loaded this way - every other selectable font is loaded via
    next/font/google in layout.tsx (see src/lib/fonts.ts). */
 @import url('https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap');
 
@@ -11,7 +11,7 @@
 }
 
 /* ── Design tokens ──────────────────────────────────────────────────
-   Ported from kili-app-demo, src/app/globals.css — the single source
+   Ported from kili-app-demo, src/app/globals.css - the single source
    of truth for color across this codebase. Every component references
    these color, btn-mono and shadow variables; no other palette is
    defined anywhere else in the project. ─────────────────────────────── */
@@ -204,7 +204,7 @@ h1, h2, h3, h4, h5, h6 {
 /* Opt-in weight overrides from the settings modal (Cmd/Ctrl+K). Scoped to
    these attributes rather than always applying var(--font-heading-weight,
    ...) so the page's default look is untouched until someone actually picks
-   a weight — every heading/body element already declares its own explicit
+   a weight - every heading/body element already declares its own explicit
    font-weight in component CSS, which otherwise always wins on specificity,
    hence !important here once the override is actually active. */
 [data-heading-weight-override] h1,

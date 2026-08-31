@@ -1,0 +1,150 @@
+.page {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-bg);
+  /* Single source of truth for the light/dark crossfade - short and
+     identical across every color-bearing property in the deck, so
+     background, borders, text, and the grid pattern all change in
+     lockstep instead of drifting relative to each other. */
+  --theme-fade: background-color 140ms ease-in-out, border-color 140ms ease-in-out,
+    color 140ms ease-in-out, fill 140ms ease-in-out, stroke 140ms ease-in-out,
+    box-shadow 140ms ease-in-out, background-image 140ms ease-in-out;
+  /* transition-delay lists cycle across every property in transition-property,
+     so a single stagger value would also (wrongly) delay the theme-fade
+     properties above. This zero-fills their 7 slots ahead of the two
+     reveal-only delay values below. */
+  --no-delay: 0s, 0s, 0s, 0s, 0s, 0s, 0s;
+}
+
+/* Overrides the site-wide 220ms rule (globals.css `* { transition: ... }`)
+   for everything inside the deck, and - unlike that rule - also reaches
+   ::before/::after (the universal selector never matches pseudo-elements),
+   which is what was leaving the grid-paper texture unanimated. */
+.page * {
+  transition: var(--theme-fade);
+}
+.slide::before {
+  transition: var(--theme-fade);
+}
+
+.viewport {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  background: var(--color-surface-3);
+}
+
+.stage {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1920px;
+  height: 1080px;
+  transform-origin: 0 0;
+  background: var(--color-bg);
+  border-radius: 22px;
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  background: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+}
+
+.slide.active {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 1;
+}
+
+/* Permanent grid-paper texture behind every slide */
+.slide::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, var(--color-border) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-border) 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0.5;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* One staggered entrance reveal per slide, replayed every time it
+   becomes active (not just on first mount). */
+.slide [data-reveal] > * {
+  opacity: 0;
+  transform: translateY(24px);
+  /* Written out in full rather than `var(--theme-fade), opacity ..., transform ...`
+     - some engines mis-group a multi-item custom property spliced into a
+     larger transition list, applying the slowest listed duration to every
+     property instead of splitting per-property. Spelling it out avoids that. */
+  transition: background-color 140ms ease-in-out, border-color 140ms ease-in-out,
+              color 140ms ease-in-out, fill 140ms ease-in-out, stroke 140ms ease-in-out,
+              box-shadow 140ms ease-in-out, background-image 140ms ease-in-out,
+              opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.slide.active [data-reveal] > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+.slide.active [data-reveal] > *:nth-child(1) { transition-delay: var(--no-delay), 0.05s, 0.05s; }
+.slide.active [data-reveal] > *:nth-child(2) { transition-delay: var(--no-delay), 0.16s, 0.16s; }
+.slide.active [data-reveal] > *:nth-child(3) { transition-delay: var(--no-delay), 0.27s, 0.27s; }
+.slide.active [data-reveal] > *:nth-child(4) { transition-delay: var(--no-delay), 0.38s, 0.38s; }
+.slide.active [data-reveal] > *:nth-child(5) { transition-delay: var(--no-delay), 0.49s, 0.49s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .slide [data-reveal] > * {
+    transition-duration: 0.01ms;
+  }
+}
+
+@media print {
+  .page {
+    height: auto;
+  }
+  .viewport {
+    position: static;
+    overflow: visible;
+    background: none;
+  }
+  .stage {
+    position: static;
+    width: auto;
+    height: auto;
+    transform: none !important;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .slide {
+    position: relative;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    width: 1920px;
+    height: 1080px;
+    break-after: page;
+  }
+  .slide:last-child {
+    break-after: auto;
+  }
+  .slide [data-reveal] > * {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

@@ -12,7 +12,7 @@
   transition: filter 0.12s ease, background 0.12s ease, transform 0.05s ease;
 }
 
-/* Marketing-site override — the app's buttons use a small fixed radius,
+/* Marketing-site override - the app's buttons use a small fixed radius,
    the landing pages use fully rounded pills. */
 .pill {
   border-radius: 999px;
@@ -54,7 +54,7 @@
 
 /* Glossy filled family: a solid fill with a top-light overlay. Used directly
    by Accent/Destructive, and by whichever of Primary/Secondary is currently
-   playing the "mono dark" role (see below — the other one plays "mono
+   playing the "mono dark" role (see below - the other one plays "mono
    light" and needs a different recipe, since a white overlay on white is
    invisible). */
 .glossy {
@@ -71,7 +71,7 @@
 }
 
 /* Shimmer: a fading-out highlight border. Only .glossy (Accent/Destructive/
-   dark-mono) uses this — the light-mono variant already has its own real
+   dark-mono) uses this - the light-mono variant already has its own real
    border + ring (below), and layering this on top of those doubled up into
    a visibly nested rounded-rect, so it's deliberately left off there. */
 .glossy::before {
@@ -170,7 +170,7 @@
   background: var(--color-active);
 }
 
-/* No shadow at small sizes — a solid/colored fill still reads as a button
+/* No shadow at small sizes - a solid/colored fill still reads as a button
    from its background color alone. The mono-light recipe has no color
    contrast of its own though, so it keeps at least its ring. */
 .sm.glossy,

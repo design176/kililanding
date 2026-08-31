@@ -77,7 +77,7 @@ export function PlatformPicker({ value, onChange, disabled }: Props) {
         </motion.span>
       </button>
 
-      {/* Dropdown panel — opens upward */}
+      {/* Dropdown panel - opens upward */}
       <AnimatePresence>
         {open && (
           <motion.div

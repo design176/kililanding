@@ -50,7 +50,7 @@
 }
 
 /* DotMatrixCounter reads this element's `font-size` as its dot pitch (px per
-   cell) and `color` as the dot fill — real per-dot canvas rendering, not a
+   cell) and `color` as the dot fill - real per-dot canvas rendering, not a
    font/mask, so nothing clips and dots can react to the pointer. */
 .tickerCanvas {
   display: block;

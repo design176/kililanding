@@ -11,7 +11,7 @@ interface KiliMarkProps {
 }
 
 /**
- * The 3×3 grid mark on its own — the same paths as `Logo`'s icon, just
+ * The 3×3 grid mark on its own - the same paths as `Logo`'s icon, just
  * cropped to a square viewBox for spots too small for the full wordmark
  * (e.g. a 16px logo slot in a mockup).
  */
@@ -40,7 +40,7 @@ export function KiliMark({ size = 16, className }: KiliMarkProps) {
 }
 
 /**
- * Kili wordmark logo — inline SVG so it inherits CSS variable theming.
+ * Kili wordmark logo - inline SVG so it inherits CSS variable theming.
  * Colors map to design tokens: grid squares → --color-border-strong,
  * green accent → --color-brand, letterforms → --color-text-primary.
  */

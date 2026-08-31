@@ -104,7 +104,7 @@ export type Cell = {
   visual?: ReactNode;
 };
 
-/** Row of hairline-separated cards — "three reasons", "the maths", the steps. */
+/** Row of hairline-separated cards - "three reasons", "the maths", the steps. */
 export function CellGrid({ cells }: { cells: readonly Cell[] }) {
   return (
     <div className={styles.cellGrid}>
@@ -161,7 +161,7 @@ export function Panel({
   );
 }
 
-/** Screenshot/mockup with a caption underneath — the publisher formats row. */
+/** Screenshot/mockup with a caption underneath - the publisher formats row. */
 export function FormatCard({
   media,
   title,

@@ -1,7 +1,24 @@
 'use client';
 
-import { useEffect, useRef, type ReactNode } from 'react';
-import { gsap } from 'gsap';
+import { Children, type ReactNode } from 'react';
+import { motion, type Variants } from 'motion/react';
+
+const container: Variants = {
+  hidden: {},
+  visible: {
+    transition: { delayChildren: 0.1, staggerChildren: 0.12 },
+  },
+};
+
+const item: Variants = {
+  hidden: { opacity: 0, y: 16, filter: 'blur(14px)' },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: { duration: 1, ease: [0.33, 1, 0.68, 1] },
+  },
+};
 
 /**
  * Staggers the hero's direct children in from a blur on first paint. The
@@ -9,34 +26,11 @@ import { gsap } from 'gsap';
  * there's nothing to flash before this effect attaches.
  */
 export function HeroReveal({ children, className }: { children: ReactNode; className?: string }) {
-  const ref = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        Array.from(el.children),
-        { opacity: 0, y: 16, filter: 'blur(14px)' },
-        {
-          opacity: 1,
-          y: 0,
-          filter: 'blur(0px)',
-          duration: 1,
-          delay: 0.1,
-          stagger: 0.12,
-          ease: 'power3.out',
-        },
-      );
-    }, el);
-
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <section className={className} ref={ref}>
-      {children}
-    </section>
+    <motion.section className={className} initial="hidden" animate="visible" variants={container}>
+      {Children.map(children, (child) => (
+        <motion.div variants={item}>{child}</motion.div>
+      ))}
+    </motion.section>
   );
 }

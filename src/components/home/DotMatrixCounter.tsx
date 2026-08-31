@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 
-/** 5x7 dot-matrix glyphs — the classic LED-sign resolution, enough detail
+/** 5x7 dot-matrix glyphs - the classic LED-sign resolution, enough detail
  * to read cleanly at a much finer dot pitch than a 3x5 font allows. */
 const FONT: Record<string, string[]> = {
   '0': ['01110', '10001', '10011', '10101', '11001', '10001', '01110'],
@@ -32,7 +32,7 @@ type Cell = {
 };
 
 /**
- * Renders `textRef.current` as a live dot-matrix on a canvas — each dot is
+ * Renders `textRef.current` as a live dot-matrix on a canvas - each dot is
  * its own point (no font/mask involved, so nothing gets clipped) that
  * scrambles away from the pointer on hover and eases back into place.
  */
@@ -47,7 +47,7 @@ export function DotMatrixCounter({
   maxChars: number;
   className?: string;
   ariaLabel: string;
-  /** Hands the parent the raw canvas node — used to fade it in on reveal. */
+  /** Hands the parent the raw canvas node - used to fade it in on reveal. */
   onCanvasReady?: (element: HTMLCanvasElement | null) => void;
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -169,10 +169,10 @@ export function DotMatrixCounter({
 
     // The canvas's own box is derived from its font-size (a responsive
     // clamp()), so we resize on viewport changes rather than observing the
-    // canvas itself — that would just be re-triggered by our own resize().
+    // canvas itself - that would just be re-triggered by our own resize().
     window.addEventListener('resize', resize);
 
-    // No real pointer to repel dots away from on touch devices — skip
+    // No real pointer to repel dots away from on touch devices - skip
     // wiring hover entirely there rather than reacting to phantom taps.
     const supportsHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     if (supportsHover) {

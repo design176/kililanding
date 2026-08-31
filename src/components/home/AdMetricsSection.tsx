@@ -1,20 +1,22 @@
 'use client';
 
 import { useEffect, useMemo, useRef } from 'react';
-import { gsap } from 'gsap';
+import { animate, type AnimationPlaybackControls } from 'motion/react';
 import { DotMatrixCounter } from './DotMatrixCounter';
 import styles from './AdMetricsSection.module.css';
 
 const METRICS = [
   { label: 'Ads shown', value: '1824', prefix: '' },
-  { label: 'Rewards Distributed', value: '6749', prefix: '$' },
+  { label: 'Ads Spend', value: '6749', prefix: '$' },
 ] as const;
+
+const COUNT_EASE = [0.33, 1, 0.68, 1] as const;
 
 /** Placeholder figures until the live metrics endpoint is connected. */
 export function AdMetricsSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   // Plain mutable containers (not React refs) so DotMatrixCounter's rAF loop
-  // can read the latest text without a re-render — safe to read in JSX since
+  // can read the latest text without a re-render - safe to read in JSX since
   // it's a stable object identity from useMemo, not a ref's `.current`.
   const textBoxes = useMemo(() => METRICS.map(({ prefix }) => ({ current: `${prefix}0` })), []);
   const canvasRefs = useRef<(HTMLCanvasElement | null)[]>([]);
@@ -26,7 +28,7 @@ export function AdMetricsSection() {
       return;
     }
 
-    let timeline: gsap.core.Timeline | undefined;
+    const controls: AnimationPlaybackControls[] = [];
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (!entry.isIntersecting) {
@@ -34,34 +36,27 @@ export function AdMetricsSection() {
         }
 
         observer.disconnect();
-        const activeTimeline = gsap.timeline({ delay: 0.24 });
-        timeline = activeTimeline;
 
         METRICS.forEach(({ value, prefix }, metricIndex) => {
           const textRef = textBoxes[metricIndex];
           const canvasEl = canvasRefs.current[metricIndex];
-          const stagger = metricIndex * 0.15;
-          const counter = { val: 0 };
+          const delay = 0.24 + metricIndex * 0.15;
 
           if (canvasEl) {
-            activeTimeline.to(
-              canvasEl,
-              { opacity: 1, duration: 0.6, ease: 'power2.out' },
-              stagger,
+            controls.push(
+              animate(canvasEl, { opacity: 1 }, { duration: 0.6, delay, ease: 'easeOut' }),
             );
           }
 
-          activeTimeline.to(
-            counter,
-            {
-              val: Number(value),
+          controls.push(
+            animate(0, Number(value), {
               duration: 1.4,
-              ease: 'power3.out',
-              onUpdate: () => {
-                textRef.current = `${prefix}${Math.round(counter.val).toLocaleString('en-US')}`;
+              delay,
+              ease: COUNT_EASE,
+              onUpdate: (latest) => {
+                textRef.current = `${prefix}${Math.round(latest)}`;
               },
-            },
-            stagger,
+            }),
           );
         });
       },
@@ -75,7 +70,7 @@ export function AdMetricsSection() {
 
     return () => {
       observer.disconnect();
-      timeline?.kill();
+      controls.forEach((control) => control.stop());
     };
   }, [textBoxes]);
 
@@ -92,7 +87,7 @@ export function AdMetricsSection() {
             <div className={styles.ticker}>
               <DotMatrixCounter
                 textRef={textBoxes[metricIndex]}
-                maxChars={`${prefix}${Number(value).toLocaleString('en-US')}`.length}
+                maxChars={`${prefix}${value}`.length}
                 className={styles.tickerCanvas}
                 ariaLabel={`${label}: ${prefix}${value}`}
                 onCanvasReady={(element) => {

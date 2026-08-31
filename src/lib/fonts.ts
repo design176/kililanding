@@ -1,7 +1,7 @@
 /**
  * Selectable fonts for the settings modal. Every family except Satoshi
  * (Fontshare-exclusive, loaded via the @import in globals.css) is loaded
- * through next/font/google in layout.tsx — each configured there with a
+ * through next/font/google in layout.tsx - each configured there with a
  * `variable` that's referenced here.
  */
 export type FontOption = {

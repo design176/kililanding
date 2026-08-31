@@ -4,7 +4,7 @@ import styles from "./WindowChrome.module.css";
 /**
  * Shared macOS-style title bar wrapper for the ported app mockups
  * (ChatGPT / Claude Code / Miro / Scribble). Each app keeps its own
- * authentic chrome colors inside `children` — this only provides the
+ * authentic chrome colors inside `children` - this only provides the
  * outer window frame + traffic-light dots + title.
  */
 export function WindowChrome({

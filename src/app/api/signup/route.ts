@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
   } catch (err) {
     console.error("[signup]", err);
     return NextResponse.json(
-      { error: "something went wrong — try again." },
+      { error: "something went wrong - try again." },
       { status: 500 }
     );
   }

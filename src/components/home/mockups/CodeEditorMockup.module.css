@@ -86,7 +86,7 @@
 }
 
 /* Animation 1: the earnings connector points at two different targets
-   over the cycle — first the "✳ Thinking…" line (shorter, higher), then
+   over the cycle - first the "✳ Thinking…" line (shorter, higher), then
    swaps to the Sponsored/[KILI] row (the original path) once struck. */
 .earningsConnectorThinking {
   height: 20px;
@@ -309,7 +309,7 @@
   overflow: hidden;
   background: #1e1e1e;
   font-family: var(--font-mono);
-  /* The window collapses on the width it is actually given, not the viewport —
+  /* The window collapses on the width it is actually given, not the viewport -
      the tile's right-hand column gets tight on a laptop for the same reason it
      does on a phone. Every @container rule below is measured against this. */
   container-type: inline-size;
@@ -534,15 +534,15 @@ button.file:hover {
 
 /* WindowChrome's own height:100% needs a definite height from its parent to
    resolve, which .comingSoon (HomeDemoSection.module.css) can't reliably
-   give it as a plain percentage — flex-grow instead. */
+   give it as a plain percentage - flex-grow instead. */
 /* Absolute + inset (not flex-grow) so .window ends up with a genuinely
-   definite height — WindowChrome's own .body { height: calc(100% - 34px) }
+   definite height - WindowChrome's own .body { height: calc(100% - 34px) }
    needs that to resolve correctly against it. top:10px replaces the gap
    .comingSoon's removed padding-top used to create. */
 .comingSoonWindow {
   position: absolute;
   inset: 10px 0 0;
-  /* .window's own base rule sets height:100% — with top/bottom insets also
+  /* .window's own base rule sets height:100% - with top/bottom insets also
      set, that wins the over-constrained resolution and bottom gets ignored
      entirely, so this must be explicit for the insets to actually apply. */
   height: auto;
@@ -560,7 +560,7 @@ button.file:hover {
 }
 
 /* The title bar (WindowChrome) already swaps to a light palette in light
-   mode — without these, the editor body underneath stayed hard-coded dark,
+   mode - without these, the editor body underneath stayed hard-coded dark,
    so the window read as half-light/half-dark. VS Code's own "Light+" theme
    colors, not the site's --color-* tokens (same rationale as the dark
    palette above: this needs to read as a real editor screenshot). */
@@ -797,7 +797,7 @@ button.file:hover {
 
 /* Like WindowChrome, this mockup keeps its own literal palette rather than
    the site's --color-* tokens (it's meant to read as a real dark-editor
-   screenshot) — but it still needs a light-mode variant of that palette. */
+   screenshot) - but it still needs a light-mode variant of that palette. */
 :global([data-theme="light"]) .agentPanel {
   --cc-bg: #ffffff;
   --cc-bg-raised: #f3f3f3;
@@ -962,7 +962,7 @@ button.file:hover {
   font-size: 13px;
 }
 
-/* Mobile swaps this for .ccAdStatusMobile — see the ≤640px rules below. */
+/* Mobile swaps this for .ccAdStatusMobile - see the ≤640px rules below. */
 .ccAdStatusMobile {
   display: none;
 }
@@ -1035,7 +1035,7 @@ button.file:hover {
 }
 
 @media (max-width: 1024px) {
-  /* No side padding needed — the flanking tooltips are hidden below, so the
+  /* No side padding needed - the flanking tooltips are hidden below, so the
      terminal window can run the full width of the showcase. */
   .revenueClaudeShowcase {
     padding-inline: 0;
@@ -1048,13 +1048,13 @@ button.file:hover {
   }
 
   /* The margin-top on .agentPanelStandalone .ccAd only exists to align
-     the ad row with the earnings connector arrow above — moot once that
+     the ad row with the earnings connector arrow above - moot once that
      connector is hidden at this width. */
   .agentPanelStandalone .ccAd {
     margin-top: 0;
   }
 
-  /* Keeps the thinking line to one row at narrow widths — without this it
+  /* Keeps the thinking line to one row at narrow widths - without this it
      wraps and pushes the ad row past the terminal's fixed height, clipping it. */
   .ccThinkingMeta {
     display: none;
@@ -1109,7 +1109,7 @@ button.file:hover {
   }
 }
 
-/* The activity bar is the first thing to go — it carries no information here. */
+/* The activity bar is the first thing to go - it carries no information here. */
 @container (max-width: 560px) {
   .activityBar {
     display: none;
@@ -1117,7 +1117,7 @@ button.file:hover {
 }
 
 /* Too narrow for the desktop split: the editor keeps a thin slice rather than
-   disappearing, and Claude Code takes the rest — on the same side as it sits at
+   disappearing, and Claude Code takes the rest - on the same side as it sits at
    every other width. Note `.editor` is itself the query container, so a rule
    targeting it in here would never match (a container query resolves against
    the nearest ANCESTOR container). */
@@ -1135,7 +1135,7 @@ button.file:hover {
 }
 
 /* Standalone terminal reveal loop: Thinking appears, gets struck through, then
-   the sponsored row (and its flanking tooltips/connectors) fade in — see
+   the sponsored row (and its flanking tooltips/connectors) fade in - see
    ClaudeCodeTerminal / RevenueShowcase. All three run on the same 6s cycle so
    the beats stay locked together. */
 /* Same beats as before (bake-in was tuned against a 6s cycle), just
@@ -1144,15 +1144,15 @@ button.file:hover {
 /* Renormalized against the 9.4s cycle: the ad/tooltip hold (21%-64%) is
    ~4.05s, so the sponsored row stays on screen at least 4s before the
    ~1s fade-out and the trailing blank pause. */
-/* The "✳ Thinking…" line itself never disappears — only the strike (drawn
+/* The "✳ Thinking…" line itself never disappears - only the strike (drawn
    in, held, then erased) and the ad/tooltips (faded in, held, faded out)
    cycle, so the window is never blank. */
 /* 6.6s cycle: strike draws in fast, holds struck through the entire ad
-   beat below, then erases only once the ad/tooltips have fully hidden —
+   beat below, then erases only once the ad/tooltips have fully hidden -
    that's the reset back to "Thinking…" unstruck before the loop repeats. */
 /* The text-shimmer sweep Claude Code's CLI uses for its status word. */
 /* Shimmer only while unstruck (matches ccThinkingStrikeDraw's 8%-81%
-   struck window) — it freezes in place once the line is struck through
+   struck window) - it freezes in place once the line is struck through
    and resumes only after the strike erases. */
 @keyframes ccThinkingShimmer {
   0% {
@@ -1171,7 +1171,7 @@ button.file:hover {
 
 /* Draw stays quick (4% of the cycle, ~260ms) but starts later so it lands
    struck through right as the ad begins fading in (13%, matching
-   ccAdReveal) instead of well before it — then holds through the ad's
+   ccAdReveal) instead of well before it - then holds through the ad's
    whole visible+fade-out lifecycle (ending at 81%) with a buffer before
    erasing, so the strike never disappears early either. */
 @keyframes ccThinkingStrikeDraw {

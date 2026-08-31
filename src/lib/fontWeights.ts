@@ -1,6 +1,6 @@
 /**
  * Selectable font-weight overrides for the settings modal. "Default" means
- * "don't override" — every heading/body element keeps whatever weight its
+ * "don't override" - every heading/body element keeps whatever weight its
  * own component CSS already sets. Any other option forces that weight
  * everywhere (see the `[data-heading-weight-override]` /
  * `[data-body-weight-override]` rules in globals.css), since component-level

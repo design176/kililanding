@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { CaretRight } from '@phosphor-icons/react/dist/ssr';
 import { MoneyNoiseBackground } from '@/components/home/MoneyNoiseBackground';
 import { BenefitsBento } from '@/components/home/BenefitsBento';
@@ -10,6 +11,12 @@ import { HeroReveal } from '@/components/site/HeroReveal';
 import { AdMetricsSection } from '@/components/home/AdMetricsSection';
 import { HomeDemoSection } from '@/components/home/HomeDemoSection';
 import styles from './page.module.css';
+
+export const metadata: Metadata = {
+  title: 'Kili',
+  description:
+    'Kili turns your AI agent\'s idle "thinking" time into an ad marketplace. Every thinking pause earns you ad revenue, automatically.',
+};
 
 export default function Home() {
   return (

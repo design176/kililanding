@@ -15,8 +15,8 @@ import {
 } from 'next/font/google';
 import { GoogleTagManager } from '@next/third-parties/google';
 import { Analytics } from '@vercel/analytics/next';
-import { Retune } from 'retune';
 import { Providers } from './providers';
+import { SITE_URL } from '@/lib/site-url';
 import './globals.css';
 
 const workSans = Work_Sans({
@@ -25,38 +25,61 @@ const workSans = Work_Sans({
   weight: ['300', '400', '500', '600', '700'],
 });
 
-// Heading font options (Satoshi, the default, is Fontshare-only — loaded via
-// the @import in globals.css instead, see src/lib/fonts.ts).
-const fraunces = Fraunces({ variable: '--font-fraunces', subsets: ['latin'], weight: 'variable' });
+// Heading font options (Satoshi, the default, is Fontshare-only - loaded via
+// the @import in globals.css instead, see src/lib/fonts.ts). Not the default,
+// so `preload: false` - they're only ever needed if the visitor switches to
+// them in the settings modal, and preloading all of them on every page load
+// costs real FCP/LCP for weight nobody's using yet.
+const fraunces = Fraunces({
+  variable: '--font-fraunces',
+  subsets: ['latin'],
+  weight: 'variable',
+  preload: false,
+});
 const instrumentSerif = Instrument_Serif({
   variable: '--font-instrument-serif',
   subsets: ['latin'],
   weight: '400',
+  preload: false,
 });
-const newsreader = Newsreader({ variable: '--font-newsreader', subsets: ['latin'], weight: 'variable' });
+const newsreader = Newsreader({
+  variable: '--font-newsreader',
+  subsets: ['latin'],
+  weight: 'variable',
+  preload: false,
+});
 const playfairDisplay = Playfair_Display({
   variable: '--font-playfair-display',
   subsets: ['latin'],
   weight: 'variable',
+  preload: false,
 });
 const sourceSerif4 = Source_Serif_4({
   variable: '--font-source-serif-4',
   subsets: ['latin'],
   weight: 'variable',
+  preload: false,
 });
 
-// Body font options.
-const inter = Inter({ variable: '--font-inter', subsets: ['latin'], weight: 'variable' });
-const manrope = Manrope({ variable: '--font-manrope', subsets: ['latin'], weight: 'variable' });
+// Body font options - same reasoning: none of these is the default, so none
+// should preload.
+const inter = Inter({ variable: '--font-inter', subsets: ['latin'], weight: 'variable', preload: false });
+const manrope = Manrope({ variable: '--font-manrope', subsets: ['latin'], weight: 'variable', preload: false });
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: '--font-plus-jakarta-sans',
   subsets: ['latin'],
   weight: 'variable',
+  preload: false,
 });
-const dmSans = DM_Sans({ variable: '--font-dm-sans', subsets: ['latin'], weight: 'variable' });
-const sora = Sora({ variable: '--font-sora', subsets: ['latin'], weight: 'variable' });
+const dmSans = DM_Sans({
+  variable: '--font-dm-sans',
+  subsets: ['latin'],
+  weight: 'variable',
+  preload: false,
+});
+const sora = Sora({ variable: '--font-sora', subsets: ['latin'], weight: 'variable', preload: false });
 
-// The site's one monospace font (mockup/terminal chrome) — not user-selectable.
+// The site's one monospace font (mockup/terminal chrome) - not user-selectable.
 const geistMono = Geist_Mono({ variable: '--font-geist-mono', subsets: ['latin'], weight: 'variable' });
 
 const FONT_VARIABLES = [
@@ -77,16 +100,6 @@ const FONT_VARIABLES = [
 const TITLE = 'kili';
 const DESCRIPTION = "we're figuring out who pays for ai.";
 const OG_IMAGE = { url: '/og.png', width: 1512, height: 812 };
-
-/**
- * Absolute base for the OG/Twitter image URLs. Vercel supplies the production
- * domain automatically; set NEXT_PUBLIC_SITE_URL to override it.
- */
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ??
-  (process.env.VERCEL_PROJECT_PRODUCTION_URL
-    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-    : 'http://localhost:3000');
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -117,6 +130,11 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
       data-theme='dark'
       suppressHydrationWarning
     >
+      <head>
+        {/* Satoshi (globals.css) is the one font still loaded via external
+            @import rather than next/font - warm the connection for it. */}
+        <link rel='preconnect' href='https://api.fontshare.com' crossOrigin='anonymous' />
+      </head>
       {!isDev && (
         <>
           <Analytics />
@@ -125,7 +143,6 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
       )}
       <body>
         <Providers>{children}</Providers>
-        <Retune hotkey='alt+e' />
       </body>
     </html>
   );

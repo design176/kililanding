@@ -20,7 +20,7 @@ const RESPONSE_LINES = [
   { kind: "copy", text: "The production build passes. Your app is ready to deploy." },
   {
     kind: "success",
-    text: "✓ Deployment plan ready — build and environment configuration verified.",
+    text: "✓ Deployment plan ready - build and environment configuration verified.",
   },
   { kind: "deployment-options", text: "I found three good deployment paths for this project." },
 ] as const;

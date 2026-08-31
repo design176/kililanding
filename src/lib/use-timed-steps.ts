@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 /**
- * Advances a step counter on a fixed schedule once `enabled` turns true —
+ * Advances a step counter on a fixed schedule once `enabled` turns true -
  * the staggered "line, then line, then sponsored card" reveal the mockups use.
  *
  * Returns `initial` until the first delay elapses, then `initial + 1`,

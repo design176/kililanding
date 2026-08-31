@@ -22,7 +22,7 @@ const FAQS = [
   {
     question: 'How do payouts work?',
     answer:
-      'Choose stablecoin settlement or a direct payout through Stripe—whichever route fits your business.',
+      'Choose stablecoin settlement or a direct payout through Stripe - whichever route fits your business.',
   },
   {
     question: 'Why can Kili deliver higher CPMs?',

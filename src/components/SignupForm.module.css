@@ -8,7 +8,7 @@
   text-align: left;
 }
 
-/* No own card chrome — used when already inside another container
+/* No own card chrome - used when already inside another container
    (e.g. the get-started modal), so we don't get a box-in-a-box look. */
 .captureFlush {
   width: 100%;

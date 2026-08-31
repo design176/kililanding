@@ -39,7 +39,7 @@ type SiteSettingsContextValue = {
 
 const SiteSettingsContext = createContext<SiteSettingsContextValue | null>(null);
 
-/** Applies (or clears) one of the opt-in global weight overrides — see the
+/** Applies (or clears) one of the opt-in global weight overrides - see the
  * `[data-heading-weight-override]` / `[data-body-weight-override]` rules in
  * globals.css, which only exist so this can stay inert until a non-default
  * weight is actually chosen. */

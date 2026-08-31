@@ -9,14 +9,14 @@ interface TypewriterOptions {
   speed?: number;
   /** How long to wait after the last character before calling `onSettle`. */
   settleMs?: number;
-  /** Fired once `settleMs` has elapsed — the mockups use it to auto-submit. */
+  /** Fired once `settleMs` has elapsed - the mockups use it to auto-submit. */
   onSettle?: () => void;
 }
 
 /**
  * Types `text` out one character at a time, then (optionally) fires a callback
- * a beat later. Every app mockup opens on the same beat — a prompt types
- * itself, pauses, and sends without a press-Enter cue — so they all share this.
+ * a beat later. Every app mockup opens on the same beat - a prompt types
+ * itself, pauses, and sends without a press-Enter cue - so they all share this.
  */
 export function useTypewriter(
   text: string,

@@ -24,7 +24,7 @@ import {
 import styles from "@/components/marketing/marketing.module.css";
 
 export const metadata: Metadata = {
-  title: "For advertisers — Kili",
+  title: "Kili | Advertisers",
   description:
     "Brands, suggested inside the answer. Triggered by buying intent in the query, measured closed-loop with CAPI.",
 };
@@ -43,7 +43,7 @@ const REASONS: Cell[] = [
   {
     icon: CirclesThreePlus,
     title: "Inventory you can’t buy elsewhere",
-    body: "Independent AI apps, agents and MCP servers — reach the labs’ surfaces don’t sell you.",
+    body: "Independent AI apps, agents and MCP servers - reach the labs’ surfaces don’t sell you.",
   },
 ];
 
@@ -51,7 +51,7 @@ const FAQS: FaqItem[] = [
   {
     question: "How is this different from buying AI visibility content?",
     answer:
-      "Content is a bid for the model to mention you, with no guarantee and no attribution. This is a placement you buy, with reporting attached. Most brands will want both — content earns the mention, Kili buys the suggestion.",
+      "Content is a bid for the model to mention you, with no guarantee and no attribution. This is a placement you buy, with reporting attached. Most brands will want both - content earns the mention, Kili buys the suggestion.",
   },
   {
     question: "Which apps will my ad run in?",
@@ -74,7 +74,7 @@ export default function AdvertiserPage() {
         <MarketingHero
           eyebrow="For advertisers"
           title="Brands, suggested inside the answer."
-          lede="User intent now lives in chatboxes. When someone describes the problem you solve, Kili puts you in the reply — labelled, relevant, and measured."
+          lede="User intent now lives in chatboxes. When someone describes the problem you solve, Kili puts you in the reply - labelled, relevant, and measured."
           doors={[
             { label: "Launch a campaign", href: "/get-started", modal: true },
             { label: "See the formats", href: "#formats" },
@@ -86,7 +86,7 @@ export default function AdvertiserPage() {
         <Band
           eyebrow="The prize"
           title="A branded AI answer meets the customer at the highest point of intent."
-          lede="A search query is a keyword. A conversation is a brief — the problem, the budget, the constraint, all stated before anyone has decided anything."
+          lede="A search query is a keyword. A conversation is a brief - the problem, the budget, the constraint, all stated before anyone has decided anything."
         >
           <CellGrid cells={REASONS} />
         </Band>
@@ -95,16 +95,16 @@ export default function AdvertiserPage() {
           id="formats"
           eyebrow="Serve"
           title="Three formats. One suggestion at a time."
-          lede="Buying intent in the query, relevant sponsor available: one labelled suggestion. Otherwise, nothing — which is why the ones that do run get read."
+          lede="Buying intent in the query, relevant sponsor available: one labelled suggestion. Otherwise, nothing - which is why the ones that do run get read."
         >
           <Split>
             <Panel
               title="Where you appear"
               lede="Placement is chosen by the publisher to fit their interface."
               items={[
-                <><strong>Loading placement</strong> — while the model is working</>,
-                <><strong>In-answer text</strong> — a labelled card beneath the reply</>,
-                <><strong>Display card</strong> — a richer unit where there&apos;s room</>,
+                <><strong>Loading placement</strong> - while the model is working</>,
+                <><strong>In-answer text</strong> - a labelled card beneath the reply</>,
+                <><strong>Display card</strong> - a richer unit where there&apos;s room</>,
               ]}
             />
             <Panel
@@ -128,7 +128,7 @@ export default function AdvertiserPage() {
             <PerformancePreview />
             <Panel
               title="What you get back"
-              lede="Reporting is the whole point of a new channel — an unmeasured one is a donation."
+              lede="Reporting is the whole point of a new channel - an unmeasured one is a donation."
               items={[
                 "Impressions, clicks and CTR by placement",
                 "Conversions posted server-to-server from your backend",
@@ -148,7 +148,7 @@ export default function AdvertiserPage() {
             <Panel
               icon={ShieldCheck}
               title="Always labelled"
-              lede="Every Kili unit is marked as sponsored. Kili never edits, re-ranks or biases the model’s answer to favour a sponsor — the answer is the answer, and your suggestion sits beside it."
+              lede="Every Kili unit is marked as sponsored. Kili never edits, re-ranks or biases the model’s answer to favour a sponsor - the answer is the answer, and your suggestion sits beside it."
             />
             <Panel
               icon={Sliders}

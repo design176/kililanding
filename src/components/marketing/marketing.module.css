@@ -1,5 +1,5 @@
 /*
- * Shared content styling for /advertiser and /publisher — reskinned to match
+ * Shared content styling for /advertiser and /publisher - reskinned to match
  * the home page's design system (kili-app-demo tokens/fonts) so the whole
  * marketing site reads as one consistent product. Nav, footer and the closing
  * CTA are shared components (src/components/site/); this module covers the

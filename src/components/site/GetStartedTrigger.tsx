@@ -1,20 +1,18 @@
-"use client";
-
 import type { ComponentPropsWithoutRef } from "react";
-import { useGetStartedModal } from "./GetStartedModalContext";
+
+const GET_STARTED_URL = "https://app.trykili.ai";
 
 /**
- * Generic clickable trigger for the get-started modal, for spots that
+ * Generic clickable trigger that links out to the app, for spots that
  * aren't a `Button` (e.g. the hero's "NEW" pill).
  */
 export function GetStartedTrigger({
   children,
   ...props
-}: ComponentPropsWithoutRef<"button">) {
-  const { open } = useGetStartedModal();
+}: ComponentPropsWithoutRef<"a">) {
   return (
-    <button type="button" {...props} onClick={open}>
+    <a href={GET_STARTED_URL} target="_blank" rel="noopener noreferrer" {...props}>
       {children}
-    </button>
+    </a>
   );
 }
