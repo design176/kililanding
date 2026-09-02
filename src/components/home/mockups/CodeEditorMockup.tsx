@@ -322,11 +322,10 @@ export function CodeEditorMockup({ file = PAGE_FILE }: { file?: EditorFile }) {
   // the server and client render different text.
   const mounted = useMounted();
   const { headingFontId, bodyFontId } = useSiteSettings();
-  const headingFont =
-    (mounted ? HEADING_FONTS.find((font) => font.id === headingFontId) : undefined) ??
-    HEADING_FONTS[0];
-  const bodyFont =
-    (mounted ? BODY_FONTS.find((font) => font.id === bodyFontId) : undefined) ?? BODY_FONTS[0];
+  const resolveFont = <T extends { id: string }>(list: T[], id: string) =>
+    (mounted ? list.find((font) => font.id === id) : undefined) ?? list[0];
+  const headingFont = resolveFont(HEADING_FONTS, headingFontId);
+  const bodyFont = resolveFont(BODY_FONTS, bodyFontId);
   const codeLines = file === CONFIG_FILE ? CODE_BY_FILE[CONFIG_FILE] : null;
 
   return (
@@ -491,8 +490,8 @@ export function CodeEditorMockup({ file = PAGE_FILE }: { file?: EditorFile }) {
 }
 
 /**
- * Not currently placed on any page. The standalone Claude Code panel with the
- * running earnings/tokens callouts, kept from the earlier split-view concept.
+ * The "I use AI Agents" side of the home page toggle: the standalone Claude
+ * Code panel with the running earnings/tokens callouts.
  */
 export function RevenueShowcase() {
   return (

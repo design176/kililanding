@@ -12,10 +12,12 @@ export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   forceState?: "hover" | "active";
   /** Marketing-site override: fully rounded pill shape instead of the app's default radius. */
   pill?: boolean;
+  /** Square, icon-only shape - width tracks the size's own height. */
+  iconOnly?: boolean;
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
-  { variant = "primary", size = "md", forceState, pill, className, ...props },
+  { variant = "primary", size = "md", forceState, pill, iconOnly, className, ...props },
   ref
 ) {
   return (
@@ -29,6 +31,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
         // Ghost is the one variant with no fill to put a gloss on.
         variant !== "ghost" && styles.glossy,
         pill && styles.pill,
+        iconOnly && styles.iconOnly,
         className
       )}
       {...props}

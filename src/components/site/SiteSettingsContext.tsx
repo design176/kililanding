@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-import { HEADING_FONTS, BODY_FONTS, type FontOption } from "@/lib/fonts";
+import { HEADING_FONTS, BODY_FONTS } from "@/lib/fonts";
 import { FONT_WEIGHTS, type FontWeightOption } from "@/lib/fontWeights";
 
 const HEADING_FONT_STORAGE_KEY = "kili-heading-font";
@@ -14,16 +14,21 @@ const BODY_WEIGHT_STORAGE_KEY = "kili-body-weight";
 const DEFAULT_HEADING_WEIGHT_ID = "500";
 const DEFAULT_BODY_WEIGHT_ID = "300";
 
-function readStoredFontId(key: string, options: FontOption[]) {
-  if (typeof window === "undefined") return options[0].id;
-  const stored = localStorage.getItem(key);
-  return stored && options.some((font) => font.id === stored) ? stored : options[0].id;
+function makeStoredSetter(setState: (id: string) => void, key: string) {
+  return (id: string) => {
+    setState(id);
+    localStorage.setItem(key, id);
+  };
 }
 
-function readStoredWeightId(key: string, defaultId: string) {
-  if (typeof window === "undefined") return defaultId;
+function readStored<T extends { id: string }>(
+  key: string,
+  options: readonly T[],
+  fallbackId: string
+) {
+  if (typeof window === "undefined") return fallbackId;
   const stored = localStorage.getItem(key);
-  return stored && FONT_WEIGHTS.some((weight) => weight.id === stored) ? stored : defaultId;
+  return stored && options.some((option) => option.id === stored) ? stored : fallbackId;
 }
 
 type SiteSettingsContextValue = {
@@ -56,16 +61,16 @@ function applyWeightOverride(cssVar: string, datasetKey: string, weight: FontWei
 
 export function SiteSettingsProvider({ children }: { children: ReactNode }) {
   const [headingFontId, setHeadingFontIdState] = useState(() =>
-    readStoredFontId(HEADING_FONT_STORAGE_KEY, HEADING_FONTS)
+    readStored(HEADING_FONT_STORAGE_KEY, HEADING_FONTS, HEADING_FONTS[0].id)
   );
   const [bodyFontId, setBodyFontIdState] = useState(() =>
-    readStoredFontId(BODY_FONT_STORAGE_KEY, BODY_FONTS)
+    readStored(BODY_FONT_STORAGE_KEY, BODY_FONTS, BODY_FONTS[0].id)
   );
   const [headingWeightId, setHeadingWeightIdState] = useState(() =>
-    readStoredWeightId(HEADING_WEIGHT_STORAGE_KEY, DEFAULT_HEADING_WEIGHT_ID)
+    readStored(HEADING_WEIGHT_STORAGE_KEY, FONT_WEIGHTS, DEFAULT_HEADING_WEIGHT_ID)
   );
   const [bodyWeightId, setBodyWeightIdState] = useState(() =>
-    readStoredWeightId(BODY_WEIGHT_STORAGE_KEY, DEFAULT_BODY_WEIGHT_ID)
+    readStored(BODY_WEIGHT_STORAGE_KEY, FONT_WEIGHTS, DEFAULT_BODY_WEIGHT_ID)
   );
 
   useEffect(() => {
@@ -88,25 +93,10 @@ export function SiteSettingsProvider({ children }: { children: ReactNode }) {
     applyWeightOverride("--font-body-weight", "bodyWeightOverride", weight);
   }, [bodyWeightId]);
 
-  const setHeadingFontId = (id: string) => {
-    setHeadingFontIdState(id);
-    localStorage.setItem(HEADING_FONT_STORAGE_KEY, id);
-  };
-
-  const setBodyFontId = (id: string) => {
-    setBodyFontIdState(id);
-    localStorage.setItem(BODY_FONT_STORAGE_KEY, id);
-  };
-
-  const setHeadingWeightId = (id: string) => {
-    setHeadingWeightIdState(id);
-    localStorage.setItem(HEADING_WEIGHT_STORAGE_KEY, id);
-  };
-
-  const setBodyWeightId = (id: string) => {
-    setBodyWeightIdState(id);
-    localStorage.setItem(BODY_WEIGHT_STORAGE_KEY, id);
-  };
+  const setHeadingFontId = makeStoredSetter(setHeadingFontIdState, HEADING_FONT_STORAGE_KEY);
+  const setBodyFontId = makeStoredSetter(setBodyFontIdState, BODY_FONT_STORAGE_KEY);
+  const setHeadingWeightId = makeStoredSetter(setHeadingWeightIdState, HEADING_WEIGHT_STORAGE_KEY);
+  const setBodyWeightId = makeStoredSetter(setBodyWeightIdState, BODY_WEIGHT_STORAGE_KEY);
 
   return (
     <SiteSettingsContext.Provider

@@ -71,10 +71,15 @@ export function DotMatrixCounter({
     let cells: Cell[] = [];
     let lastText = '';
     let animationFrame = 0;
+    // Read once per resize/theme change rather than every frame - the dot
+    // fill color only ever changes alongside those, not on its own.
+    let color = '';
 
     function resize() {
       if (!canvas) return;
-      dot = parseFloat(getComputedStyle(canvas).fontSize) || 12;
+      const computed = getComputedStyle(canvas);
+      dot = parseFloat(computed.fontSize) || 12;
+      color = computed.color;
       width = maxChars * (COLS + CHAR_GAP) * dot - CHAR_GAP * dot;
       height = ROWS * dot;
 
@@ -126,7 +131,7 @@ export function DotMatrixCounter({
       }
 
       ctx.clearRect(0, 0, width, height);
-      ctx.fillStyle = getComputedStyle(canvas).color;
+      ctx.fillStyle = color;
 
       const repelRadius = dot * REPEL_RADIUS_RATIO;
       const repelStrength = dot * REPEL_STRENGTH_RATIO;
@@ -172,6 +177,14 @@ export function DotMatrixCounter({
     // canvas itself - that would just be re-triggered by our own resize().
     window.addEventListener('resize', resize);
 
+    // The dot color is a CSS var that swaps with `data-theme` - refresh the
+    // cached value on toggle instead of re-reading it every animation frame.
+    const themeObserver = new MutationObserver(resize);
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme'],
+    });
+
     // No real pointer to repel dots away from on touch devices - skip
     // wiring hover entirely there rather than reacting to phantom taps.
     const supportsHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
@@ -183,6 +196,7 @@ export function DotMatrixCounter({
     return () => {
       window.cancelAnimationFrame(animationFrame);
       window.removeEventListener('resize', resize);
+      themeObserver.disconnect();
       if (supportsHover) {
         canvas.removeEventListener('pointermove', handlePointerMove);
         canvas.removeEventListener('pointerleave', handlePointerLeave);

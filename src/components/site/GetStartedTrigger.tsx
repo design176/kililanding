@@ -1,6 +1,5 @@
 import type { ComponentPropsWithoutRef } from "react";
-
-const GET_STARTED_URL = "https://app.trykili.ai";
+import { GET_STARTED_URL } from "@/components/site/GetStartedButton";
 
 /**
  * Generic clickable trigger that links out to the app, for spots that

@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { X } from "@phosphor-icons/react";
 import { SignupForm } from "@/components/SignupForm";
+import { useBodyScrollLock } from "@/lib/use-body-scroll-lock";
 import { useGetStartedModal } from "./GetStartedModalContext";
 import styles from "./GetStartedModal.module.css";
 
@@ -17,14 +18,13 @@ export function GetStartedModal() {
       if (event.key === "Escape") close();
     };
     document.addEventListener("keydown", onKeyDown);
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
 
     return () => {
       document.removeEventListener("keydown", onKeyDown);
-      document.body.style.overflow = previousOverflow;
     };
   }, [isOpen, close]);
+
+  useBodyScrollLock(isOpen);
 
   return (
     <AnimatePresence>
