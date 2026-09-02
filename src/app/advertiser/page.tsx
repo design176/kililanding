@@ -6,7 +6,7 @@ import {
   ShieldCheck,
   Sliders,
 } from "@phosphor-icons/react/dist/ssr";
-import { ClaudeCodeMockup } from "@/components/home/mockups/ClaudeCodeMockup";
+import { CodeEditorMockup } from "@/components/home/mockups/CodeEditorMockup";
 import { SiteNav } from "@/components/site/SiteNav";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import {
@@ -81,7 +81,7 @@ export default function AdvertiserPage() {
             { label: "See the formats", href: "#formats" },
           ]}
           note="Closed-loop measurement with CAPI."
-          media={<ClaudeCodeMockup />}
+          media={<CodeEditorMockup />}
         />
 
         <Band

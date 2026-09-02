@@ -53,7 +53,8 @@
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  padding: 80px 0 72px;
+  max-height: 700px;
+  padding: 80px 0 0;
   border-bottom: 1px solid var(--color-border);
   background: var(--color-surface-2);
 }
@@ -65,11 +66,16 @@
   grid-template-columns: 0.9fr 1.1fr;
   gap: 64px;
   align-items: center;
+  min-height: 560px;
 }
 
 .heroMedia {
   min-width: 0;
   height: 500px;
+  align-self: end;
+  margin-right: -24px;
+  border-radius: 14px 14px 0 0;
+  overflow: hidden;
 }
 
 .lede {
@@ -781,6 +787,7 @@
 
   .heroGrid {
     gap: 26px;
+    min-height: 0;
   }
 
   .two,
@@ -790,11 +797,15 @@
   }
 
   .hero {
+    max-height: none;
     padding: 56px 0 52px;
   }
 
   .heroMedia {
     height: 520px;
+    align-self: auto;
+    margin-right: 0;
+    border-radius: 14px;
   }
 
   .band > .wrap {
