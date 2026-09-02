@@ -18,6 +18,13 @@
   border-radius: 999px;
 }
 
+/* Square, icon-only shape: width tracks whichever size's own height via
+   aspect-ratio, so it never needs a hand-picked width per size. */
+.iconOnly {
+  padding: 0;
+  aspect-ratio: 1;
+}
+
 .btn:active,
 .btn[data-force="active"] {
   transform: translateY(0.5px);

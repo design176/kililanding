@@ -72,7 +72,7 @@
 .audienceLinks {
   display: flex;
   align-items: center;
-  gap: clamp(24px, 3vw, 40px);
+  gap: clamp(16px, 1.8vw, 24px);
 }
 
 .audienceLinks a {
@@ -86,6 +86,11 @@
 .audienceLinks a:hover {
   color: var(--color-text-primary);
   transform: translateY(-1px);
+}
+
+.mobileDivider,
+.mobileSocials {
+  display: none;
 }
 
 .navButtons {
@@ -197,6 +202,24 @@
   .audienceLinks a:hover {
     background: var(--color-hover);
     transform: none;
+  }
+
+  .mobileDivider {
+    display: block;
+    width: 100%;
+    height: 1px;
+    margin: 8px 0;
+    border: none;
+    background: var(--color-border);
+  }
+
+  .mobileSocials {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0;
+    padding: 4px 0 6px;
   }
 
   .menuToggle {

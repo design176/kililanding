@@ -8,6 +8,7 @@ import { HEADING_FONTS, BODY_FONTS } from "@/lib/fonts";
 import { FONT_WEIGHTS } from "@/lib/fontWeights";
 import { useSiteSettings } from "./SiteSettingsContext";
 import { useMounted } from "@/lib/use-mounted";
+import { useBodyScrollLock } from "@/lib/use-body-scroll-lock";
 import { cx } from "@/lib/cx";
 import styles from "./SettingsModal.module.css";
 
@@ -40,15 +41,7 @@ export function SettingsModal() {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, []);
 
-  useEffect(() => {
-    if (!isOpen) return;
-
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = previousOverflow;
-    };
-  }, [isOpen]);
+  useBodyScrollLock(isOpen);
 
   const isDark = mounted && theme === "dark";
 

@@ -12,6 +12,7 @@ export function useAutoScrollToBottom(
 ) {
   useEffect(() => {
     const element = ref.current;
-    element?.scrollTo({ top: element.scrollHeight, behavior: "smooth" });
+    if (!element || element.scrollHeight <= element.clientHeight) return;
+    element.scrollTo({ top: element.scrollHeight, behavior: "smooth" });
   }, [ref, key]);
 }

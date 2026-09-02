@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Button, type ButtonProps } from "@/components/ui/Button";
 
-const GET_STARTED_URL = "https://app.trykili.ai";
+export const GET_STARTED_URL = "https://app.trykili.ai";
 
 /**
  * Drop-in replacement for `<Link href="/get-started"><Button>...</Button></Link>` -

@@ -64,6 +64,16 @@ export function MoneyNoiseBackground({
     let time = 0;
     let trail: TrailPoint[] = [];
     let lastTrailPush = 0;
+    let visible = true;
+    // Read once per theme change rather than every tick - the glyph color
+    // only ever changes alongside `data-theme`, not on its own.
+    let color = "";
+
+    function readColor() {
+      color = getComputedStyle(document.documentElement)
+        .getPropertyValue("--color-text-primary")
+        .trim();
+    }
 
     // The guards inside these two are what keeps TypeScript happy: narrowing
     // from the checks above doesn't reach into a nested function declaration.
@@ -86,9 +96,6 @@ export function MoneyNoiseBackground({
 
     function draw() {
       if (!ctx) return;
-      const color = getComputedStyle(document.documentElement)
-        .getPropertyValue("--color-text-primary")
-        .trim();
 
       const now = performance.now();
       trail = trail.filter((point) => now - point.addedAt < TRAIL_LIFETIME_MS);
@@ -148,10 +155,12 @@ export function MoneyNoiseBackground({
       }
     }
 
+    readColor();
     resize();
     draw();
 
     const intervalId = window.setInterval(() => {
+      if (!visible) return;
       time += 1;
       draw();
     }, FRAME_MS);
@@ -162,6 +171,21 @@ export function MoneyNoiseBackground({
     });
     observer.observe(parent);
 
+    // Skip ticking (and its per-cell work) while scrolled out of view.
+    const visibilityObserver = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+    });
+    visibilityObserver.observe(parent);
+
+    const themeObserver = new MutationObserver(() => {
+      readColor();
+      draw();
+    });
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
+
     const supportsHover = interactive && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
     if (supportsHover) {
       canvas.addEventListener("pointermove", handlePointerMove);
@@ -170,6 +194,8 @@ export function MoneyNoiseBackground({
     return () => {
       window.clearInterval(intervalId);
       observer.disconnect();
+      visibilityObserver.disconnect();
+      themeObserver.disconnect();
       if (supportsHover) {
         canvas.removeEventListener("pointermove", handlePointerMove);
       }

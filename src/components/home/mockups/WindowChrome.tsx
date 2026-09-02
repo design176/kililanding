@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { cx } from "@/lib/cx";
 import styles from "./WindowChrome.module.css";
 
 /**
@@ -20,7 +21,7 @@ export function WindowChrome({
 }) {
   return (
     <section
-      className={className ? `${styles.window} ${className}` : styles.window}
+      className={cx(styles.window, className)}
       data-app={app}
       aria-label={`${title} demo`}
     >
