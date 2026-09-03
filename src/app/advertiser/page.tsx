@@ -7,19 +7,18 @@ import {
   Sliders,
 } from "@phosphor-icons/react/dist/ssr";
 import { CodeEditorMockup } from "@/components/home/mockups/CodeEditorMockup";
+import { FaqSection, type FaqEntry } from "@/components/home/FaqSection";
 import { SiteNav } from "@/components/site/SiteNav";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import {
   Band,
   CellGrid,
-  Faq,
   MarketingHero,
   MARKETING_CLOSE,
   PerformancePreview,
   Panel,
   Split,
   type Cell,
-  type FaqItem,
 } from "@/components/marketing/MarketingSection";
 import styles from "@/components/marketing/marketing.module.css";
 
@@ -48,7 +47,7 @@ const REASONS: Cell[] = [
   },
 ];
 
-const FAQS: FaqItem[] = [
+const ADVERTISER_FAQS: readonly FaqEntry[] = [
   {
     question: "How is this different from buying AI visibility content?",
     answer:
@@ -58,6 +57,21 @@ const FAQS: FaqItem[] = [
     question: "Which apps will my ad run in?",
     answer:
       "Campaign inventory is selected from eligible independent AI products across chat, agents, MCP servers and coding assistants. Available surfaces are confirmed during campaign setup.",
+  },
+  {
+    question: "What formats can my ad take?",
+    answer:
+      "A labelled loading placement while the model is working, in-answer text beneath the reply, or a richer display card where there's room - the publisher chooses which fits their interface.",
+  },
+  {
+    question: "How am I billed, and what do I get back?",
+    answer:
+      "You buy on a CPM basis. CAPI reports impressions, clicks and CTR by placement, plus conversions posted server-to-server from your backend, so cost per acquisition is derived from real events.",
+  },
+  {
+    question: "Will Kili ever bias or re-rank the model's answer?",
+    answer:
+      "No. Every Kili unit is clearly labelled as sponsored, and Kili never edits, re-ranks or biases the answer to favour a sponsor - your suggestion sits beside the answer, never inside it.",
   },
   {
     question: "How do I get started?",
@@ -74,23 +88,15 @@ export default function AdvertiserPage() {
       <main>
         <MarketingHero
           eyebrow="For advertisers"
-          title="Brands, suggested inside the answer."
+          title="Brands suggested inside AI answers, even if the models don't recommend"
           lede="User intent now lives in chatboxes. When someone describes the problem you solve, Kili puts you in the reply - labelled, relevant, and measured."
           doors={[
-            { label: "Launch a campaign", href: "/get-started", modal: true },
+            { label: "Launch a campaign", href: "https://scribble.network" },
             { label: "See the formats", href: "#formats" },
           ]}
           note="Closed-loop measurement with CAPI."
           media={<CodeEditorMockup />}
         />
-
-        <Band
-          eyebrow="The prize"
-          title="A branded AI answer meets the customer at the highest point of intent."
-          lede="A search query is a keyword. A conversation is a brief - the problem, the budget, the constraint, all stated before anyone has decided anything."
-        >
-          <CellGrid cells={REASONS} />
-        </Band>
 
         <Band
           id="formats"
@@ -159,9 +165,11 @@ export default function AdvertiserPage() {
           </Split>
         </Band>
 
-        <Band eyebrow="Questions we get" title="The things you’re about to ask.">
-          <Faq items={FAQS} />
-        </Band>
+        <FaqSection
+          items={ADVERTISER_FAQS}
+          eyebrow="Questions we get"
+          heading="FAQ"
+        />
       </main>
 
       {/* Closing CTA is merged into the footer. */}

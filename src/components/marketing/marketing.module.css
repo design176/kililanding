@@ -38,7 +38,7 @@
 }
 
 .skin h1 {
-  font-size: clamp(40px, 5vw, 56px);
+  font-size: clamp(40px, 5vw, 42px);
   line-height: 1.05;
   margin: 14px 0 22px;
 }
@@ -798,14 +798,14 @@
 
   .hero {
     max-height: none;
-    padding: 56px 0 52px;
+    padding: 56px 0 0;
   }
 
   .heroMedia {
     height: 520px;
-    align-self: auto;
+    align-self: end;
     margin-right: 0;
-    border-radius: 14px;
+    border-radius: 14px 14px 0 0;
   }
 
   .band > .wrap {

@@ -36,7 +36,7 @@ export default async function Home() {
             <CaretRight size={12} weight='bold' />
           </GetStartedTrigger>
 
-          <h1 className={styles.h1}>Get Paid everytime your agent thinks...</h1>
+          <h1 className={styles.h1}>Earn back your inference costs</h1>
 
           <p className={styles.lede}>We turned your agent’s idle time into an ad marketplace.
 Every time your agent is “thinking…”, you earn 50% of net ad revenue.</p>
@@ -73,7 +73,7 @@ Every time your agent is “thinking…”, you earn 50% of net ad revenue.</p>
       <section className={styles.bentoCta} aria-labelledby='install-kili-heading'>
         <MoneyNoiseBackground maxOpacity={0.7} />
         <div className={styles.bentoCtaContent}>
-          <h2 id='install-kili-heading'>Your tokens can now bring you revenue.</h2>
+          <h2 id='install-kili-heading'>Every burnt token spend can be earned back</h2>
           <InstallCommand className={styles.bentoCtaCommand} />
         </div>
       </section>

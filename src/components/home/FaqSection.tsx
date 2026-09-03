@@ -4,7 +4,9 @@ import { useState } from 'react';
 import { KiliMark } from '@/components/Logo';
 import styles from './FaqSection.module.css';
 
-const FAQS = [
+export type FaqEntry = { question: string; answer: string };
+
+const DEFAULT_FAQS: readonly FaqEntry[] = [
   {
     question: 'How does Kili help my AI app earn revenue?',
     answer:
@@ -35,21 +37,29 @@ const FAQS = [
     answer:
       'Run the Kili install command, connect your account, and choose the natural loading state where an approved sponsor can appear.',
   },
-] as const;
+];
 
-export function FaqSection() {
+export function FaqSection({
+  items = DEFAULT_FAQS,
+  eyebrow = 'Frequenty Asked Questions',
+  heading = 'FAQ',
+}: {
+  items?: readonly FaqEntry[];
+  eyebrow?: string;
+  heading?: string;
+}) {
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
     <section className={styles.section} aria-labelledby='faq-heading'>
       <header className={styles.headingColumn}>
-        <span className={styles.sectionIndex}>Frequenty Asked Questions</span>
-        <h2 id='faq-heading'>FAQ</h2>
+        <span className={styles.sectionIndex}>{eyebrow}</span>
+        <h2 id='faq-heading'>{heading}</h2>
       </header>
 
       <div className={styles.faqPanel}>
         <div className={styles.questionList}>
-          {FAQS.map((faq, index) => {
+          {items.map((faq, index) => {
             const isActive = index === activeIndex;
             const answerId = `faq-answer-${index}`;
 

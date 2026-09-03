@@ -941,6 +941,11 @@ button.file:hover {
   letter-spacing: 0.02em;
 }
 
+/* Sponsor-specific override for the "Rocket X" ad slot - literal brand color, not a design token. */
+.ccAdBrandAlt {
+  color: #ecf335;
+}
+
 .ccAdSubtext {
   min-width: 0;
   overflow: hidden;
@@ -972,6 +977,12 @@ button.file:hover {
   font-size: 12px;
   font-weight: 600;
   text-decoration: none;
+}
+
+/* Sponsor-specific override for the "Rocket X" ad slot - literal brand color, not a design token. */
+.ccAdCtaAlt {
+  color: #ecf335;
+  font-weight: 500;
 }
 
 .ccComposer {

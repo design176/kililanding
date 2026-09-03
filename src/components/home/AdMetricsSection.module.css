@@ -8,7 +8,7 @@
 
 .intro {
   grid-column: 1 / -1;
-  max-width: 600px;
+  max-width: 1000px;
   margin: 0 auto clamp(24px, 3.5vw, 44px);
   text-align: center;
   font-family: var(--font-heading);

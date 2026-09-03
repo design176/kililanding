@@ -89,7 +89,7 @@ export function AdMetricsSection({
     <div className={styles.metricsInner} ref={sectionRef}>
       <div className={styles.metricsGrid}>
         <p className={styles.intro}>
-          Our ads are not annoying. They show up only while you wait.
+          Kili ads are gently placed in and around answers, without ever touching the core AI experience
         </p>
 
         {METRICS.map(({ label, value, prefix }, metricIndex) => (
