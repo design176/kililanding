@@ -15,6 +15,7 @@ import {
 } from 'next/font/google';
 import { GoogleTagManager } from '@next/third-parties/google';
 import { Analytics } from '@vercel/analytics/next';
+import { Retune } from 'retune';
 import { Providers } from './providers';
 import { SITE_URL } from '@/lib/site-url';
 import './globals.css';
@@ -155,6 +156,8 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
       )}
       <body>
         <Providers>{children}</Providers>
+        {/* No `force` - renders only when NODE_ENV is "development", i.e. `npm run dev`, never in a production build. */}
+        <Retune />
       </body>
     </html>
   );

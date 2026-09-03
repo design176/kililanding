@@ -52,7 +52,11 @@ export function MarketingHero({
                   {label}
                 </GetStartedButton>
               ) : (
-                <Link href={href} key={href}>
+                <Link
+                  href={href}
+                  key={href}
+                  {...(href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                >
                   <Button variant={index === 0 ? "primary" : "secondary"} size="lg" pill>
                     {label}
                   </Button>

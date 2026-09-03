@@ -23,6 +23,27 @@ import { BODY_FONTS, HEADING_FONTS } from "@/lib/fonts";
 import { useSiteSettings } from "@/components/site/SiteSettingsContext";
 import { useMounted } from "@/lib/use-mounted";
 import { WindowChrome } from "./WindowChrome";
+
+/** Sponsor mark for the "Rocket X" ad slot - literal brand color, not a design token (third-party mark). */
+function RocketXMark({ size = 16, className }: { size?: number; className?: string }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+      className={className}
+    >
+      <rect width="24" height="24" rx="4" fill="#ECF335" />
+      <path
+        d="M4 4H9V9H4V4ZM9 9H15V15H9V9ZM15 4H20V9H15V4ZM4 15H9V20H4V15ZM15 15H20V20H15V15Z"
+        fill="#0A0A0A"
+      />
+    </svg>
+  );
+}
 import styles from "./CodeEditorMockup.module.css";
 
 const PAGE_FILE = "page.tsx";
@@ -273,16 +294,16 @@ function ClaudeCodePanel() {
 
         <div className={styles.ccAd}>
           <div className={styles.ccAdLine}>
-            <KiliMark size={16} className={styles.ccAdLogo} />
-            <span className={styles.ccAdBrand}>[KILI]</span>
-            <span className={styles.ccAdSubtext}>Get paid on every AI answer.</span>
+            <RocketXMark size={16} className={styles.ccAdLogo} />
+            <span className={`${styles.ccAdBrand} ${styles.ccAdBrandAlt}`}>[Rocket X]</span>
+            <span className={styles.ccAdSubtext}></span>
             <span className={styles.ccAdSpacer} />
             <span className={styles.ccAdStatus}>
               <ThinkingStatusWord /> &middot; 0.2s
             </span>
           </div>
-          <span className={styles.ccAdCta}>
-            Install Kili now and start earning &rarr;
+          <span className={`${styles.ccAdCta} ${styles.ccAdCtaAlt}`}>
+            Best CEX and DEX aggregator &rarr;
           </span>
         </div>
       </div>
