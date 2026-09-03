@@ -89,7 +89,7 @@ export default function AdvertiserPage() {
         <MarketingHero
           eyebrow="For advertisers"
           title="Brands suggested inside AI answers, even if the models don't recommend"
-          lede="User intent now lives in chatboxes. When someone describes the problem you solve, Kili puts you in the reply - labelled, relevant, and measured."
+          lede="User intent now lives in chatboxes. Kili puts you in the reply - labelled, relevant, and measured."
           doors={[
             { label: "Launch a campaign", href: "https://scribble.network" },
             { label: "See the formats", href: "#formats" },
@@ -100,7 +100,6 @@ export default function AdvertiserPage() {
 
         <Band
           id="formats"
-          eyebrow="Serve"
           title="Three formats. One suggestion at a time."
           lede="Buying intent in the query, relevant sponsor available: one labelled suggestion. Otherwise, nothing - which is why the ones that do run get read."
         >
@@ -127,7 +126,6 @@ export default function AdvertiserPage() {
         </Band>
 
         <Band
-          eyebrow="Measure"
           title="Buy on CPM. Judge it like CPA."
           lede="Chat interfaces have no cookie and often no browser at all, so client-side tracking was never going to work here. You buy impressions; CAPI tells you what those impressions actually produced."
         >
@@ -147,7 +145,6 @@ export default function AdvertiserPage() {
         </Band>
 
         <Band
-          eyebrow="Protect"
           title="Where you won’t appear."
           lede="Publishers opt in to run ads and approve the categories that can show up in their product. You’re a guest in a surface that chose to have you, never an injection the app didn’t agree to."
         >

@@ -28,6 +28,17 @@
   color: var(--color-text-subtle);
 }
 
+/* Hero-only variant: the page-level eyebrow reads as a pill rather than
+   plain label text. */
+.eyebrowPill {
+  display: inline-flex;
+  padding: 5px 14px;
+  border-radius: 999px;
+  background: var(--color-brand-soft);
+  border: 1px solid var(--color-brand-border);
+  color: var(--color-brand-text);
+}
+
 .skin h1,
 .skin h2 {
   font-family: var(--font-heading);
@@ -49,31 +60,42 @@
 }
 
 /* ── Hero ────────────────────────────────────────────────── */
+/* Copy on top, centered - matching the home page's hero, which sits
+   above its own full-bleed demo band rather than beside it. */
 .hero {
+  padding: 80px 0 40px;
+  text-align: center;
+}
+
+.heroCopy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Full-bleed band below the hero copy, mirroring the home page's
+   `.demoBand` - the noise background sits behind the mockup, which is
+   centered rather than pinned to a grid column. */
+.heroDemo {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  max-height: 700px;
-  padding: 80px 0 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 20px 16px 0;
   border-bottom: 1px solid var(--color-border);
   background: var(--color-surface-2);
 }
 
-.heroGrid {
+.heroMedia {
   position: relative;
   z-index: 1;
-  display: grid;
-  grid-template-columns: 0.9fr 1.1fr;
-  gap: 64px;
-  align-items: center;
-  min-height: 560px;
-}
-
-.heroMedia {
+  width: min(960px, calc(100% - 32px));
+  height: clamp(320px, 46vw, 500px);
   min-width: 0;
-  height: 500px;
-  align-self: end;
-  margin-right: -24px;
   border-radius: 14px 14px 0 0;
   overflow: hidden;
 }
@@ -95,6 +117,7 @@
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 /* ── Bands / sections ────────────────────────────────────── */
@@ -111,7 +134,7 @@
 }
 
 .head {
-  max-width: 62ch;
+  max-width: 80ch;
 }
 
 .head p {
@@ -778,16 +801,10 @@
 
 /* ── Responsive ──────────────────────────────────────────── */
 @media (max-width: 1000px) {
-  .heroGrid,
   .two,
   .three,
   .cellGrid {
     grid-template-columns: 1fr;
-  }
-
-  .heroGrid {
-    gap: 26px;
-    min-height: 0;
   }
 
   .two,
@@ -797,15 +814,7 @@
   }
 
   .hero {
-    max-height: none;
-    padding: 56px 0 0;
-  }
-
-  .heroMedia {
-    height: 520px;
-    align-self: end;
-    margin-right: 0;
-    border-radius: 14px 14px 0 0;
+    padding: 56px 0 32px;
   }
 
   .band > .wrap {
@@ -845,7 +854,7 @@
   }
 
   .heroMedia {
-    height: 440px;
+    height: 360px;
   }
 
   .formatMedia {
