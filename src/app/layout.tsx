@@ -15,6 +15,7 @@ import {
 } from 'next/font/google';
 import { GoogleTagManager } from '@next/third-parties/google';
 import { Analytics } from '@vercel/analytics/next';
+import Script from 'next/script';
 import { Retune } from 'retune';
 import { Providers } from './providers';
 import { SITE_URL } from '@/lib/site-url';
@@ -158,6 +159,19 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
         <Providers>{children}</Providers>
         {/* No `force` - renders only when NODE_ENV is "development", i.e. `npm run dev`, never in a production build. */}
         <Retune />
+        {!isDev && (
+          <Script
+            id='gravity-pixel'
+            strategy='afterInteractive'
+            dangerouslySetInnerHTML={{
+              __html: `!function(w,d,t,u,n,a,m){w['GravityPixelObject']=n;w[n]=w[n]||function(){
+(w[n].q=w[n].q||[]).push(arguments)},w[n].l=1*new Date();a=d.createElement(t),
+m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
+}(window,document,'script','https://code.trygravity.ai/gr-pix.js','gravity');
+gravity('init', 'bf55ad8b-3ec3-43ae-8f5c-59b6df49e360');`,
+            }}
+          />
+        )}
       </body>
     </html>
   );

@@ -16,7 +16,8 @@ export const MARKETING_CLOSE = (
 
 type Door = { label: string; href: string; modal?: boolean };
 
-/** Top-of-page block: copy on the left, a visual on the right. */
+/** Top-of-page block: centered copy, then a full-bleed band with the
+ * visual - matching the home page's hero + demo band composition. */
 export function MarketingHero({
   eyebrow,
   title,
@@ -33,11 +34,10 @@ export function MarketingHero({
   media: ReactNode;
 }) {
   return (
-    <section className={styles.hero}>
-      <MoneyNoiseBackground interactive={false} maxOpacity={0.28} />
-      <div className={cx(styles.wrap, styles.heroGrid)}>
-        <div>
-          <span className={styles.eyebrow}>{eyebrow}</span>
+    <>
+      <section className={styles.hero}>
+        <div className={cx(styles.wrap, styles.heroCopy)}>
+          <span className={cx(styles.eyebrow, styles.eyebrowPill)}>{eyebrow}</span>
           <h1>{title}</h1>
           <p className={styles.lede}>{lede}</p>
           <div className={styles.doors}>
@@ -66,22 +66,24 @@ export function MarketingHero({
           </div>
           <p className={styles.note}>{note}</p>
         </div>
+      </section>
+
+      <section className={styles.heroDemo}>
+        <MoneyNoiseBackground interactive={false} maxOpacity={0.28} />
         <div className={styles.heroMedia}>{media}</div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
 
-/** A horizontal-ruled page section with an optional eyebrow/title/lede head. */
+/** A horizontal-ruled page section with an optional title/lede head. */
 export function Band({
   id,
-  eyebrow,
   title,
   lede,
   children,
 }: {
   id?: string;
-  eyebrow: string;
   title: string;
   lede?: ReactNode;
   children?: ReactNode;
@@ -90,7 +92,6 @@ export function Band({
     <section className={styles.band} id={id}>
       <div className={styles.wrap}>
         <div className={styles.head}>
-          <span className={styles.eyebrow}>{eyebrow}</span>
           <h2>{title}</h2>
           {lede && <p>{lede}</p>}
         </div>
