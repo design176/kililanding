@@ -575,6 +575,11 @@ export function ComingSoonMockup() {
             </CodeLine>
           ))}
         </div>
+
+        <div className={styles.comingSoonOverlay}>
+          <span className={styles.comingSoonOverlayText}>Coming Soon</span>
+          <span className={styles.comingSoonOverlaySubtext}>Platform SDK &middot; in development</span>
+        </div>
       </div>
     </WindowChrome>
   );

@@ -550,6 +550,7 @@ button.file:hover {
 
 /* ComingSoonMockup: a bare single-tab editor, no activity bar/sidebar/split. */
 .comingSoonEditor {
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -557,6 +558,59 @@ button.file:hover {
   overflow: hidden;
   background: #1e1e1e;
   font-family: var(--font-mono);
+}
+
+/* Giant "Coming Soon" watermark over the stubbed-out editor - a radial scrim
+   dims the code behind it so the wordmark reads first. */
+.comingSoonOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-bottom: clamp(24px, 6vh, 56px);
+  background: radial-gradient(
+    ellipse at center bottom,
+    rgba(0, 0, 0, 0.16) 0%,
+    rgba(0, 0, 0, 0.4) 65%,
+    rgba(0, 0, 0, 0.5) 100%
+  );
+}
+
+.comingSoonOverlayText {
+  position: relative;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: clamp(2.25rem, 8.5vw, 4.5rem);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--color-brand);
+  text-shadow: 0 0 48px rgba(34, 197, 94, 0.5);
+}
+
+.comingSoonOverlaySubtext {
+  position: relative;
+  font-family: var(--font-body);
+  font-size: clamp(11px, 1.3vw, 13px);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+:global([data-theme="light"]) .comingSoonOverlay {
+  background: radial-gradient(
+    ellipse at center bottom,
+    rgba(244, 245, 246, 0.2) 0%,
+    rgba(244, 245, 246, 0.5) 65%,
+    rgba(244, 245, 246, 0.6) 100%
+  );
+}
+
+:global([data-theme="light"]) .comingSoonOverlaySubtext {
+  color: rgba(30, 30, 30, 0.55);
 }
 
 /* The title bar (WindowChrome) already swaps to a light palette in light
