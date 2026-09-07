@@ -91,7 +91,7 @@ export default function AdvertiserPage() {
           title="Brands suggested inside AI answers, even if the models don't recommend"
           lede="User intent now lives in chatboxes. Kili puts you in the reply - labelled, relevant, and measured."
           doors={[
-            { label: "Launch a campaign", href: "https://scribble.network" },
+            { label: "Launch a campaign", href: "https://https://app.trykili.ai/login"},
             { label: "See the formats", href: "#formats" },
           ]}
           note="Closed-loop measurement with CAPI."
