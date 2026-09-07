@@ -3,11 +3,10 @@ import {
   ChartLineUp,
   ChatCircleDots,
   CirclesThreePlus,
-  ShieldCheck,
-  Sliders,
 } from "@phosphor-icons/react/dist/ssr";
 import { CodeEditorMockup } from "@/components/home/mockups/CodeEditorMockup";
 import { FaqSection, type FaqEntry } from "@/components/home/FaqSection";
+import { FormatShowcase } from "@/components/marketing/FormatShowcase";
 import { SiteNav } from "@/components/site/SiteNav";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import {
@@ -48,11 +47,6 @@ const REASONS: Cell[] = [
 ];
 
 const ADVERTISER_FAQS: readonly FaqEntry[] = [
-  {
-    question: "How is this different from buying AI visibility content?",
-    answer:
-      "Content is a bid for the model to mention you, with no guarantee and no attribution. This is a placement you buy, with reporting attached. Most brands will want both - content earns the mention, Kili buys the suggestion.",
-  },
   {
     question: "Which apps will my ad run in?",
     answer:
@@ -103,6 +97,8 @@ export default function AdvertiserPage() {
           title="Three formats. One suggestion at a time."
           lede="Buying intent in the query, relevant sponsor available: one labelled suggestion. Otherwise, nothing - which is why the ones that do run get read."
         >
+          <FormatShowcase />
+
           <Split>
             <Panel
               title="Where you appear"
@@ -129,7 +125,7 @@ export default function AdvertiserPage() {
           title="Buy on CPM. Judge it like CPA."
           lede="Chat interfaces have no cookie and often no browser at all, so client-side tracking was never going to work here. You buy impressions; CAPI tells you what those impressions actually produced."
         >
-          <Split>
+          <Split stacked>
             <PerformancePreview />
             <Panel
               title="What you get back"
@@ -140,24 +136,6 @@ export default function AdvertiserPage() {
                 "Spend on a CPM basis, with cost per acquisition derived from CAPI events",
                 "Which surface types convert for you",
               ]}
-            />
-          </Split>
-        </Band>
-
-        <Band
-          title="Where you won’t appear."
-          lede="Publishers opt in to run ads and approve the categories that can show up in their product. You’re a guest in a surface that chose to have you, never an injection the app didn’t agree to."
-        >
-          <Split>
-            <Panel
-              icon={ShieldCheck}
-              title="Always labelled"
-              lede="Every Kili unit is marked as sponsored. Kili never edits, re-ranks or biases the model’s answer to favour a sponsor - the answer is the answer, and your suggestion sits beside it."
-            />
-            <Panel
-              icon={Sliders}
-              title="Category and safety controls"
-              lede="Kili enforces the safety policy across the network. Brand-safety exclusions and category controls are configured with your campaign."
             />
           </Split>
         </Band>
