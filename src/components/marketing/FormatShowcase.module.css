@@ -1,0 +1,348 @@
+.viewport {
+  overflow: hidden;
+  margin-top: 38px;
+  margin-inline: -24px;
+}
+
+.row {
+  display: flex;
+  gap: 16px;
+  width: max-content;
+  padding-left: 40px;
+  padding-right: 24px;
+}
+
+.panel {
+  --fs-bg: #1b1b1b;
+  --fs-bg-2: #101012;
+  --fs-border: rgba(255, 255, 255, 0.09);
+  --fs-text-primary: #ffffff;
+  --fs-text-secondary: #e8e8e8;
+  --fs-text-muted: #6b6b6b;
+  --fs-chip-bg: #535353;
+  --fs-chip-text: #d6d6d6;
+
+  position: relative;
+  flex: none;
+  width: 480px;
+  aspect-ratio: 522 / 300;
+  overflow: hidden;
+  border-radius: 6px;
+  border: 1px solid var(--color-border);
+  background: var(--fs-bg);
+  font-family: var(--font-mono);
+}
+
+:global([data-theme="light"]) .panel {
+  --fs-bg: #ffffff;
+  --fs-bg-2: #f5f4f2;
+  --fs-border: rgba(0, 0, 0, 0.08);
+  --fs-text-primary: #1a1816;
+  --fs-text-secondary: #57534d;
+  --fs-text-muted: #918c86;
+  --fs-chip-bg: #e4e1dc;
+  --fs-chip-text: #57534d;
+}
+
+/* ── Panel 1: display card (chat reply + sponsored unit) ─────── */
+.chatPanel {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+}
+
+.chatRow {
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+}
+
+.modelIcon {
+  flex: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.modelIcon img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.chatBubble {
+  flex: 1;
+  min-width: 0;
+  padding: 9px 11px;
+  border-radius: 7px;
+  background: var(--fs-bg-2);
+  color: var(--fs-text-primary);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.chatBubble p {
+  margin: 0 0 4px;
+}
+
+.chatBubble ul {
+  margin: 0;
+  padding-left: 14px;
+}
+
+.adUnit {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 4px;
+  border-radius: 6px;
+  background: var(--fs-bg-2);
+  border: 0.6px solid var(--fs-border);
+}
+
+.adBanner {
+  padding: 3px 9px;
+  border-radius: 3px;
+  border: 1px solid #f35c01;
+  background: #301200;
+  color: #f35c01;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: -0.1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.adBody {
+  display: flex;
+  gap: 4px;
+  align-items: stretch;
+}
+
+.adLogo {
+  flex: none;
+  width: 58px;
+  height: 58px;
+  border-radius: 3px;
+  overflow: hidden;
+  border: 1px solid #672903;
+}
+
+.adLogo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.adCopy {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-left: 4px;
+}
+
+.adHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+}
+
+.adHeading strong {
+  color: var(--fs-text-primary);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.1px;
+}
+
+.sponsoredPill {
+  padding: 1px 5px;
+  border-radius: 20px;
+  background: var(--fs-chip-bg);
+  color: var(--fs-chip-text);
+  font-size: 7.5px;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+.adCopy > p {
+  margin: 1px 0;
+  color: var(--fs-text-secondary);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: -0.1px;
+}
+
+.adActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.adActions span {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  color: var(--fs-text-primary);
+  font-size: 9px;
+}
+
+.adActions img {
+  width: 13px;
+  height: 13px;
+}
+
+:global([data-theme="light"]) .adActions img {
+  filter: invert(1);
+}
+
+/* ── Panels 2 & 3: Claude Code window chrome ──────────────────── */
+.chromeFill {
+  width: 100%;
+  height: 100%;
+}
+
+.terminalBody {
+  height: 100%;
+  padding: 16px;
+  background: var(--fs-bg-2);
+  font-family: var(--font-mono);
+  color: var(--fs-text-secondary);
+}
+
+.question {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding-bottom: 13px;
+}
+
+.claudeMark {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  margin-top: 1px;
+}
+
+.questionText {
+  margin: 0;
+  color: var(--fs-text-secondary);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.thinkingText {
+  margin: 0;
+  color: var(--fs-text-secondary);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.thinkingText span {
+  color: var(--fs-text-muted);
+  font-weight: 400;
+}
+
+.thinkingRule {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: #d97757;
+}
+
+.answerList {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 13.5px;
+  font-weight: 300;
+  color: var(--fs-text-primary);
+}
+
+.answerList li + li {
+  margin-top: 7px;
+}
+
+.adLine {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #00db7d;
+  font-weight: 700;
+  letter-spacing: 0.15px;
+}
+
+.adLine img {
+  width: 15px;
+  height: auto;
+}
+
+.adLineBody {
+  color: var(--fs-text-primary);
+  font-weight: 300;
+}
+
+.loadingAd {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding-top: 7px;
+}
+
+.loadingAd img {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 2px;
+}
+
+.loadingAd strong {
+  color: #ecf335;
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: 0.15px;
+  white-space: nowrap;
+}
+
+.loadingAd span {
+  flex: 1;
+  min-width: 0;
+  color: var(--fs-text-primary);
+  font-size: 13.5px;
+  font-weight: 300;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.loadingAd small {
+  flex: none;
+  margin-left: 6px;
+  color: var(--fs-text-muted);
+  font-size: 12.5px;
+  font-weight: 300;
+  white-space: nowrap;
+}
+
+@media (max-width: 560px) {
+  .viewport {
+    margin-inline: -20px;
+  }
+
+  .row {
+    padding-left: 32px;
+    padding-right: 20px;
+  }
+}

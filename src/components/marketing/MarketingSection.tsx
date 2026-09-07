@@ -1,6 +1,18 @@
 import type { ReactNode } from "react";
 import type { Icon } from "@phosphor-icons/react";
+import {
+  ChartLineUp,
+  CreditCard,
+  CursorClick,
+  CurrencyDollar,
+  Eye,
+  GearSix,
+  House,
+  Megaphone,
+  Percent,
+} from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
+import { KiliMark } from "@/components/Logo";
 import { MoneyNoiseBackground } from "@/components/home/MoneyNoiseBackground";
 import { GetStartedButton } from "@/components/site/GetStartedButton";
 import { Button } from "@/components/ui/Button";
@@ -131,8 +143,20 @@ export function CellGrid({ cells }: { cells: readonly Cell[] }) {
 }
 
 /** Two-up container for panels, placeholders, or format cards. */
-export function Split({ columns = 2, children }: { columns?: 2 | 3; children: ReactNode }) {
-  return <div className={columns === 3 ? cx(styles.two, styles.three) : styles.two}>{children}</div>;
+export function Split({
+  columns = 2,
+  stacked = false,
+  children,
+}: {
+  columns?: 2 | 3;
+  stacked?: boolean;
+  children: ReactNode;
+}) {
+  return (
+    <div className={cx(styles.two, columns === 3 && styles.three, stacked && styles.twoStacked)}>
+      {children}
+    </div>
+  );
 }
 
 /** Bordered card: a claim, a line of context, then a bulleted list. */
@@ -213,24 +237,122 @@ export function PlacementPreview({
   );
 }
 
-const PERFORMANCE_BARS = [34, 46, 41, 58, 52, 71, 64, 82, 76, 91, 84, 96];
+const SPEND_Y_LABELS = ["$1.1K", "$799", "$533", "$266", "$0"];
+const SPEND_X_LABELS = ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 export function PerformancePreview() {
   return (
-    <div className={styles.performancePreview} aria-hidden="true">
-      <div className={styles.metricStrip}>
-        <div><span>Impressions</span><strong>48.2k</strong></div>
-        <div><span>Conversions</span><strong>1,284</strong></div>
-        <div><span>CPA</span><strong>$18.40</strong></div>
+    <div className={styles.performanceWrap}>
+      <MoneyNoiseBackground interactive={false} maxOpacity={0.35} />
+      <div className={styles.performancePreview} aria-hidden="true">
+      <div className={styles.performanceSidebar}>
+        <div className={styles.performanceLogo}>
+          <KiliMark size={14} />
+          <span className={styles.performanceCollapseHide}>kili</span>
+        </div>
+
+        <div className={styles.performanceNavGroup}>
+          <p className={cx(styles.performanceNavLabel, styles.performanceCollapseHide)}>Workspace</p>
+          <div className={cx(styles.performanceNavItem, styles.performanceNavItemActive)}>
+            <House size={13} weight="bold" />
+            <span className={styles.performanceCollapseHide}>Overview</span>
+          </div>
+          <div className={styles.performanceNavItem}>
+            <Megaphone size={13} weight="bold" />
+            <span className={styles.performanceCollapseHide}>Campaigns</span>
+          </div>
+          <div className={styles.performanceNavItem}>
+            <ChartLineUp size={13} weight="bold" />
+            <span className={styles.performanceCollapseHide}>Events Tracking</span>
+          </div>
+        </div>
+
+        <div className={styles.performanceNavGroup}>
+          <p className={cx(styles.performanceNavLabel, styles.performanceCollapseHide)}>Account</p>
+          <div className={styles.performanceNavItem}>
+            <CreditCard size={13} weight="bold" />
+            <span className={styles.performanceCollapseHide}>Billing</span>
+          </div>
+          <div className={styles.performanceNavItem}>
+            <GearSix size={13} weight="bold" />
+            <span className={styles.performanceCollapseHide}>Settings</span>
+          </div>
+        </div>
       </div>
-      <div className={styles.chart}>
-        {PERFORMANCE_BARS.map((height, index) => (
-          <span key={`${height}-${index}`} style={{ height: `${height}%` }} />
+
+      <div className={styles.performanceMain}>
+      <div className={styles.metricStrip}>
+        <div>
+          <strong>$4.2K</strong>
+          <span>Spend</span>
+          <div className={styles.metricIcon}><CurrencyDollar size={13} weight="bold" /></div>
+        </div>
+        <div>
+          <strong>182.4K</strong>
+          <span>Impressions</span>
+          <div className={styles.metricIcon}><Eye size={13} weight="bold" /></div>
+        </div>
+        <div>
+          <strong>3.1K</strong>
+          <span>Clicks</span>
+          <div className={styles.metricIcon}><CursorClick size={13} weight="bold" /></div>
+        </div>
+        <div>
+          <strong>1.7%</strong>
+          <span>CTR</span>
+          <div className={styles.metricIcon}><Percent size={13} weight="bold" /></div>
+        </div>
+      </div>
+
+      <div className={styles.chartRow}>
+        <div className={styles.chartYLabels}>
+          {SPEND_Y_LABELS.map((label) => (
+            <span key={label}>{label}</span>
+          ))}
+        </div>
+
+        <div className={styles.chart}>
+          <svg viewBox="0 0 400 148" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="spendHatch" width="6" height="6" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+                <line x1="0" y1="0" x2="0" y2="6" stroke="var(--color-brand)" strokeWidth="1.5" opacity="0.4" />
+              </pattern>
+            </defs>
+
+            <g stroke="var(--color-border)" strokeWidth="1">
+              <line x1="0" y1="0" x2="400" y2="0" />
+              <line x1="0" y1="37" x2="400" y2="37" />
+              <line x1="0" y1="74" x2="400" y2="74" />
+              <line x1="0" y1="111" x2="400" y2="111" />
+              <line x1="0" y1="147" x2="400" y2="147" />
+            </g>
+
+            <path
+              d="M0,120 C50,108 90,100 130,95 S210,72 250,80 S330,20 400,8 V148 H0 Z"
+              fill="url(#spendHatch)"
+            />
+            <path
+              d="M0,120 C50,108 90,100 130,95 S210,72 250,80 S330,20 400,8"
+              stroke="var(--color-brand)"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </div>
+      </div>
+
+      <div className={styles.chartXLabels}>
+        {SPEND_X_LABELS.map((label) => (
+          <span key={label}>{label}</span>
         ))}
       </div>
+
       <div className={styles.chartFooter}>
         <span>Attributed through CAPI</span>
         <strong>+18.6%</strong>
+      </div>
+      </div>
       </div>
     </div>
   );
